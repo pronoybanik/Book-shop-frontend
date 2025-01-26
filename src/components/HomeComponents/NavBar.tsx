@@ -58,14 +58,10 @@ const NavBar = () => {
             <div className="flex items-center gap-4">
               <div className="flex gap-2">
                 <Link to="/login">
-                  <PrimaryButton className="transition-transform transform hover:scale-105 hover:bg-green-500 hover:text-white">
-                    Login
-                  </PrimaryButton>
+                  <PrimaryButton>Login</PrimaryButton>
                 </Link>
                 <Link to="/registration">
-                  <SecondaryButton className="transition-transform transform hover:scale-105 hover:bg-blue-500 hover:text-white">
-                    Register
-                  </SecondaryButton>
+                  <SecondaryButton>Register</SecondaryButton>
                 </Link>
               </div>
 
