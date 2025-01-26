@@ -1,28 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit"
+import baseApi from "../../api/baseApi";
 
 
-interface CounterState {
-    value: number
-}
+const authApi = baseApi.injectEndpoints({
+    endpoints: (builder) => ({
+        login: builder.mutation({
+            query: (userInfo) => ({
+                url: "/user/login",
+                method: "POST",
+                body: userInfo
+            })
+        })
+    }),
+});
 
-// Define the initial state using that type
-const initialState: CounterState = {
-    value: 0,
-}
-
-export const counterSlice = createSlice({
-    name: 'counter',
-    initialState,
-    reducers: {
-        increment: (state) => {
-            state.value += 1
-        },
-        decrement: (state) => {
-            state.value -= 1
-        },
-    },
-})
-
-
-
-// export default counterSlice.reducer
+export const { useLoginMutation } = authApi;
