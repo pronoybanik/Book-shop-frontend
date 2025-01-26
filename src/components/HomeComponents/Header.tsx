@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import imageOne from "../../images/slider_top_4.png";
-import imageTwo from "../../images/slider_top_2.png";
+// import imageTwo from "../../images/slider_top_2.png";
 import imageThree from "../../images/slider_top_1.png";
 import bgImage1 from "../../images/banner-bg-image/pexels-photo-1034008.png";
-import bgImage2 from "../../images/banner-bg-image/pexels-photo-1296000.png";
+// import bgImage2 from "../../images/banner-bg-image/pexels-photo-1296000.png";
 import bgImage4 from "../../images/banner-bg-image/pexels-photo-990432.png";
 import PrimaryButton from "../../utils/PrimaryButton";
 

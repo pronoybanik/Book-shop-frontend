@@ -1,59 +1,156 @@
 import React from "react";
-import PHForm from "../../components/Forms/PHForm";
-import PHInput from "../../components/Forms/PHInput";
-import { Button } from "antd";
-import { Link } from "react-router-dom";
+import { FieldValues, useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import PrimaryButton from "../../utils/PrimaryButton";
+import { useLoginMutation } from "../../redux/features/auth/authApi";
+import { toast } from "sonner";
+import { useAppDispatch } from "../../redux/hooks";
+import verifyToken from "../../utils/verifyToken";
+import { setUser, TUser } from "../../redux/features/auth/authSlice";
 
 const Login = () => {
-  const handleLogin = (data: any) => {
-    console.log("data", data);
+  const navigate = useNavigate();
+  const { register, handleSubmit } = useForm();
+
+  const [login, { error, isLoading }] = useLoginMutation();
+  const dispatch = useAppDispatch();
+
+  const onSubmit = async (data: FieldValues) => {
+    console.log("Form Data:", data);
+    const toastId = toast.loading("Logging in");
+
+    try {
+      const loginData = {
+        email: data.email,
+        password: data.password,
+      };
+      const res = await login(loginData).unwrap();
+      const user = verifyToken(res.data.accessToken) as TUser;
+
+      console.log(res);
+      
+      // set data in local store..
+      dispatch(setUser({ user: user, token: res.data.accessToken }));
+      toast.success("Logged in success", { id: toastId, duration: 2000 });
+      if (res?.success === true) {
+        navigate(`/`);
+      }
+    } catch (error) {
+      toast.error("Something went wrong", { id: toastId, duration: 2000 });
+    }
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        backgroundColor: "gray",
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "white", // Form container with white background
-          padding: "24px",
-          borderRadius: "8px",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Light shadow for aesthetic
-          width: "200%",
-          maxWidth: "600px",
-        }}
-      >
-        <PHForm onSubmit={handleLogin}>
-          <h2
-            style={{
-              textAlign: "center",
-              marginBottom: "16px",
-              fontFamily: "inter",
-            }}
-          >
-            Login
-          </h2>
+    <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-lg">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
+        >
+          <p className="text-center text-lg font-medium">
+            Sign in to your account
+          </p>
 
-          <PHInput type="email" name="Email" label="Email" />
-          <PHInput type="password" name="Password" label="Password" />
-          <h6>
-            You have no account : <Link to="/registration">signup</Link>
-          </h6>
-          <Button
-            htmlType="submit"
-            type="primary"
-            block
-            style={{ marginTop: "16px" }}
-          >
-            sign in
-          </Button>
-        </PHForm>
+          {/* Email Input */}
+          <div>
+            <label className="sr-only">Email</label>
+            <div className="relative">
+              <input
+                type="email"
+                {...register("email", { required: "Email is required" })}
+                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                placeholder="Enter email"
+              />
+              {/* {errors.email && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors?.email?.message}
+                </p>
+              )} */}
+              <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          {/* Password Input */}
+          <div>
+            <label className="sr-only">Password</label>
+            <div className="relative">
+              <input
+                type="password"
+                {...register("password", { required: "Password is required" })}
+                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                placeholder="Enter password"
+              />
+              {/* {errors.password && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.password.message}
+                </p>
+              )} */}
+              <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <div className="flex justify-center h-full">
+            <PrimaryButton>
+              {isLoading ? <p>Loading... </p> : "Login"}
+            </PrimaryButton>
+          </div>
+
+          {/*  alert mess */}
+          {error ? (
+            <div
+              role="alert"
+              className="rounded border-s-4 border-red-500 bg-red-50 p-4"
+            >
+              <strong className="block font-medium text-red-800">
+                {error?.data?.message}
+              </strong>
+            </div>
+          ) : null}
+
+          <p className="text-center text-sm text-gray-500">
+            No account?{" "}
+            <Link to="/registration" className="underline">
+              Sign up
+            </Link>
+          </p>
+        </form>
       </div>
     </div>
   );
