@@ -1,5 +1,7 @@
 import About from "../pages/About/About";
+import AllProducts from "../pages/AllProducts/AllProducts";
 import Home from "../pages/Home/Home";
+import ProductDetails from "../pages/ProductDetails/ProductDetails";
 
 export const NavbarPath = [
   {
@@ -11,5 +13,15 @@ export const NavbarPath = [
     name: "About",
     path: "/about",
     element: <About />,
+  },
+  {
+    name: "Books",
+    path: "/allProducts",
+    element: <AllProducts />,
+  },
+  {
+    // name: "Books",
+    path: "/productDetails",
+    element: <ProductDetails />,
   },
 ];
