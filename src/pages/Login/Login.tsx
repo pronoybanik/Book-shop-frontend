@@ -16,7 +16,6 @@ const Login = () => {
   const dispatch = useAppDispatch();
 
   const onSubmit = async (data: FieldValues) => {
-    console.log("Form Data:", data);
     const toastId = toast.loading("Logging in");
 
     try {
@@ -27,16 +26,15 @@ const Login = () => {
       const res = await login(loginData).unwrap();
       const user = verifyToken(res.data.accessToken) as TUser;
 
-      console.log(res);
-      
       // set data in local store..
       dispatch(setUser({ user: user, token: res.data.accessToken }));
       toast.success("Logged in success", { id: toastId, duration: 2000 });
       if (res?.success === true) {
         navigate(`/`);
       }
-    } catch (error) {
+    } catch (err) {
       toast.error("Something went wrong", { id: toastId, duration: 2000 });
+      console.log(err);
     }
   };
 
@@ -145,7 +143,7 @@ const Login = () => {
           ) : null}
 
           <p className="text-center text-sm text-gray-500">
-            No account?{" "}
+            No account?
             <Link to="/registration" className="underline">
               Sign up
             </Link>
