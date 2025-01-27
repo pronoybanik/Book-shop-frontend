@@ -21,7 +21,6 @@ export const NavbarPath = [
     element: <AllProducts />,
   },
   {
-    // name: "Books",
     path: "/productDetails",
     element: <ProductDetails />,
   },
