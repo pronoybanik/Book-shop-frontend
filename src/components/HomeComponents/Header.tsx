@@ -12,7 +12,7 @@ const ImageBanner = () => {
   const [sideImage, setSideImage] = useState(0);
 
   const images = [bgImage1, bgImage4];
-  const sideImageList = [imageOne,  imageThree];
+  const sideImageList = [imageOne, imageThree];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -43,7 +43,10 @@ const ImageBanner = () => {
           }`}
         />
       ))}
-
+      {/*set up bg gradeant */}
+      <div className="absolute inset-0 bg-black/40  sm:from-black/50 sm:to-white/25 ltr:sm:bg-gradient-to-r rtl:sm:bg-gradient-to-l">
+        {" "}
+      </div>
       {/* Content Section */}
       <div className="mx-auto max-w-screen-2xl relative z-10 flex flex-col md:flex-row items-center justify-between h-full px-6 md:px-12">
         {/* Left Content */}

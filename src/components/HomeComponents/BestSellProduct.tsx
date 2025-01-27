@@ -1,5 +1,5 @@
 import React from "react";
-
+    
 const products = {
   hotSale: [
     { title: "Product with video", price: "Tk 4,900.00", img: "📘" },

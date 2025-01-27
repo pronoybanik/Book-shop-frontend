@@ -9,7 +9,14 @@ const authApi = baseApi.injectEndpoints({
                 method: "GET"
             })
         }),
+        createProduct: builder.mutation({
+            query: (BookData) => ({
+                url: "/products",
+                method: "POST",
+                body: BookData
+            })
+        }),
     }),
 });
 
-export const { useGetAllProductQuery } = authApi;
+export const { useGetAllProductQuery, useCreateProductMutation } = authApi;

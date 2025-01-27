@@ -86,7 +86,7 @@ const Registration = () => {
                       <input
                         type="text"
                         {...register("name", { required: "Name is required" })}
-                        className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                        className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
                       />
                       {errors.name && (
                         <p className="text-red-500 text-sm mt-1">
@@ -105,7 +105,7 @@ const Registration = () => {
                         {...register("email", {
                           required: "Email is required",
                         })}
-                        className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                        className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
                       />
                       {errors.email && (
                         <p className="text-red-500 text-sm mt-1">
@@ -128,8 +128,9 @@ const Registration = () => {
                             message: "Password must be at least 6 characters",
                           },
                         })}
-                        className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                        className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
                       />
+
                       {errors.password && (
                         <p className="text-red-500 text-sm mt-1">
                           {errors.password.message}

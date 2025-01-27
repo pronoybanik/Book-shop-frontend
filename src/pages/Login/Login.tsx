@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useAppDispatch } from "../../redux/hooks";
 import verifyToken from "../../utils/verifyToken";
 import { setUser, TUser } from "../../redux/features/auth/authSlice";
+import Error from "../../utils/Error";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -28,12 +29,12 @@ const Login = () => {
 
       // set data in local store..
       dispatch(setUser({ user: user, token: res.data.accessToken }));
-      toast.success("Logged in success", { id: toastId, duration: 2000 });
+      toast.success("Logged in success", { id: toastId, duration: 4000 });
       if (res?.success === true) {
         navigate(`/`);
       }
     } catch (err) {
-      toast.error("Something went wrong", { id: toastId, duration: 2000 });
+      toast.error("Something went wrong", { id: toastId, duration: 4000 });
       console.log(err);
     }
   };
@@ -56,7 +57,7 @@ const Login = () => {
               <input
                 type="email"
                 {...register("email", { required: "Email is required" })}
-                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
                 placeholder="Enter email"
               />
               {/* {errors.email && (
@@ -90,7 +91,7 @@ const Login = () => {
               <input
                 type="password"
                 {...register("password", { required: "Password is required" })}
-                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
                 placeholder="Enter password"
               />
               {/* {errors.password && (
@@ -131,16 +132,7 @@ const Login = () => {
           </div>
 
           {/*  alert mess */}
-          {error ? (
-            <div
-              role="alert"
-              className="rounded border-s-4 border-red-500 bg-red-50 p-4"
-            >
-              <strong className="block font-medium text-red-800">
-                {error?.data?.message}
-              </strong>
-            </div>
-          ) : null}
+          {error ? <Error>{error?.data?.message}</Error> : null}
 
           <p className="text-center text-sm text-gray-500">
             No account?
