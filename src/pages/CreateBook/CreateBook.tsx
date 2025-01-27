@@ -14,7 +14,6 @@ const defaultValue = {
     "An easy and proven way to build good habits and break bad ones.",
   quantity: 100,
   inStock: true,
-  image: "https://example.com/atomic-habits.jpg",
 };
 
 const CreateBook = () => {
@@ -31,7 +30,22 @@ const CreateBook = () => {
 
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Submitting...");
+
+    const bookImage = data.image?.[0];
+    const formData = new FormData();
+    formData.append("image", bookImage);
+
+    const url =
+      "https://api.imgbb.com/1/upload?key=99f58a547dc4b1d269148eb1b605ef29";
+
     try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: formData,
+      });
+
+      const imgData = await response.json();
+      const bookImageRes = imgData.data.url;
       const bookData = {
         title: data.title,
         author: data.author,
@@ -40,7 +54,7 @@ const CreateBook = () => {
         description: data.description,
         quantity: parseInt(data.quantity),
         inStock: data.inStock,
-        image: data.image,
+        image: bookImageRes,
       };
       const res = await createProduct(bookData);
 
@@ -191,7 +205,7 @@ const CreateBook = () => {
               Image URL
             </label>
             <input
-              type="text"
+              type="file"
               {...register("image")}
               className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
             />
