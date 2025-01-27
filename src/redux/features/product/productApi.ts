@@ -21,6 +21,7 @@ const authApi = baseApi.injectEndpoints({
                 url: '/products',
                 method: "GET"
             }),
+            providesTags: ["books"]
         }),
         createProduct: builder.mutation({
             query: (BookData) => ({
@@ -28,6 +29,7 @@ const authApi = baseApi.injectEndpoints({
                 method: "POST",
                 body: BookData,
             }),
+            invalidatesTags: ["books"]
         }),
     }),
 });

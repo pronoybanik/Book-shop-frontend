@@ -31,6 +31,7 @@ const CreateBook = () => {
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Submitting...");
 
+    // set image bb
     const bookImage = data.image?.[0];
     const formData = new FormData();
     formData.append("image", bookImage);
@@ -46,6 +47,7 @@ const CreateBook = () => {
 
       const imgData = await response.json();
       const bookImageRes = imgData.data.url;
+      
       const bookData = {
         title: data.title,
         author: data.author,
