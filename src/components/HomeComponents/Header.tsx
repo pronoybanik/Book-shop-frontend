@@ -45,7 +45,7 @@ const ImageBanner = () => {
       ))}
 
       {/* Content Section */}
-      <div className="relative z-10 flex flex-col md:flex-row items-center justify-between h-full px-6 md:px-12">
+      <div className="mx-auto max-w-screen-2xl relative z-10 flex flex-col md:flex-row items-center justify-between h-full px-6 md:px-12">
         {/* Left Content */}
         <div className="text-center md:text-left max-w-lg px-4">
           <p className="text-white font-serif font-semibold text-3xl md:text-4xl lg:text-5xl mb-4">

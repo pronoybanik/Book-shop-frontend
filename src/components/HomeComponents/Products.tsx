@@ -41,8 +41,7 @@ const Products = () => {
 
   return (
     <section>
-      <p className="border mt-10" />
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8 max-w-7xl mx-auto mt-20">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8 max-w-screen-2xl mx-auto m-24">
         <div className="bg-[#f96d6d] ">
           <div className="mt-14 ml-8">
             <p className=" text-2xl mb-6 text-white font-sans">Book List</p>

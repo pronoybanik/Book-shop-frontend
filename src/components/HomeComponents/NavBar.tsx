@@ -18,7 +18,7 @@ const NavBar = () => {
   return (
     <section className="sticky top-0 z-50 bg-white shadow-md">
       <header>
-        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
             <div className="md:flex md:items-center md:gap-12">
