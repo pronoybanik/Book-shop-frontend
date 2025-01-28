@@ -1,6 +1,6 @@
 import About from "../pages/About/About";
+import AddToCard from "../pages/AddToCard/AddToCard";
 import AllProducts from "../pages/AllProducts/AllProducts";
-import CreateBook from "../pages/CreateBook/CreateBook";
 import Home from "../pages/Home/Home";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 
@@ -21,12 +21,12 @@ export const NavbarPath = [
     element: <AllProducts />,
   },
   {
-    path: "/productDetails",
+    path: "/productDetails/:id",
     element: <ProductDetails />,
   },
   {
-    name: "Create-Book",
-    path: "/create-product",
-    element: <CreateBook />,
+    name: "Add-Card",
+    path: "/addCard",
+    element: <AddToCard />,
   },
 ];

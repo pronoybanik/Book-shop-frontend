@@ -18,7 +18,7 @@ const NavBar = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
 
-  let sidebarItems = NavBarItemsGenerator(NavbarPath, "");
+  const sidebarItems = NavBarItemsGenerator(NavbarPath, "");
 
   // ✅ Add "Dashboard" only if the user is an admin
   if (user?.role === "admin") {

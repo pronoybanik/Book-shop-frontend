@@ -1,7 +1,13 @@
 import React from "react";
 import SecondaryButton from "../../utils/SecondaryButton";
+import { useParams } from "react-router-dom";
+import { useGetSingleUserQuery } from "../../redux/features/product/productApi";
 
 const ProductDetails = () => {
+  const { id } = useParams();
+  const { data } = useGetSingleUserQuery(id);
+  console.log(data);
+
   return (
     <div className="lg:my-16">
       <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-8 ">
@@ -61,7 +67,7 @@ const ProductDetails = () => {
 
             <div className="flex items-center gap-4 mb-6">
               <SecondaryButton>Add to Cart</SecondaryButton>
-            
+
               <SecondaryButton>Buy it now</SecondaryButton>
             </div>
 

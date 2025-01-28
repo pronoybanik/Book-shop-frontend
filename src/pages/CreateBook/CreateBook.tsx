@@ -31,22 +31,22 @@ const CreateBook = () => {
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Submitting...");
 
-    // set image bb
-    const bookImage = data.image?.[0];
-    const formData = new FormData();
-    formData.append("image", bookImage);
+    // // set image bb
+    // const bookImage = data.image?.[0];
+    // const formData = new FormData();
+    // formData.append("image", bookImage);
 
-    const url =
-      "https://api.imgbb.com/1/upload?key=99f58a547dc4b1d269148eb1b605ef29";
+    // const url =
+    //   "https://api.imgbb.com/1/upload?key=99f58a547dc4b1d269148eb1b605ef29";
 
     try {
-      const response = await fetch(url, {
-        method: "POST",
-        body: formData,
-      });
+      // const response = await fetch(url, {
+      //   method: "POST",
+      //   body: formData,
+      // });
 
-      const imgData = await response.json();
-      const bookImageRes = imgData.data.url;
+      // const imgData = await response.json();
+      // const bookImageRes = imgData.data.url;
       
       const bookData = {
         title: data.title,
@@ -56,7 +56,7 @@ const CreateBook = () => {
         description: data.description,
         quantity: parseInt(data.quantity),
         inStock: data.inStock,
-        image: bookImageRes,
+        // image: bookImageRes,
       };
       const res = await createProduct(bookData);
 

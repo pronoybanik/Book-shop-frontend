@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { Navigate } from "react-router-dom";
 import {
   logout,
-  selectCurrentToken
+  selectCurrentToken,
 } from "../../redux/features/auth/authSlice";
 import verifyToken from "../../utils/verifyToken";
 

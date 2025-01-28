@@ -23,6 +23,13 @@ const authApi = baseApi.injectEndpoints({
             }),
             providesTags: ["books"]
         }),
+        getSingleUser: builder.query({
+            query: (id) => ({
+                url: `/products/${id}`,
+                method: "GET",
+            }),
+            providesTags: ["books"]
+        }),
         createProduct: builder.mutation({
             query: (BookData) => ({
                 url: "/products",
@@ -31,7 +38,14 @@ const authApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["books"]
         }),
+        deleteProduct: builder.mutation({
+            query: (id) => ({
+                url: `/products/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["books"]
+        }),
     }),
 });
 
-export const { useGetAllProductQuery, useCreateProductMutation } = authApi;
+export const { useGetAllProductQuery, useCreateProductMutation, useDeleteProductMutation, useGetSingleUserQuery } = authApi;

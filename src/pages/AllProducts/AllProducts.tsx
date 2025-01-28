@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useGetAllProductQuery } from "../../redux/features/product/productApi";
+import { Link } from "react-router-dom";
 
 const ProductSection = () => {
   const [search, setSearch] = useState("");
@@ -59,22 +60,28 @@ const ProductSection = () => {
       {/* Products Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {data?.data?.map((product: any) => (
-          <div key={product._id} className="border rounded-lg p-4 shadow-lg">
-            <img
-              src={product.image}
-              alt={product.title}
-              className="w-full h-40 object-cover rounded-lg mb-4"
-            />
-            <h3 className="text-lg font-semibold">{product.title}</h3>
-            <p className="text-sm text-gray-600">{product.author}</p>
-            <p className="text-xl font-bold text-green-500">${product.price}</p>
-            <p className="text-sm text-gray-500 mt-2">{product.description}</p>
-            <div className="mt-4">
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
-                Add to Cart
-              </button>
+          <Link to={`/productDetails/${product._id}`}>
+            <div key={product._id} className="border rounded-lg p-4 shadow-lg">
+              <img
+                src={product.image}
+                alt={product.title}
+                className="w-full h-40 object-cover rounded-lg mb-4"
+              />
+              <h3 className="text-lg font-semibold">{product.title}</h3>
+              <p className="text-sm text-gray-600">{product.author}</p>
+              <p className="text-xl font-bold text-green-500">
+                ${product.price}
+              </p>
+              <p className="text-sm text-gray-500 mt-2">
+                {product.description}
+              </p>
+              <div className="mt-4">
+                <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
+                  Add to Cart
+                </button>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
