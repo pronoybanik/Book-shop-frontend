@@ -51,16 +51,18 @@ const ImageBanner = () => {
       <div className="mx-auto max-w-screen-2xl relative z-10 flex flex-col md:flex-row items-center justify-between h-full px-6 md:px-12">
         {/* Left Content */}
         <div className="text-center md:text-left max-w-lg px-4">
-          <p className="text-white font-serif font-semibold text-3xl md:text-4xl lg:text-5xl mb-4">
-            Organic Products
-          </p>
-          <p className="text-white text-sm md:text-base lg:text-lg leading-relaxed mb-6">
-            Vegetables are nutritious, essential components of a healthy diet.
-            They come in various colors, shapes, and flavors, providing a wide
-            range of vitamins, minerals, and fiber. Incorporating a diverse
-            selection of veggies into your meals promotes overall well-being and
-            supports a balanced diet.
-          </p>
+          <div className="relative z-10 text-white">
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+              Welcome to Our Bookshop
+            </h1>
+            <p className="text-lg md:text-xl font-medium mb-4">
+              Explore a world of knowledge and adventure, now with up to 30%
+              off!
+            </p>
+            <p className="text-md md:text-lg font-semibold text-yellow-400 mb-4 ">
+              Limited time offer on selected books!
+            </p>
+          </div>
 
           {/* Buttons */}
           <div className="flex justify-center md:justify-start gap-4">

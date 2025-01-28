@@ -7,6 +7,7 @@ import product4 from "../../images/product-images/14_6ce35247-61ba-43e3-b237-a27
 import product5 from "../../images/product-images/15_5b5a968a-7834-48df-ae18-eb9ec.png";
 import product6 from "../../images/product-images/2_42f44c02-23bd-467f-a9bc-d28ad5.png";
 import PrimaryButton from "../../utils/PrimaryButton";
+import { Link } from "react-router-dom";
 
 const Products = () => {
   const responsive = {
@@ -124,9 +125,9 @@ const Products = () => {
         </div>
       </div>
 
-      <div className="flex  items-center justify-center mt-8">
+      <Link to="/allProducts" className="flex  items-center justify-center mt-8">
         <PrimaryButton>View More</PrimaryButton>
-      </div>
+      </Link>
     </section>
   );
 };

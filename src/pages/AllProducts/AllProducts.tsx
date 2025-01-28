@@ -17,89 +17,51 @@ const ProductSection = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Search and Filters Section */}
-      <div className="mb-6 flex items-center justify-between space-x-4">
-        <div className="flex items-center space-x-2">
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="p-2 border border-gray-300 rounded-lg w-64"
-            placeholder="Search for products..."
-          />
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="p-2 border border-gray-300 rounded-lg"
-          >
-            <option value="All">All Categories</option>
-            <option value="Fiction">Fiction</option>
-            <option value="Science">Science</option>
-            <option value="SelfDevelopment">Self Development</option>
-            <option value="Poetry">Poetry</option>
-            <option value="Religious">Religious</option>
-          </select>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="p-2 border border-gray-300 rounded-lg"
-          >
-            <option value="price">Sort by Price</option>
-            <option value="title">Sort by Title</option>
-          </select>
-        </div>
-        <div>
-          <button
-            onClick={() => setPage(1)}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-          >
-            Reset Filters
-          </button>
-        </div>
-      </div>
 
       {/* Products Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {data?.data?.map((product: any) => (
           <Link to={`/productDetails/${product._id}`}>
-            <div key={product._id} className="border rounded-lg p-4 shadow-lg">
+            <a href="#" className="group relative block overflow-hidden">
+              <button className="absolute end-4 top-4 z-10 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75">
+                <span className="sr-only">Wishlist</span>
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="size-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                  />
+                </svg>
+              </button>
+
               <img
-                src={product.image}
-                alt={product.title}
-                className="w-full h-40 object-cover rounded-lg mb-4"
+                src="https://images.unsplash.com/photo-1628202926206-c63a34b1618f?q=80&w=2574&auto=format&fit=crop"
+                alt=""
+                className="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
               />
-              <h3 className="text-lg font-semibold">{product.title}</h3>
-              <p className="text-sm text-gray-600">{product.author}</p>
-              <p className="text-xl font-bold text-green-500">
-                ${product.price}
-              </p>
-              <p className="text-sm text-gray-500 mt-2">
-                {product.description}
-              </p>
-              <div className="mt-4">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
-                  Add to Cart
-                </button>
+
+              <div className="relative border border-gray-100 bg-white p-6">
+                <p className="text-gray-700">TK {product?.price}</p>
+
+                <h3 className="mt-1.5 text-lg font-medium text-gray-900">
+                  {product?.title}
+                </h3>
+
+                <p className="mt-1.5 line-clamp-3 text-gray-700">
+                  {product?.description}
+                </p>
               </div>
-            </div>
+            </a>
           </Link>
         ))}
-      </div>
-
-      {/* Pagination */}
-      <div className="mt-8 flex justify-center items-center space-x-4">
-        <button
-          onClick={() => setPage(Math.max(1, page - 1))}
-          className="p-2 bg-gray-300 text-black rounded-lg"
-        >
-          Prev
-        </button>
-        <span className="text-lg">{page}</span>
-        <button
-          onClick={() => setPage(page + 1)}
-          className="p-2 bg-gray-300 text-black rounded-lg"
-        >
-          Next
-        </button>
       </div>
     </div>
   );

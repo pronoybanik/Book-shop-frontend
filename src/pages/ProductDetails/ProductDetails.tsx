@@ -2,11 +2,22 @@ import React from "react";
 import SecondaryButton from "../../utils/SecondaryButton";
 import { useParams } from "react-router-dom";
 import { useGetSingleUserQuery } from "../../redux/features/product/productApi";
+import { addBookToCart } from "../../redux/features/product/productSlice";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const { data } = useGetSingleUserQuery(id);
-  console.log(data);
+  console.log(data?.data);
+
+  if (!data) return <p>Loading...</p>;
+
+  const handleAddToCart = () => {
+    dispatch(addBookToCart(data.data));
+    toast.success("Book add to card");
+  };
 
   return (
     <div className="lg:my-16">
@@ -15,7 +26,10 @@ const ProductDetails = () => {
           {/* Image Section */}
           <div className="p-4 flex justify-center items-center border-1">
             <img
-              src="https://noraure-5.myshopify.com/cdn/shop/products/6_990320d7-faef-46a6-bc4f-0265c75d2476_1024x1024.png?v=1645682991"
+              src={
+                data?.data?.image ||
+                "https://noraure-5.myshopify.com/cdn/shop/products/6_990320d7-faef-46a6-bc4f-0265c75d2476_1024x1024.png?v=1645682991"
+              }
               alt="By The Air"
               className="w-full max-w-sm object-cover rounded"
             />
@@ -24,39 +38,35 @@ const ProductDetails = () => {
           {/* Product Details Section */}
           <div className="p-6">
             <h1 className="text-2xl font-semibold text-gray-800 mb-2">
-              11. Product with video
+              {data?.data?.title}
             </h1>
-            <p className="text-xl font-bold text-red-500 mb-4">Tk 4,900.00</p>
+            <p className="text-xl font-bold text-[#e95b5b] mb-4">
+              Tk {data?.data?.price}
+            </p>
 
             <div className="text-sm text-gray-600 mb-6">
-              <p>SKU: 9911</p>
-              <p>Vendor: Vendor 11</p>
-              <p>Type: Type 11</p>
+              <p>author:-{data?.data?.author}</p>
+              <p>Type:- {data?.data?.category}</p>
               <p>
-                Availability:{" "}
-                <span className="text-green-500">1 left in stock</span>
+                Availability:-
+                <span className="text-green-500"> {data?.data?.quantity}</span>
               </p>
             </div>
 
             <p className="text-gray-700 text-sm mb-6">
-              As opposed to using 'Content here, content here,' making it look
-              like readable English. Many desktop publishing packages and web
-              page editors now use Lorem Ipsum as their default model text.
+              {data?.data?.description}
             </p>
 
             <table className="w-full mb-6 text-sm text-left text-gray-600">
               <tbody>
                 <tr>
                   <th className="py-2 pr-4 font-medium">Name:</th>
-                  <td>11. Product with video</td>
+                  <td>{data?.data?.author}</td>
                 </tr>
-                <tr>
-                  <th className="py-2 pr-4 font-medium">Vendor:</th>
-                  <td>Vendor 11</td>
-                </tr>
+
                 <tr>
                   <th className="py-2 pr-4 font-medium">Type:</th>
-                  <td>Type 11</td>
+                  <td>{data?.data?.category}</td>
                 </tr>
                 <tr>
                   <th className="py-2 pr-4 font-medium">Manufacturing:</th>
@@ -66,21 +76,17 @@ const ProductDetails = () => {
             </table>
 
             <div className="flex items-center gap-4 mb-6">
-              <SecondaryButton>Add to Cart</SecondaryButton>
+              <div onClick={handleAddToCart}>
+                <SecondaryButton>Add to Cart</SecondaryButton>
+              </div>
 
               <SecondaryButton>Buy it now</SecondaryButton>
             </div>
 
             <div className="flex text-sm gap-6 text-gray-500">
-              <a href="#" className="hover:text-gray-800">
-                Size Guide
-              </a>
-              <a href="#" className="hover:text-gray-800">
-                Shipping
-              </a>
-              <a href="#" className="hover:text-gray-800">
-                Ask About This Product
-              </a>
+              <a className="hover:text-gray-800">Size Guide</a>
+              <a className="hover:text-gray-800">Shipping</a>
+              <a className="hover:text-gray-800">Ask About This Product</a>
             </div>
           </div>
         </div>
