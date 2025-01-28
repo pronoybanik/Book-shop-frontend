@@ -70,7 +70,7 @@ const Registration = () => {
             <div>
               <div className="max-w-xl lg:max-w-3xl">
                 <div>
-                  <p className="text-2xl font-sans uppercase font-semibold">
+                  <p className="text-2xl font-sans uppercase ">
                     Please Sign Up:
                   </p>
                   {/* Form */}
@@ -90,7 +90,7 @@ const Registration = () => {
                       />
                       {errors.name && (
                         <p className="text-red-500 text-sm mt-1">
-                          {errors.name.message}
+                          {errors?.name?.message}
                         </p>
                       )}
                     </div>

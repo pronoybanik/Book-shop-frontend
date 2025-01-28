@@ -19,7 +19,7 @@ const UserManagement = () => {
 
   return (
     <div className="overflow-x-auto">
-      <div className="text-center text-lg font-semibold py-2">
+      <div className="text-center text-lg  py-2">
         <p className="text-2xl uppercase mb-4 text-black inline-block border-b-2 border-[#e95b5b]">
           User Management
         </p>
@@ -78,10 +78,10 @@ const UserManagement = () => {
                     className="p-2 border border-gray-300 rounded-lg"
                   >
                     <option className="bg-gray-300">Status</option>
-                    <option className="font-semibold" value="active">
+                    <option className="" value="active">
                       Active
                     </option>
-                    <option className="font-semibold" value="blocked">
+                    <option className="" value="blocked">
                       Blocked
                     </option>
                   </select>

@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { AdminPaths } from "../../routes/Admin.Routes";
 import { NavBarItemsGenerator } from "../../utils/NavBarItemsGenerator";

@@ -13,7 +13,7 @@ const About = () => {
           />
         </div>
         <div>
-          <h2 className="text-2xl font-semibold text-red-600">What We Are.</h2>
+          <h2 className="text-2xl  text-red-600">What We Are.</h2>
           <p className="mt-4 text-gray-700">
             Boake provides how all this Lorem Ipsum is simply dummy text of the
             printing and typesetting industry. Lorem Ipsum has been the
@@ -34,7 +34,7 @@ const About = () => {
       {/* Section 2: Testimonials */}
       <div className="bg-gradient-to-b from-gray-50 to-indigo-100 py-16">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl font-semibold text-gray-800">What Clients Say</h2>
+          <h2 className="text-2xl  text-gray-800">What Clients Say</h2>
           <p className="mt-2 text-gray-600">
             Contrary to popular belief, Lorem Ipsum is not simply random.
           </p>

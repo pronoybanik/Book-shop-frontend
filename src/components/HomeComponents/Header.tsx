@@ -59,7 +59,7 @@ const ImageBanner = () => {
               Explore a world of knowledge and adventure, now with up to 30%
               off!
             </p>
-            <p className="text-md md:text-lg font-semibold text-yellow-400 mb-4 ">
+            <p className="text-md md:text-lg  text-yellow-400 mb-4 ">
               Limited time offer on selected books!
             </p>
           </div>

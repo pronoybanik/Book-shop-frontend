@@ -34,7 +34,7 @@ const UserOrderBooks = () => {
 
   return (
     <section>
-      <div className="text-center text-lg font-semibold py-2">
+      <div className="text-center text-lg  py-2">
         <p className="text-2xl uppercase mb-4 text-black inline-block border-b-2 border-[#e95b5b]">
           Order Page
         </p>
@@ -83,15 +83,15 @@ const UserOrderBooks = () => {
                       className="h-20 w-20 rounded object-cover"
                     />
                     <div>
-                      <h3 className="text-sm font-semibold text-gray-900">
+                      <h3 className="text-sm  text-gray-900">
                         {product.productId?.title}
                       </h3>
                       <p className="text-xs text-gray-600">
-                        <span className="font-semibold">Category:</span>{" "}
+                        <span className="">Category:</span>{" "}
                         {product.productId?.category}
                       </p>
                       <p className="text-xs text-gray-600">
-                        <span className="font-semibold">Price:</span>{" "}
+                        <span className="">Price:</span>{" "}
                         {product.productId?.price} TK
                       </p>
                     </div>

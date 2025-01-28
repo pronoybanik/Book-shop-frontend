@@ -89,7 +89,7 @@ const AddToCard = () => {
                       className="h-16 w-16 rounded object-cover"
                     />
                     <div className="flex-1">
-                      <h3 className="text-sm font-semibold text-gray-900">
+                      <h3 className="text-sm  text-gray-900">
                         {book.title}
                       </h3>
                       <p className="text-xs text-gray-600">TK {book.price}</p>

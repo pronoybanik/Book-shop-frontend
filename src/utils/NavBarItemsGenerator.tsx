@@ -6,7 +6,6 @@ export const NavBarItemsGenerator = (items: TUserPath[], role: string) => {
     if (item.path && item.name) {
       acc.push({
         key: item.name,
-        // label: <NavLink to={`/${role}/${item.path}`}>{item.name}</NavLink>,
         label: <NavLink to={`${item.path}`}>{item.name}</NavLink>,
       });
     }

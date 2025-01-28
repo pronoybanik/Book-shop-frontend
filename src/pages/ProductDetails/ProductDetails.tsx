@@ -37,7 +37,7 @@ const ProductDetails = () => {
 
           {/* Product Details Section */}
           <div className="p-6">
-            <h1 className="text-2xl font-semibold text-gray-800 mb-2">
+            <h1 className="text-2xl  text-gray-800 mb-2">
               {data?.data?.title}
             </h1>
             <p className="text-xl font-bold text-[#e95b5b] mb-4">

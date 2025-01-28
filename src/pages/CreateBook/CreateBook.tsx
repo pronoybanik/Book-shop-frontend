@@ -101,7 +101,7 @@ const CreateBook = () => {
 
   return (
     <div className="mx-auto max-w-screen-xl lg:my-4 my-2">
-      <div className="text-center text-lg font-semibold py-2">
+      <div className="text-center text-lg  py-2">
         <p className="text-2xl uppercase mb-4 text-black inline-block border-b-2 border-[#e95b5b]">
           Create Books
         </p>

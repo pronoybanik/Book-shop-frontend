@@ -1,10 +1,9 @@
-import React from "react";
     
 const products = {
   hotSale: [
-    { title: "Product with video", price: "Tk 4,900.00", img: "📘" },
+    { title: "Product with video", price: "Tk 4,900.00",oldPrice: "Tk 15,800.00", img: "📘" },
     { title: "Unique content for each", price: "Tk 12,300.00", oldPrice: "Tk 13,800.00", img: "📙" },
-    { title: "New badge product", price: "Tk 10,000.00", img: "📕" },
+    { title: "New badge product", price: "Tk 10,000.00", oldPrice: "Tk 13,800.00", img: "📕" },
   ],
   bestSale: [
     { title: "New and sale badge product", price: "Tk 13,700.00", oldPrice: "Tk 16,100.00", img: "📗" },
@@ -31,7 +30,7 @@ const BestSellProduct = () => {
       <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Hot Sale Column */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">Hot Sale</h2>
+          <h2 className="text-xl  mb-4">Hot Sale</h2>
           <div className="flex flex-col gap-4">
             {products.hotSale.map((product, index) => (
               <ProductCard key={index} {...product} />
