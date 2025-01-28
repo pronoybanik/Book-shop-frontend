@@ -5,6 +5,8 @@ import { NavbarPath } from "../../routes/Home.Routes";
 import imageIcons from "../../images/logo_125x.png";
 import PrimaryButton from "../../utils/PrimaryButton";
 import SecondaryButton from "../../utils/SecondaryButton";
+import { logout, selectCurrentUser } from "../../redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 const userRole = {
   ADMIN: "admin",
@@ -13,7 +15,22 @@ const userRole = {
 
 const NavBar = () => {
   const [mobileNavbar, setMobileNavBar] = React.useState(false);
-  const sidebarItems = NavBarItemsGenerator(NavbarPath, userRole.USER);
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
+
+  let sidebarItems = NavBarItemsGenerator(NavbarPath, "");
+
+  // ✅ Add "Dashboard" only if the user is an admin
+  if (user?.role === "admin") {
+    sidebarItems.push({
+      key: "dashboard",
+      label: <Link to="/dashboard">Dashboard</Link>,
+    });
+  }
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <section className="sticky top-0 z-50 bg-white shadow-md">
@@ -25,11 +42,7 @@ const NavBar = () => {
               <Link to="/" className="block">
                 <span className="sr-only">Home</span>
                 <div className="flex gap-1 font-serif">
-                  <img
-                    src={imageIcons}
-                    alt="Logo"
-                    style={{ height: "24px", marginRight: "8px" }}
-                  />
+                  <img src={imageIcons} alt="Logo" className="h-6 mr-2" />
                 </div>
               </Link>
             </div>
@@ -39,54 +52,53 @@ const NavBar = () => {
               <nav aria-label="Global">
                 <ul className="flex items-center gap-6 text-sm">
                   {sidebarItems.map((item) => (
-                    <li key={item?.key}>
+                    <li key={item?.key} className="relative group">
                       {item?.label}
-                      {item?.children && (
-                        <ul>
-                          {item.children.map((child) => (
-                            <li key={child?.key}>{child?.label}</li>
-                          ))}
-                        </ul>
-                      )}
                     </li>
                   ))}
                 </ul>
               </nav>
             </div>
 
-            {/* Login/Register Buttons */}
+            {/* Login/Register or Logout */}
             <div className="flex items-center gap-4">
               <div className="flex gap-2">
-                <Link to="/login">
-                  <PrimaryButton>Login</PrimaryButton>
-                </Link>
-                <Link to="/registration">
-                  <SecondaryButton>Register</SecondaryButton>
-                </Link>
+                {!user ? (
+                  <>
+                    <Link to="/login">
+                      <PrimaryButton>Login</PrimaryButton>
+                    </Link>
+                    <Link to="/registration">
+                      <SecondaryButton>Register</SecondaryButton>
+                    </Link>
+                  </>
+                ) : (
+                  <button onClick={handleLogout}>
+                    <SecondaryButton>Logout</SecondaryButton>
+                  </button>
+                )}
               </div>
 
-              {/* Mobile Hamburger Icon */}
-              <div
+              {/* Mobile Menu Toggle */}
+              <button
                 onClick={() => setMobileNavBar(!mobileNavbar)}
-                className="block md:hidden"
+                className="block md:hidden p-2 rounded bg-gray-100 text-gray-600 transition hover:text-gray-600/75"
               >
-                <button className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                </button>
-              </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -94,26 +106,17 @@ const NavBar = () => {
 
       {/* Mobile Navigation */}
       <div
-        className={`fixed z-40 w-full bg-gray-200 overflow-hidden flex flex-col lg:hidden gap-4 origin-top duration-700 ease-in-out ${
-          mobileNavbar ? "max-h-screen" : "h-0"
+        className={`fixed z-40 w-full bg-gray-200 overflow-hidden flex flex-col gap-4 origin-top transition-all duration-700 ease-in-out ${
+          mobileNavbar ? "max-h-[500px] py-4" : "max-h-0"
         }`}
       >
-        <div className="flex flex-col gap-4 m-2 text-sm tracking-wider">
+        <ul className="flex flex-col gap-4 m-2 text-sm tracking-wider">
           {sidebarItems.map((item) => (
-            <li key={item?.key}>
+            <li key={item?.key} className="relative">
               {item?.label}
-              {item?.children && (
-                <ul className="ml-4">
-                  {item.children.map((child) => (
-                    <li key={child?.key} className="pl-4">
-                      {child?.label}
-                    </li>
-                  ))}
-                </ul>
-              )}
             </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

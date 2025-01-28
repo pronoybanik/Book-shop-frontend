@@ -1,7 +1,9 @@
 import React from "react";
 
-const UserManage = () => {
+const UserManagement = () => {
+  console.log("prient 1");
+  
   return <div>user Management</div>;
 };
 
-export default UserManage;
+export default UserManagement;

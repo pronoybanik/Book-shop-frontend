@@ -1,25 +1,31 @@
-import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
-import UserManage from "../pages/AdminDashboard/UserManage";
+import UserManagement from "../pages/AdminDashboard/UserManage";
+import UserOrderBooks from "../pages/AdminDashboard/UserOrderBooks";
 
-export const adminPaths = [
+export const AdminPaths = [
   {
-    name: "Dashboard",
-    path: "/dashboard",
-    element: <AdminDashboard />,
+    name: "User Manage",
+    children: [
+      {
+        name: "Order Page",
+        path: "user-order-books",
+        element: <UserOrderBooks />,
+      },
+      {
+        name: "User Manage",
+        path: "user-manage",
+        element: <UserManagement />,
+      },
+    ],
   },
   {
-    name: "user Management",
-    path: "/user-management",
-    element: <UserManage />,
+    name: "Admin Dashboard",
+    children: [
+      {
+        name: "Order Page",
+        path: "user-order-books",
+        element: <UserOrderBooks />,
+      },
+     
+    ],
   },
-//   {
-//     name: "User Management",
-//     children: [
-//       {
-//         name: "User Manage",
-//         path: "/user-Manage",
-//         element: <UserManage />,
-//       },
-//     ],
-//   },
 ];

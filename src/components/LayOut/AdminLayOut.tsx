@@ -1,10 +1,12 @@
 import React from "react";
-import AdminDashboard from "../../pages/AdminDashboard/AdminDashboard";
+import DashboardSiteBar from "../DashboardComponents/DashboardSitebar";
+import { Outlet } from "react-router-dom";
 
 const AdminLayOut = () => {
   return (
     <div>
-      <AdminDashboard />
+      <DashboardSiteBar />
+      <Outlet />
     </div>
   );
 };
