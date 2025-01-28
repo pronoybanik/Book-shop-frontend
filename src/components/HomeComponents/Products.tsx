@@ -1,9 +1,7 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import product1 from "../../images/product-images/00001_large.png";
 import product2 from "../../images/product-images/11_274c14d0-5fba-4d48-ab54-21692.png";
 import product3 from "../../images/product-images/13_a85f7b16-7bf4-44a1-aca8-55250.png";
-import product4 from "../../images/product-images/14_6ce35247-61ba-43e3-b237-a27be.png";
 import product5 from "../../images/product-images/15_5b5a968a-7834-48df-ae18-eb9ec.png";
 import product6 from "../../images/product-images/2_42f44c02-23bd-467f-a9bc-d28ad5.png";
 import PrimaryButton from "../../utils/PrimaryButton";
@@ -12,7 +10,6 @@ import { Link } from "react-router-dom";
 const Products = () => {
   const responsive = {
     superLargeDesktop: {
-      // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
       items: 3,
     },
@@ -125,7 +122,10 @@ const Products = () => {
         </div>
       </div>
 
-      <Link to="/allProducts" className="flex  items-center justify-center mt-8">
+      <Link
+        to="/allProducts"
+        className="flex  items-center justify-center mt-8"
+      >
         <PrimaryButton>View More</PrimaryButton>
       </Link>
     </section>

@@ -19,6 +19,11 @@ const UserManagement = () => {
 
   return (
     <div className="overflow-x-auto">
+      <div className="text-center text-lg font-semibold py-2">
+        <p className="text-2xl uppercase mb-4 text-black inline-block border-b-2 border-[#e95b5b]">
+          User Management
+        </p>
+      </div>
       <div className="rounded-lg border border-gray-200 bg-white">
         <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
           <thead className="ltr:text-left rtl:text-right">

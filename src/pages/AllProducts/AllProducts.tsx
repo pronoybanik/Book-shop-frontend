@@ -1,14 +1,7 @@
-import { useState } from "react";
 import { useGetAllProductQuery } from "../../redux/features/product/productApi";
 import { Link } from "react-router-dom";
 
 const ProductSection = () => {
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("All");
-  const [sortBy, setSortBy] = useState("price");
-  const [page, setPage] = useState(1);
-  // const [perPage, setPerPage] = useState(10);
-
   const { data, error, isLoading } = useGetAllProductQuery(undefined);
 
   if (isLoading) return <div>Loading...</div>;
@@ -16,8 +9,6 @@ const ProductSection = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Search and Filters Section */}
-
       {/* Products Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {data?.data?.map((product: any) => (
@@ -43,7 +34,7 @@ const ProductSection = () => {
               </button>
 
               <img
-                src="https://images.unsplash.com/photo-1628202926206-c63a34b1618f?q=80&w=2574&auto=format&fit=crop"
+                src={product?.image}
                 alt=""
                 className="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
               />

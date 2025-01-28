@@ -31,8 +31,9 @@ const CreateBook = () => {
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Submitting...");
 
-    // // set image bb
-    // const bookImage = data.image?.[0];
+    // const bookImage = data.image[0];
+    // console.log("Selected Image:", bookImage);
+
     // const formData = new FormData();
     // formData.append("image", bookImage);
 
@@ -45,9 +46,31 @@ const CreateBook = () => {
       //   body: formData,
       // });
 
+      // // Handle non-JSON responses
+      // if (!response.ok) {
+      //   const errorText = await response.text(); // Get the error response
+      //   console.error("ImgBB API Error:", errorText);
+      //   toast.error("Image upload failed. Check API key & file format.", {
+      //     id: toastId,
+      //   });
+      //   return;
+      // }
+
       // const imgData = await response.json();
+
+      // // Check if ImgBB returned a valid image URL
+      // if (!imgData?.data?.url) {
+      //   console.error("ImgBB Response:", imgData);
+      //   toast.error("Image upload failed. Invalid response from server.", {
+      //     id: toastId,
+      //   });
+      //   return;
+      // }
+
       // const bookImageRes = imgData.data.url;
-      
+      // console.log("Uploaded Image URL:", bookImageRes);
+
+      // Continue with product creation
       const bookData = {
         title: data.title,
         author: data.author,
@@ -56,8 +79,9 @@ const CreateBook = () => {
         description: data.description,
         quantity: parseInt(data.quantity),
         inStock: data.inStock,
-        // image: bookImageRes,
+        image: data.image, 
       };
+
       const res = await createProduct(bookData);
 
       if (res?.data?.success) {
@@ -66,8 +90,8 @@ const CreateBook = () => {
         toast.error("Submission failed", { id: toastId, duration: 4000 });
       }
     } catch (err) {
-      toast.error("Something went wrong", { id: toastId, duration: 4000 });
-      console.log(err);
+      console.error("Upload Error:", err);
+      toast.error("Something went wrong. Try again later.", { id: toastId });
     }
   };
 
@@ -77,6 +101,11 @@ const CreateBook = () => {
 
   return (
     <div className="mx-auto max-w-screen-xl lg:my-4 my-2">
+      <div className="text-center text-lg font-semibold py-2">
+        <p className="text-2xl uppercase mb-4 text-black inline-block border-b-2 border-[#e95b5b]">
+          Create Books
+        </p>
+      </div>
       <div className="mx-auto max-w-lg">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -207,7 +236,7 @@ const CreateBook = () => {
               Image URL
             </label>
             <input
-              type="file"
+              type="text"
               {...register("image")}
               className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
             />

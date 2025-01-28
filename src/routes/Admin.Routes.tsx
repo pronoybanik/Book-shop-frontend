@@ -5,7 +5,7 @@ import CreateBook from "../pages/CreateBook/CreateBook";
 
 export const AdminPaths = [
   {
-    name: "User Manage",
+    name: "User Management",
     children: [
       {
         name: "Order Page",
@@ -20,7 +20,7 @@ export const AdminPaths = [
     ],
   },
   {
-    name: "Admin Dashboard",
+    name: "Admin Management",
     children: [
       {
         name: "Create-Book",

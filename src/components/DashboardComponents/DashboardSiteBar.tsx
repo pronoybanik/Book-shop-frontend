@@ -102,7 +102,7 @@ const DashboardSiteBar = () => {
 
         {/* Main Content */}
         <main className="flex-1 p-6 overflow-y-auto">
-          <h1 className="text-xl font-bold">Admin Dashboard</h1>
+          <h1 className="text-xl text-center font-bold">Admin Dashboard</h1>
           <p className="mt-2 text-sm text-gray-600">
             <Outlet />
           </p>
