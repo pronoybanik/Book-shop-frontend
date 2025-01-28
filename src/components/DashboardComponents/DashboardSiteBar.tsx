@@ -2,6 +2,12 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import { AdminPaths } from "../../routes/Admin.Routes";
 import { NavBarItemsGenerator } from "../../utils/NavBarItemsGenerator";
 import logo from "../../images/logo_125x.png";
+import { ReactNode, ReactElement } from "react";
+
+// Type Guard to check if a value is a React Element
+const isReactElement = (node: ReactNode): node is ReactElement => {
+  return (node as ReactElement).props !== undefined;
+};
 
 const DashboardSiteBar = () => {
   const sidebarItems = NavBarItemsGenerator(AdminPaths, "dashboard");
@@ -43,7 +49,11 @@ const DashboardSiteBar = () => {
                         {item.children.map((child) => (
                           <li key={child?.key}>
                             <NavLink
-                              to={child?.label?.props?.to}
+                              to={
+                                isReactElement(child?.label)
+                                  ? child?.label.props?.to // access to safely when it's a React element
+                                  : child?.label
+                              }
                               className={({ isActive }) =>
                                 `block px-4 py-2 text-sm font-medium rounded-lg ${
                                   isActive
@@ -52,7 +62,9 @@ const DashboardSiteBar = () => {
                                 }`
                               }
                             >
-                              {child?.label?.props?.children}
+                              {isReactElement(child?.label)
+                                ? child?.label.props?.children
+                                : child?.label}
                             </NavLink>
                           </li>
                         ))}
@@ -60,7 +72,11 @@ const DashboardSiteBar = () => {
                     </details>
                   ) : (
                     <NavLink
-                      to={item?.label?.props?.to}
+                      to={
+                        isReactElement(item?.label)
+                          ? item?.label.props?.to // access to safely when it's a React element
+                          : item?.label
+                      }
                       className={({ isActive }) =>
                         `block px-4 py-2 text-sm font-medium rounded-lg ${
                           isActive
@@ -69,7 +85,9 @@ const DashboardSiteBar = () => {
                         }`
                       }
                     >
-                      {item?.label?.children}
+                      {isReactElement(item?.label)
+                        ? item?.label.props?.children
+                        : item?.label}
                     </NavLink>
                   )}
                 </div>

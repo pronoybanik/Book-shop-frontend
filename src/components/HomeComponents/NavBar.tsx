@@ -8,10 +8,9 @@ import SecondaryButton from "../../utils/SecondaryButton";
 import { logout, selectCurrentUser } from "../../redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
-const userRole = {
-  ADMIN: "admin",
-  USER: "user",
-};
+interface User {
+  role: string;
+}
 
 const NavBar = () => {
   const [mobileNavbar, setMobileNavBar] = React.useState(false);
@@ -20,8 +19,7 @@ const NavBar = () => {
 
   const sidebarItems = NavBarItemsGenerator(NavbarPath, "");
 
-  // ✅ Add "Dashboard" only if the user is an admin
-  if (user?.role === "admin") {
+  if ((user as User)?.role === "admin") {
     sidebarItems.push({
       key: "dashboard",
       label: <Link to="/dashboard">Dashboard</Link>,

@@ -1,22 +1,21 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import PrimaryButton from "../../utils/PrimaryButton";
 import { Link } from "react-router-dom";
 import siteLogo from "../../images/logo_125x.png";
 import fromLogo from "../../images/old-books-436498_1280 (1).jpg";
 import { useRegistrationMutation } from "../../redux/features/auth/authApi";
 import { toast } from "sonner";
-import Password from "antd/es/input/Password";
+import { FormData } from "../../types/Register.type";
 
 const Registration = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormData>();
   const [registration, { error, isLoading }] = useRegistrationMutation();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     console.log("Form Data:", data);
     const toastId = toast.loading("Register in");
 
@@ -53,7 +52,7 @@ const Registration = () => {
             <div className="hidden lg:relative lg:block lg:p-12">
               <img src={siteLogo} alt="" className="w-32 mr-10" />
               <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
-                Welcome to Boake 😊
+                Welcome to Boake
               </h2>
               <p className="mt-4 leading-relaxed text-white/90">
                 Patient registration page! Please fill out the following
@@ -90,11 +89,10 @@ const Registration = () => {
                       />
                       {errors.name && (
                         <p className="text-red-500 text-sm mt-1">
-                          {errors?.name?.message}
+                          {errors.name.message}
                         </p>
                       )}
                     </div>
-
                     {/* Email */}
                     <div className="col-span-6">
                       <label className="block text-sm font-medium text-gray-700">
@@ -113,7 +111,6 @@ const Registration = () => {
                         </p>
                       )}
                     </div>
-
                     {/* Password */}
                     <div className="col-span-6">
                       <label className="block text-sm font-medium text-gray-700">
@@ -130,14 +127,12 @@ const Registration = () => {
                         })}
                         className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
                       />
-
                       {errors.password && (
                         <p className="text-red-500 text-sm mt-1">
                           {errors.password.message}
                         </p>
                       )}
                     </div>
-
                     {/* Checkbox */}
                     <div className="col-span-6">
                       <label className="flex gap-4">
@@ -159,7 +154,6 @@ const Registration = () => {
                         </p>
                       )}
                     </div>
-
                     {/* Error Message */}
                     {error && (
                       <div
@@ -167,11 +161,11 @@ const Registration = () => {
                         className="rounded border-s-4 border-red-500 bg-red-50 p-4"
                       >
                         <strong className="block font-medium text-red-800">
-                          {error?.data?.message || "An error occurred"}
+                          {(error as { data?: { message?: string } }).data
+                            ?.message || "An error occurred"}
                         </strong>
                       </div>
                     )}
-
                     {/* Submit Button */}
                     <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                       <PrimaryButton>

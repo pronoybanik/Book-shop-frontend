@@ -132,7 +132,12 @@ const Login = () => {
           </div>
 
           {/*  alert mess */}
-          {error ? <Error>{error?.data?.message}</Error> : null}
+          {error && "data" in error ? (
+            <Error>
+              {(error.data as { message?: string })?.message ||
+                "An error occurred"}
+            </Error>
+          ) : null}
 
           <p className="text-center text-sm text-gray-500">
             No account?

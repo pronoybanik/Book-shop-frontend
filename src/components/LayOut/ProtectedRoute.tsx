@@ -12,6 +12,10 @@ type TProtectedRoute = {
   role: string | undefined;
 };
 
+interface User {
+  role: string;
+}
+
 const ProtectedRoute = ({ children, role }: TProtectedRoute) => {
   const token = useAppSelector(selectCurrentToken);
   const dispatch = useAppDispatch();
@@ -22,7 +26,7 @@ const ProtectedRoute = ({ children, role }: TProtectedRoute) => {
     user = verifyToken(token);
   }
 
-  if (role !== undefined && role !== user?.role) {
+  if (role !== undefined && role !== (user as User)?.role) {
     dispatch(logout());
     return <Navigate to="/login" replace={true} />;
   }

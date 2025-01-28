@@ -1,11 +1,32 @@
-import React from "react";
+import { toast } from "sonner";
+import Error from "../../utils/Error";
+import PrimaryButton from "../../utils/PrimaryButton";
 import {
   useDeleteOrderMutation,
   useGetAllOrderQuery,
 } from "../../redux/features/order/orderApi";
-import PrimaryButton from "../../utils/PrimaryButton";
-import { toast } from "sonner";
-import Error from "../../utils/Error";
+
+interface Product {
+  _id: string;
+  productId: {
+    title: string;
+    category: string;
+    price: number;
+  };
+  quantity: number;
+}
+
+interface User {
+  email: string;
+  name: string;
+}
+
+interface Order {
+  _id: string;
+  userId: User;
+  totalPrice: number;
+  products: Product[];
+}
 
 const UserOrderBooks = () => {
   const { data, isLoading, refetch } = useGetAllOrderQuery(undefined);
@@ -34,7 +55,7 @@ const UserOrderBooks = () => {
 
   return (
     <section>
-      <div className="text-center text-lg  py-2">
+      <div className="text-center text-lg py-2">
         <p className="text-2xl uppercase mb-4 text-black inline-block border-b-2 border-[#e95b5b]">
           Order Page
         </p>
@@ -46,7 +67,7 @@ const UserOrderBooks = () => {
           aria-modal="true"
           role="dialog"
         >
-          {data?.data?.map((order) => (
+          {data?.data?.map((order: Order) => (
             <div
               key={order._id}
               className="mb-6 p-4 border rounded-lg bg-white shadow"
@@ -72,7 +93,7 @@ const UserOrderBooks = () => {
                 <p className="font-medium text-center border-b-2 border-gray-600 w-40 mx-auto mb-2 uppercase">
                   Order Products
                 </p>
-                {order.products.map((product) => (
+                {order.products.map((product: Product) => (
                   <div
                     key={product._id}
                     className="flex items-center gap-4 p-2 border rounded-lg"
@@ -83,7 +104,7 @@ const UserOrderBooks = () => {
                       className="h-20 w-20 rounded object-cover"
                     />
                     <div>
-                      <h3 className="text-sm  text-gray-900">
+                      <h3 className="text-sm text-gray-900">
                         {product.productId?.title}
                       </h3>
                       <p className="text-xs text-gray-600">

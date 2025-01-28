@@ -1,84 +1,113 @@
 import React from "react";
 import {
-  useDeleteProductMutation,
-  useGetAllProductQuery,
-} from "../../redux/features/product/productApi";
-import SecondaryButton from "../../utils/SecondaryButton";
+  useGetAllUserQuery,
+  useUpdateUserMutation,
+} from "../../redux/features/auth/authApi";
 
-const ManageAllBooks = () => {
-  const { data } = useGetAllProductQuery(undefined);
-  const [deleteProduct, { data: deleteData }] = useDeleteProductMutation();
-  console.log(deleteData);
+// Define the User type
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+  salary: number;
+  status: "active" | "blocked";
+}
 
-  const handleDelete = async (id: string) => {
-    await deleteProduct(id);
+// Define the type for the response from the API
+interface UserResponse {
+  data: User[];
+}
+
+const UserManagement = () => {
+  const { data } = useGetAllUserQuery<UserResponse>(undefined);
+  const [updateUser] = useUpdateUserMutation();
+
+  // Typing the parameters explicitly
+  const handleStatusChange = async (
+    event: React.ChangeEvent<HTMLSelectElement>, 
+    userId: string 
+  ) => {
+    const status = event.target.value;
+
+    await updateUser({
+      id: userId,
+      data: { status },
+    });
   };
 
   return (
-    <section>
-      <div className="text-center text-lg  py-2">
+    <div className="overflow-x-auto">
+      <div className="text-center text-lg py-2">
         <p className="text-2xl uppercase mb-4 text-black inline-block border-b-2 border-[#e95b5b]">
-          All Books section
+          User Management
         </p>
       </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+      <div className="rounded-lg border border-gray-200 bg-white">
+        <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
           <thead className="ltr:text-left rtl:text-right">
             <tr>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Title
+                Name
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Author
+                Email
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Category
+                Role
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Price
+                Salary
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Image
+                User Action
               </th>
-              <th className="px-4 py-2">Delete</th>
             </tr>
           </thead>
 
           <tbody className="divide-y divide-gray-200">
-            {data?.data?.map((item) => (
+            {data?.data?.map((item: User) => (
               <tr key={item._id}>
                 <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  {item?.title}
+                  {item.name}
                 </td>
                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                  {item?.author}
+                  {item.email}
                 </td>
                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                  {item?.category}
+                  {item.role}
                 </td>
                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                  TK:{item?.price}
-                </td>
-                <td className="whitespace-nowrap px-4 py-2">
-                  <img
-                    src={item?.image}
-                    alt={item?.title}
-                    className="h-16 w-16 object-cover rounded-md"
-                  />
+                  {item.salary}
                 </td>
                 <td
-                  onClick={() => handleDelete(item._id)}
-                  className="whitespace-nowrap px-4 py-2"
+                  className={`whitespace-nowrap px-4 py-2 font-bold ${
+                    item.status === "active"
+                      ? "text-green-600"
+                      : item.status === "blocked"
+                      ? "text-red-600"
+                      : "text-gray-700"
+                  }`}
                 >
-                  <SecondaryButton>Delete</SecondaryButton>
+                  {item.status}
+                </td>
+                <td className="whitespace-nowrap px-4 py-2">
+                  <select
+                    onChange={(e) => handleStatusChange(e, item._id)}
+                    className="p-2 border border-gray-300 rounded-lg"
+                  >
+                    <option className="bg-gray-300">Status</option>
+                    <option value="active">Active</option>
+                    <option value="blocked">Blocked</option>
+                  </select>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default ManageAllBooks;
+export default UserManagement;

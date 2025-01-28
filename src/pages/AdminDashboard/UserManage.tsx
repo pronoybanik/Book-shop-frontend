@@ -4,11 +4,24 @@ import {
   useUpdateUserMutation,
 } from "../../redux/features/auth/authApi";
 
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+  salary: number;
+  status: "active" | "blocked";
+}
+
 const UserManagement = () => {
   const { data } = useGetAllUserQuery(undefined);
   const [updateUser] = useUpdateUserMutation();
 
-  const handleStatusChange = async (event, userId) => {
+  // Typing the parameters explicitly
+  const handleStatusChange = async (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    userId: string
+  ) => {
     const status = event.target.value;
 
     await updateUser({
@@ -19,7 +32,7 @@ const UserManagement = () => {
 
   return (
     <div className="overflow-x-auto">
-      <div className="text-center text-lg  py-2">
+      <div className="text-center text-lg py-2">
         <p className="text-2xl uppercase mb-4 text-black inline-block border-b-2 border-[#e95b5b]">
           User Management
         </p>
@@ -47,30 +60,30 @@ const UserManagement = () => {
           </thead>
 
           <tbody className="divide-y divide-gray-200">
-            {data?.data.map((item) => (
+            {data?.data.map((item: User) => (
               <tr key={item._id}>
                 <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  {item?.name}
+                  {item.name}
                 </td>
                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                  {item?.email}
+                  {item.email}
                 </td>
                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                  {item?.role}
+                  {item.role}
                 </td>
                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                  {item?.salary}
+                  {item.salary}
                 </td>
                 <td
                   className={`whitespace-nowrap px-4 py-2 font-bold ${
-                    item?.status === "active"
+                    item.status === "active"
                       ? "text-green-600"
-                      : item?.status === "blocked"
+                      : item.status === "blocked"
                       ? "text-red-600"
                       : "text-gray-700"
                   }`}
                 >
-                  {item?.status}
+                  {item.status}
                 </td>
                 <td className="whitespace-nowrap px-4 py-2">
                   <select
@@ -78,12 +91,8 @@ const UserManagement = () => {
                     className="p-2 border border-gray-300 rounded-lg"
                   >
                     <option className="bg-gray-300">Status</option>
-                    <option className="" value="active">
-                      Active
-                    </option>
-                    <option className="" value="blocked">
-                      Blocked
-                    </option>
+                    <option value="active">Active</option>
+                    <option value="blocked">Blocked</option>
                   </select>
                 </td>
               </tr>
