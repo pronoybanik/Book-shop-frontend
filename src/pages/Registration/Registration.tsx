@@ -1,13 +1,15 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import PrimaryButton from "../../utils/PrimaryButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import siteLogo from "../../images/logo_125x.png";
 import fromLogo from "../../images/old-books-436498_1280 (1).jpg";
 import { useRegistrationMutation } from "../../redux/features/auth/authApi";
 import { toast } from "sonner";
 import { FormData } from "../../types/Register.type";
+import Error from "../../utils/Error";
 
 const Registration = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -16,7 +18,7 @@ const Registration = () => {
   const [registration, { error, isLoading }] = useRegistrationMutation();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    const toastId = toast.loading("Register in");
+    const toastId = toast.loading("Register in", { duration: 2000 });
 
     const registerData = {
       name: data.name,
@@ -27,10 +29,21 @@ const Registration = () => {
     try {
       const res = await registration(registerData).unwrap();
       console.log(res);
-      toast.success("Registration successful!", {
-        id: toastId,
-        duration: 2000,
-      });
+
+      if (res?.success === true) {
+        toast.success("Registration successful!", {
+          id: toastId,
+          duration: 2000,
+        });
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      } else {
+        toast.error("Something went wrong, please try again!", {
+          id: toastId,
+          duration: 2000,
+        });
+      }
     } catch (err) {
       console.error("Registration failed:", err);
     }
@@ -153,18 +166,7 @@ const Registration = () => {
                         </p>
                       )}
                     </div>
-                    {/* Error Message */}
-                    {error && (
-                      <div
-                        role="alert"
-                        className="rounded border-s-4 border-red-500 bg-red-50 p-4"
-                      >
-                        <strong className="block font-medium text-red-800">
-                          {(error as { data?: { message?: string } }).data
-                            ?.message || "An error occurred"}
-                        </strong>
-                      </div>
-                    )}
+
                     {/* Submit Button */}
                     <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                       <PrimaryButton>
@@ -182,6 +184,16 @@ const Registration = () => {
                       </p>
                     </div>
                   </form>
+
+                  {/* Error Message */}
+                  {error && (
+                    <div className="lg:-mt-32 mt-4">
+                      <Error>
+                        {(error as { data?: { message?: string } }).data
+                          ?.message || "An error occurred"}
+                      </Error>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

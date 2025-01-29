@@ -37,8 +37,7 @@ const CreateBook = () => {
     formState: { errors },
   } = useForm<BookFormData>();
 
-  const [createProduct, { isLoading }] =
-    useCreateProductMutation();
+  const [createProduct, { isLoading }] = useCreateProductMutation();
 
   const onSubmit = async (data: BookFormData) => {
     const toastId = toast.loading("Submitting...");
@@ -99,11 +98,8 @@ const CreateBook = () => {
     }
   };
 
-  
-
   // const validationError =
   //   bookError?.data?.errorSources?.[0]?.message || bookError?.data?.message;
-
 
   return (
     <div className="mx-auto max-w-screen-xl lg:my-4 my-2">
@@ -182,11 +178,17 @@ const CreateBook = () => {
             <label className="block text-sm font-medium text-gray-700">
               Category
             </label>
-            <input
-              type="text"
+            <select
               {...register("category", { required: "Category is required" })}
               className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
-            />
+            >
+              <option value="">Select a category</option>
+              <option value="Fiction">Fiction</option>
+              <option value="Science">Science</option>
+              <option value="SelfDevelopment">Self-Development</option>
+              <option value="Poetry">Poetry</option>
+              <option value="Religious">Religious</option>
+            </select>
             {errors.category && (
               <p className="text-red-500 text-xs mt-1">
                 {errors.category.message}
