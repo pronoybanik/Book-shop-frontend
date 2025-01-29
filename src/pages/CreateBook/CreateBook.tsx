@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import PrimaryButton from "../../utils/PrimaryButton";
 import { useCreateProductMutation } from "../../redux/features/product/productApi";
 import { toast } from "sonner";
-import Error from "../../utils/Error";
 import { useNavigate } from "react-router-dom";
 
 // Define form data type
@@ -38,7 +37,7 @@ const CreateBook = () => {
     formState: { errors },
   } = useForm<BookFormData>();
 
-  const [createProduct, { isLoading, error: bookError }] =
+  const [createProduct, { isLoading }] =
     useCreateProductMutation();
 
   const onSubmit = async (data: BookFormData) => {
@@ -102,8 +101,9 @@ const CreateBook = () => {
 
   
 
-  const validationError =
-    bookError?.data?.errorSources?.[0]?.message || bookError?.data?.message;
+  // const validationError =
+  //   bookError?.data?.errorSources?.[0]?.message || bookError?.data?.message;
+
 
   return (
     <div className="mx-auto max-w-screen-xl lg:my-4 my-2">
@@ -120,7 +120,7 @@ const CreateBook = () => {
           <p className="text-center text-lg font-medium">Add a New Book</p>
 
           {/* Error Display */}
-          {validationError && <Error>{validationError}</Error>}
+          {/* {validationError && <Error>{validationError}</Error>} */}
 
           {/* Title */}
           <div>
