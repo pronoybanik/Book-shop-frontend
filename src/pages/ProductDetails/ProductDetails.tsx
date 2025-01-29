@@ -10,7 +10,6 @@ const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data } = useGetSingleUserQuery(id);
-  console.log(data?.data);
 
   if (!data) return <p>Loading...</p>;
 

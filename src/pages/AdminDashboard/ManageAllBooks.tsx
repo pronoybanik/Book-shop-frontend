@@ -21,7 +21,6 @@ const ManageAllBooks = () => {
   const { data } = useGetAllProductQuery(undefined);
   const [deleteProduct] = useDeleteProductMutation();
   const bookData = data?.data || [];
-  console.log(bookData);
 
   const handleDelete = async (bookId: string) => {
     const confirmDelete = window.confirm(

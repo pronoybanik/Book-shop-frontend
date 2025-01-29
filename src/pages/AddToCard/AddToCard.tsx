@@ -12,7 +12,6 @@ import { toast } from "sonner";
 const AddToCard = () => {
   const cartBooks = useSelector((state: RootState) => state.addBooks.books);
   const userInfo = useSelector((state: RootState) => state.auth.user);
-  console.log(userInfo);
 
   const [createOrder] = useCreateOrderMutation();
   const dispatch = useDispatch();
@@ -49,7 +48,6 @@ const AddToCard = () => {
 
     try {
       const response = await createOrder(orderData);
-      console.log("Order Placed Successfully:", response);
       if (response?.data.success === true) {
         toast.success("Order placed successfully!");
       } else {

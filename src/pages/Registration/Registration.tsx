@@ -16,7 +16,6 @@ const Registration = () => {
   const [registration, { error, isLoading }] = useRegistrationMutation();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log("Form Data:", data);
     const toastId = toast.loading("Register in");
 
     const registerData = {

@@ -6,6 +6,7 @@ import bgImage1 from "../../images/banner-bg-image/pexels-photo-1034008.png";
 // import bgImage2 from "../../images/banner-bg-image/pexels-photo-1296000.png";
 import bgImage4 from "../../images/banner-bg-image/pexels-photo-990432.png";
 import PrimaryButton from "../../utils/PrimaryButton";
+import { Link } from "react-router-dom";
 
 const ImageBanner = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -65,9 +66,12 @@ const ImageBanner = () => {
           </div>
 
           {/* Buttons */}
-          <div className="flex justify-center md:justify-start gap-4">
+          <Link
+            to="/allProducts"
+            className="flex justify-center md:justify-start gap-4"
+          >
             <PrimaryButton>Shop</PrimaryButton>
-          </div>
+          </Link>
         </div>
 
         {/* Right Side Images */}
