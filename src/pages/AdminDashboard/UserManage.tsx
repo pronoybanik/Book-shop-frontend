@@ -51,7 +51,10 @@ const UserManagement = () => {
                 Role
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Salary
+               
+              </th>
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                User Status
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 User Action

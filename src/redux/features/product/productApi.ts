@@ -10,6 +10,13 @@ const authApi = baseApi.injectEndpoints({
             }),
             providesTags: ["books"]
         }),
+        getLimitProduct: builder.query({
+            query: () => ({
+                url: '/products?sort=1&limit=6',
+                method: "GET"
+            }),
+            providesTags: ["books"]
+        }),
         getSingleUser: builder.query({
             query: (id) => ({
                 url: `/products/${id}`,
@@ -35,4 +42,4 @@ const authApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetAllProductQuery, useCreateProductMutation, useDeleteProductMutation, useGetSingleUserQuery } = authApi;
+export const { useGetAllProductQuery, useCreateProductMutation, useDeleteProductMutation, useGetSingleUserQuery , useGetLimitProductQuery } = authApi;

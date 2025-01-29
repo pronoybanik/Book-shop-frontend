@@ -1,133 +1,104 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import product2 from "../../images/product-images/11_274c14d0-5fba-4d48-ab54-21692.png";
-import product3 from "../../images/product-images/13_a85f7b16-7bf4-44a1-aca8-55250.png";
-import product5 from "../../images/product-images/15_5b5a968a-7834-48df-ae18-eb9ec.png";
-import product6 from "../../images/product-images/2_42f44c02-23bd-467f-a9bc-d28ad5.png";
 import PrimaryButton from "../../utils/PrimaryButton";
 import { Link } from "react-router-dom";
+import { useGetLimitProductQuery } from "../../redux/features/product/productApi";
+
+// Define Product type
+interface Product {
+  id: string;
+  title: string;
+  description?: string;
+  image?: string;
+  price?: number;
+}
 
 const Products = () => {
+  const { data, isLoading } = useGetLimitProductQuery(undefined);
+  const bookData: Product[] = data?.data || [];
+
   const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 3,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
+    superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 4 },
+    desktop: { breakpoint: { max: 3000, min: 1024 }, items: 3 },
+    tablet: { breakpoint: { max: 1024, min: 768 }, items: 2 },
+    mobile: { breakpoint: { max: 768, min: 0 }, items: 1 },
   };
 
   const BookListName = [
-    { name: "Outpatient Surgery" },
-    { name: "Cardiac Clinicy" },
+    { name: "Cardiac Clinic" },
     { name: "Ophthalmology Clinic" },
     { name: "Gynaecological Clinic" },
     { name: "Outpatient Rehabilitation" },
     { name: "Laryngological Clinic" },
     { name: "Pediatric Clinic" },
+    { name: "To Kill a Mockingbird" },
+    { name: "1984" },
+    { name: "Pride and Prejudice" },
+    { name: "The Great Gatsby" },
+    { name: "Moby-Dick" },
   ];
 
   return (
-    <section>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8 max-w-screen-2xl mx-auto m-24">
-        <div className="bg-[#f96d6d] ">
-          <div className="mt-14 ml-8">
-            <p className=" text-2xl mb-6 text-white font-sans">Book List</p>
-            {BookListName.map((data) => (
-              <p className="text-xm font-sans text-white mb-1">{data?.name}</p>
+    <section className="max-w-screen-2xl mx-auto px-4 lg:px-8 py-12">
+      {/* Grid Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        {/* Book List Section */}
+        <div className="bg-[#f96d6d] p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold text-white mb-4">Book List</h2>
+          <ul className="space-y-2">
+            {BookListName.map((data, index) => (
+              <li key={index} className="text-sm text-white">
+                {data.name}
+              </li>
             ))}
-
-            <p className="text-xm mt-10 font-sans text-white">view all</p>
-          </div>
+          </ul>
+          <p className="text-sm mt-6 text-white cursor-pointer hover:underline">
+            View All
+          </p>
         </div>
 
+        {/* Books Carousel Section */}
         <div className="lg:col-span-3">
-          <div>
-            <p className="text-sm md:ml-6 ml-2 text-[#60A3D9]">Innovation</p>
-            <p className="text-2xl font-semibold md:ml-6 ml-2">Our Books</p>
-          </div>
+          <h2 className="text-3xl font-bold text-gray-800 mb-6">Our Books</h2>
+
           <div className="mt-4">
-            <Carousel
-              autoPlay={true}
-              infinite={true}
-              autoPlaySpeed={3000}
-              responsive={responsive}
-            >
-              <div className="mx-2 group hover:scale-105 transform transition-transform duration-300 ease-in-out">
-                <img src={product6} alt="" className="w-full" />
-                <br />
-                <p className="text-xl text-[#60A3D9] group-hover:text-blue-500">
-                  Ophthalmology Clinic
-                </p>
-                <p className="border-b-2 mt-4"></p>
-                <p className="mt-6 group-hover:text-gray-700 font-sans">
-                  Cum sociis natoque penatibus et magnis dis parturient
-                  montesmus. Pro vel nibh et elit mollis commodo et nec
-                  augueique
-                </p>
-              </div>
-              <div className="mx-2 group hover:scale-105 transform transition-transform duration-300 ease-in-out">
-                <img src={product2} alt="" className="w-full" />
-                <br />
-                <p className="text-xl text-[#60A3D9] group-hover:text-blue-500">
-                  Ophthalmology Clinic
-                </p>
-                <p className="border-b-2 mt-4"></p>
-                <p className="mt-6 group-hover:text-gray-700 font-sans">
-                  Cum sociis natoque penatibus et magnis dis parturient
-                  montesmus. Pro vel nibh et elit mollis commodo et nec
-                  augueique
-                </p>
-              </div>
+            {isLoading ? (
+              <p className="text-gray-600">Loading books...</p>
+            ) : bookData.length > 0 ? (
+              <Carousel autoPlay infinite autoPlaySpeed={3000} responsive={responsive}>
+                {bookData.map((item: Product, index: number) => (
+                  <div key={item.id || index} className="group block p-2">
+                    <img
+                      src={item.image || "https://via.placeholder.com/300"}
+                      alt={item.title || "Book"}
+                      className="h-[250px] w-full object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
+                    />
 
-              <div className="mx-2 group hover:scale-105 transform transition-transform duration-300 ease-in-out">
-                <img src={product3} alt="" className="w-full" />
-                <br />
-                <p className="text-xl text-[#60A3D9] group-hover:text-blue-500">
-                  Ophthalmology Clinic
-                </p>
-                <p className="border-b-2 mt-4"></p>
-                <p className="mt-6 group-hover:text-gray-700 font-sans">
-                  Cum sociis natoque penatibus et magnis dis parturient
-                  montesmus. Pro vel nibh et elit mollis commodo et nec
-                  augueique
-                </p>
-              </div>
-
-              <div className="mx-2 group hover:scale-105 transform transition-transform duration-300 ease-in-out">
-                <img src={product5} alt="" className="w-full" />
-                <br />
-                <p className="text-xl text-[#60A3D9] group-hover:text-blue-500">
-                  Ophthalmology Clinic
-                </p>
-                <p className="border-b-2 mt-4"></p>
-                <p className="mt-6 group-hover:text-gray-700 font-sans">
-                  Cum sociis natoque penatibus et magnis dis parturient
-                  montesmus. Pro vel nibh et elit mollis commodo et nec
-                  augueique
-                </p>
-              </div>
-            </Carousel>
+                    <div className="mt-3 flex flex-col">
+                      <h3 className="text-lg font-semibold text-gray-900 group-hover:underline">
+                        {item.title || "Book Title"}
+                      </h3>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {item.description?.substring(0, 60) || "No description available."}...
+                      </p>
+                      <p className="text-[#e95b5b] mt-2 font-bold">TK:- {item.price || "N/A"}</p>
+                    </div>
+                  </div>
+                ))}
+              </Carousel>
+            ) : (
+              <p className="text-gray-600">No books available</p>
+            )}
           </div>
         </div>
       </div>
 
-      <Link
-        to="/allProducts"
-        className="flex  items-center justify-center mt-8"
-      >
-        <PrimaryButton>View More</PrimaryButton>
-      </Link>
+      {/* View More Button */}
+      <div className="flex justify-center mt-8">
+        <Link to="/allProducts">
+          <PrimaryButton>View More</PrimaryButton>
+        </Link>
+      </div>
     </section>
   );
 };

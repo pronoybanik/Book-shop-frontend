@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import PrimaryButton from "../../utils/PrimaryButton";
 import { useCreateProductMutation } from "../../redux/features/product/productApi";
