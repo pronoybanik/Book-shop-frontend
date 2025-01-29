@@ -71,7 +71,7 @@ const BestSellProduct: React.FC = () => {
       <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Hot Sale Column */}
         <div>
-          <h2 className="text-xl mb-4">Hot Sale</h2>
+          <h2 className="text-xl font-semibold mb-4">Hot Sale</h2>
           <div className="flex flex-col gap-4">
             {products.hotSale.map((product, index) => (
               <ProductCard key={index} {...product} />
@@ -92,7 +92,7 @@ const BestSellProduct: React.FC = () => {
 
       {/* Promotional Banner */}
       <div className="bg-pink-100 rounded-lg p-6 flex flex-col items-center justify-center">
-        <h2 className="text-red-500 font-bold text-lg mb-2">BACK TO SCHOOL</h2>
+        <h2 className="text-[#e95b5b] font-bold text-lg mb-2">BACK TO SCHOOL</h2>
         <p className="text-4xl font-bold text-blue-900 mb-4">HUGE SALE</p>
         <div className="bg-yellow-300 rounded-full w-20 h-20 flex items-center justify-center">
           📚

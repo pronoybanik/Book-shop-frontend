@@ -1,4 +1,3 @@
-import React from "react";
 
 const About = () => {
   return (
@@ -13,7 +12,7 @@ const About = () => {
           />
         </div>
         <div>
-          <h2 className="text-2xl  text-red-600">What We Are.</h2>
+          <h2 className="text-2xl font-semibold  text-[#e95b5b]">What We Are.</h2>
           <p className="mt-4 text-gray-700">
             Boake provides how all this Lorem Ipsum is simply dummy text of the
             printing and typesetting industry. Lorem Ipsum has been the

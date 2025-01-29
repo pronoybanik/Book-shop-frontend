@@ -1,6 +1,15 @@
 import { useGetAllProductQuery } from "../../redux/features/product/productApi";
 import { Link } from "react-router-dom";
 
+// Define the product type
+interface TProduct {
+  _id: string;
+  title: string;
+  price: number;
+  image: string;
+  description: string;
+}
+
 const ProductSection = () => {
   const { data, error, isLoading } = useGetAllProductQuery(undefined);
 
@@ -11,8 +20,8 @@ const ProductSection = () => {
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Products Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {data?.data?.map((product) => (
-          <Link to={`/productDetails/${product._id}`}>
+        {data?.data?.map((product: TProduct) => (
+          <Link key={product._id} to={`/productDetails/${product._id}`}>
             <a href="#" className="group relative block overflow-hidden">
               <button className="absolute end-4 top-4 z-10 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75">
                 <span className="sr-only">Wishlist</span>
@@ -35,7 +44,7 @@ const ProductSection = () => {
 
               <img
                 src={product?.image}
-                alt=""
+                alt={product.title}
                 className="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
               />
 

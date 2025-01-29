@@ -6,7 +6,7 @@ import { useGetLimitProductQuery } from "../../redux/features/product/productApi
 
 // Define Product type
 interface Product {
-  id: string;
+  _id: string
   title: string;
   description?: string;
   image?: string;
@@ -67,7 +67,7 @@ const Products = () => {
             ) : bookData.length > 0 ? (
               <Carousel autoPlay infinite autoPlaySpeed={3000} responsive={responsive}>
                 {bookData.map((item: Product, index: number) => (
-                  <div key={item.id || index} className="group block p-2">
+                  <Link to={`/productDetails/${item._id}`} key={item._id || index} className="group block p-2">
                     <img
                       src={item.image || "https://via.placeholder.com/300"}
                       alt={item.title || "Book"}
@@ -83,7 +83,7 @@ const Products = () => {
                       </p>
                       <p className="text-[#e95b5b] mt-2 font-bold">TK:- {item.price || "N/A"}</p>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </Carousel>
             ) : (

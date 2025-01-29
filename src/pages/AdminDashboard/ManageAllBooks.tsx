@@ -1,113 +1,109 @@
 import React from "react";
 import {
-  useGetAllUserQuery,
-  useUpdateUserMutation,
-} from "../../redux/features/auth/authApi";
+  useDeleteProductMutation,
+  useGetAllProductQuery,
+} from "../../redux/features/product/productApi";
+import SecondaryButton from "../../utils/SecondaryButton";
+import { toast } from "sonner";
 
-// Define the User type
-interface User {
+type TBook = {
   _id: string;
-  name: string;
-  email: string;
-  role: string;
-  salary: number;
-  status: "active" | "blocked";
-}
+  title: string;
+  author: string;
+  category: string;
+  price: number;
+  quantity: number;
+  inStock: boolean;
+  image: string;
+};
 
-// Define the type for the response from the API
-interface UserResponse {
-  data: User[];
-}
+const ManageAllBooks = () => {
+  const { data } = useGetAllProductQuery(undefined);
+  const [deleteProduct] = useDeleteProductMutation();
+  const bookData = data?.data || [];
+  console.log(bookData);
 
-const UserManagement = () => {
-  const { data } = useGetAllUserQuery<UserResponse>(undefined);
-  const [updateUser] = useUpdateUserMutation();
-
-  // Typing the parameters explicitly
-  const handleStatusChange = async (
-    event: React.ChangeEvent<HTMLSelectElement>, 
-    userId: string 
-  ) => {
-    const status = event.target.value;
-
-    await updateUser({
-      id: userId,
-      data: { status },
-    });
+  const handleDelete = async (bookId: string) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this book?"
+    );
+    if (confirmDelete) {
+      try {
+        const response = await deleteProduct(bookId).unwrap();
+        if (response?.success) {
+          toast.success("Book deleted successfully");
+        } else {
+          toast.error("Failed to delete the book");
+        }
+      } catch (error) {
+        console.error("Delete Error:", error);
+        toast.error("Something went wrong. Please try again.");
+      }
+    }
   };
 
   return (
-    <div className="overflow-x-auto">
+    <section>
       <div className="text-center text-lg py-2">
         <p className="text-2xl uppercase mb-4 text-black inline-block border-b-2 border-[#e95b5b]">
-          User Management
+          All Books list
         </p>
       </div>
-      <div className="rounded-lg border border-gray-200 bg-white">
-        <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
-          <thead className="ltr:text-left rtl:text-right">
-            <tr>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Name
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Email
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Role
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Salary
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                User Action
-              </th>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full table-auto border-collapse border border-gray-200">
+          <thead>
+            <tr className="bg-[#e95b5b] text-white">
+              <th className="py-2 px-4 border border-gray-200">Title</th>
+              <th className="py-2 px-4 border border-gray-200">Author</th>
+              <th className="py-2 px-4 border border-gray-200">Category</th>
+              <th className="py-2 px-4 border border-gray-200">Price</th>
+              <th className="py-2 px-4 border border-gray-200">Quantity</th>
+              <th className="py-2 px-4 border border-gray-200">In Stock</th>
+              <th className="py-2 px-4 border border-gray-200">Image</th>
+              <th className="py-2 px-4 border border-gray-200">Action</th>
             </tr>
           </thead>
-
-          <tbody className="divide-y divide-gray-200">
-            {data?.data?.map((item: User) => (
-              <tr key={item._id}>
-                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  {item.name}
+          <tbody>
+            {bookData.map((book: TBook) => (
+              <tr key={book._id} className="text-center hover:bg-gray-100">
+                <td className="py-2 px-4 border border-gray-200">
+                  {book.title}
                 </td>
-                <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                  {item.email}
+                <td className="py-2 px-4 border border-gray-200">
+                  {book.author}
                 </td>
-                <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                  {item.role}
+                <td className="py-2 px-4 border border-gray-200">
+                  {book.category}
                 </td>
-                <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                  {item.salary}
+                <td className="py-2 px-4 border border-gray-200">
+                  TK:-{book.price}
                 </td>
-                <td
-                  className={`whitespace-nowrap px-4 py-2 font-bold ${
-                    item.status === "active"
-                      ? "text-green-600"
-                      : item.status === "blocked"
-                      ? "text-red-600"
-                      : "text-gray-700"
-                  }`}
-                >
-                  {item.status}
+                <td className="py-2 px-4 border border-gray-200">
+                  {book.quantity}
                 </td>
-                <td className="whitespace-nowrap px-4 py-2">
-                  <select
-                    onChange={(e) => handleStatusChange(e, item._id)}
-                    className="p-2 border border-gray-300 rounded-lg"
-                  >
-                    <option className="bg-gray-300">Status</option>
-                    <option value="active">Active</option>
-                    <option value="blocked">Blocked</option>
-                  </select>
+                <td className="py-2 px-4 border border-gray-200">
+                  {book.inStock ? "Yes" : "No"}
+                </td>
+                <td className="py-2 px-4 border border-gray-200">
+                  <img
+                    src={book.image}
+                    alt={book.title}
+                    className="w-16 h-16 object-cover mx-auto"
+                  />
+                </td>
+                <td className="py-2 px-4 border border-gray-200">
+                  <button onClick={() => handleDelete(book._id)}>
+                    <SecondaryButton>Delete</SecondaryButton>
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
   );
 };
 
-export default UserManagement;
+export default ManageAllBooks;
