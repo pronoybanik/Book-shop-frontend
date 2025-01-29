@@ -1,4 +1,3 @@
-import React from "react";
 import SecondaryButton from "../../utils/SecondaryButton";
 import { useParams } from "react-router-dom";
 import { useGetSingleUserQuery } from "../../redux/features/product/productApi";

@@ -1,4 +1,3 @@
-import React from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import PrimaryButton from "../../utils/PrimaryButton";
