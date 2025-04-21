@@ -9,6 +9,7 @@ const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data } = useGetSingleUserQuery(id);
+ 
 
   if (!data) return <p>Loading...</p>;
 
@@ -47,7 +48,16 @@ const ProductDetails = () => {
               <p>Type:- {data?.data?.category}</p>
               <p>
                 Availability:-
-                <span className="text-green-500"> {data?.data?.quantity}</span>
+                {data?.data?.quantity > 0 ? (
+                  <span className="text-green-500 ml-2 ">
+                    {" "}
+                    {data?.data?.quantity}
+                  </span>
+                ) : (
+                  <span className="text-red-600 ml-2 font-semibold">
+                    {"stock out"}
+                  </span>
+                )}
               </p>
             </div>
 
@@ -73,12 +83,22 @@ const ProductDetails = () => {
               </tbody>
             </table>
 
-            <div className="flex items-center gap-4 mb-6">
-              <div onClick={handleAddToCart}>
-                <SecondaryButton>Add to Cart</SecondaryButton>
-              </div>
+            <div className="flex items-center gap-4 mb-6 ">
+              {data?.data?.quantity > 0 ? (
+                <div>
+                  <div onClick={handleAddToCart}>
+                    <SecondaryButton>Add to Cart</SecondaryButton>
+                  </div>
 
-              <SecondaryButton>Buy it now</SecondaryButton>
+                  <div>
+                    <SecondaryButton>Buy it now</SecondaryButton>
+                  </div>
+                </div>
+              ) : (
+                <div className="w-96 text-center lg:text-2xl text-lg font-semibold uppercase  bg-red-500 text-white py-2 rounded-2xl">
+                  stock out
+                </div>
+              )}
             </div>
 
             <div className="flex text-sm gap-6 text-gray-500">
