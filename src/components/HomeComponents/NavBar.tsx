@@ -25,6 +25,12 @@ const NavBar = () => {
       label: <Link to="/dashboard">Dashboard</Link>,
     });
   }
+  if ((user as User)?.role === "user") {
+    sidebarItems.push({
+      key: "dashboard",
+      label: <Link to="/userDashboard">Dashboard</Link>,
+    });
+  }
 
   const handleLogout = () => {
     dispatch(logout());

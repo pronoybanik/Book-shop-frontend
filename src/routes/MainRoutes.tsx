@@ -7,6 +7,8 @@ import { NavbarPath } from "./Home.Routes";
 import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
 import { AdminPaths } from "./Admin.Routes";
 import ProtectedRoute from "../components/LayOut/ProtectedRoute";
+import UserDashboard from "../pages/UserDashboard/UserDashboard";
+import { UserPaths } from "./UserRoutes";
 
 const MainRoutes = createBrowserRouter([
   {
@@ -22,6 +24,15 @@ const MainRoutes = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: routeGenerator(AdminPaths),
+  },
+  {
+    path: "/userDashboard",
+    element: (
+      <ProtectedRoute role="user">
+        <UserDashboard />,
+      </ProtectedRoute>
+    ),
+    children: routeGenerator(UserPaths),
   },
   {
     path: "/login",

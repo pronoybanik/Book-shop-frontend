@@ -19,9 +19,8 @@ interface TUser {
 
 const DashboardSiteBar = () => {
   const userData = useAppSelector<RootState, TUser | null>(selectCurrentUser);
-const id = userData?.userId; 
-const { data } = useSingleUserQuery(id);
-
+  const id = userData?.userId;
+  const { data } = useSingleUserQuery(id);
 
   const sidebarItems = NavBarItemsGenerator(AdminPaths, "dashboard");
 
