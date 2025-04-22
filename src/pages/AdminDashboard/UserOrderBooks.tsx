@@ -63,7 +63,7 @@ const UserOrderBooks = () => {
 
       {data?.data?.length ? (
         <div
-          className="relative w-screen max-w-sm border border-gray-800 bg-gray-100 px-4 py-8 sm:px-6 lg:px-8"
+          className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 "
           aria-modal="true"
           role="dialog"
         >

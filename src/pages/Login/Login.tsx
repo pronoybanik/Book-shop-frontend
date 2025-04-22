@@ -28,6 +28,7 @@ const Login = () => {
 
       // set data in local store..
       dispatch(setUser({ user: user, token: res.data.accessToken }));
+      localStorage.setItem("accessToken", res.data.accessToken);
       toast.success("Logged in success", { id: toastId, duration: 4000 });
       if (res?.success === true) {
         navigate(`/`);

@@ -1,10 +1,11 @@
+import ChangePasswordForm from "../../components/UserDashboardComponents/ChangePasswordForm";
 
 const ChangePassword = () => {
-    return (
-        <div>
-            change password page
-        </div>
-    );
+  return (
+    <div>
+      <ChangePasswordForm />
+    </div>
+  );
 };
 
 export default ChangePassword;
