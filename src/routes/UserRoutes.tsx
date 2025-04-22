@@ -1,3 +1,5 @@
+import ChangePassword from "../pages/UserDashboard/ChangePassword";
+import UserOrder from "../pages/UserDashboard/UserOrder";
 import UserProfile from "../pages/UserDashboard/UserProfile";
 
 export const UserPaths = [
@@ -12,12 +14,12 @@ export const UserPaths = [
       {
         name: "My Order",
         path: "my-order",
-        element: "order page",
+        element: <UserOrder />,
       },
       {
         name: "change password",
         path: "change-password",
-        element: "change page",
+        element: <ChangePassword />,
       },
     ],
   },

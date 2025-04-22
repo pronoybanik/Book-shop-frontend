@@ -8,6 +8,7 @@ import PrimaryButton from "../../utils/PrimaryButton";
 import SecondaryButton from "../../utils/SecondaryButton";
 import { useCreateOrderMutation } from "../../redux/features/order/orderApi";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const AddToCard = () => {
   const cartBooks = useSelector((state: RootState) => state.addBooks.books);
@@ -24,7 +25,7 @@ const AddToCard = () => {
   };
 
   const { subtotal, vat, discount, total } = calculateTotal();
-
+  const navigate = useNavigate();
   const handleOrder = async () => {
     if (!userInfo) {
       alert("Please log in to place an order.");
@@ -50,6 +51,10 @@ const AddToCard = () => {
       const response = await createOrder(orderData);
       if (response?.data.success === true) {
         toast.success("Order placed successfully!");
+        setTimeout(() => {
+          navigate("/UserDashboard/my-order");
+        }, 1000);
+        
       } else {
         toast.error("Order are cancel !");
       }
