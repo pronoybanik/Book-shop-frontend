@@ -1,6 +1,6 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import PrimaryButton from "../../utils/PrimaryButton";
+
 import { Link } from "react-router-dom";
 import { useGetLimitProductQuery } from "../../redux/features/product/productApi";
 
@@ -39,7 +39,7 @@ const Products = () => {
   ];
 
   return (
-    <section className="max-w-screen-2xl mx-auto px-4 lg:px-8 py-12">
+    <section className="max-w-screen-2xl mx-auto px-4 lg:px-8 py-12 ">
       {/* Grid Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Book List Section */}
@@ -58,7 +58,7 @@ const Products = () => {
         </div>
 
         {/* Books Carousel Section */}
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-3 z-0">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">Our Books</h2>
 
           <div className="mt-4">
@@ -93,12 +93,8 @@ const Products = () => {
         </div>
       </div>
 
-      {/* View More Button */}
-      <div className="flex justify-center mt-8">
-        <Link to="/allProducts">
-          <PrimaryButton>View More</PrimaryButton>
-        </Link>
-      </div>
+  
+  
     </section>
   );
 };

@@ -1,42 +1,72 @@
 
 const categories = [
   {
-    title: "Photography",
-    subtitle: "Super Collections",
-    icon: "📸",
+    title: "Fiction",
+    subtitle: "Imaginary Stories",
+    icon: "📖",
     bgColor: "bg-purple-100",
   },
   {
-    title: "Food & Drink",
-    subtitle: "Special Collections",
-    icon: "🍔",
-    bgColor: "bg-orange-100",
-  },
-  {
-    title: "Health",
-    subtitle: "Best Collections",
-    icon: "🩺",
+    title: "Non-Fiction",
+    subtitle: "Real-Life Facts",
+    icon: "📘",
     bgColor: "bg-blue-100",
   },
   {
-    title: "Romance",
-    subtitle: "Top Collections",
-    icon: "💖",
+    title: "Science & Technology",
+    subtitle: "Explore Innovation",
+    icon: "🔬",
+    bgColor: "bg-green-100",
+  },
+  {
+    title: "Children's Books",
+    subtitle: "Fun for Kids",
+    icon: "🧸",
+    bgColor: "bg-yellow-100",
+  },
+  {
+    title: "Young Adult (YA)",
+    subtitle: "Teens' Favorites",
+    icon: "📚",
     bgColor: "bg-pink-100",
   },
   {
-    title: "Biography",
-    subtitle: "Nice Collections",
-    icon: "📄",
-    bgColor: "bg-green-100",
+    title: "Fantasy & Sci-Fi",
+    subtitle: "Magic & Beyond",
+    icon: "🪄",
+    bgColor: "bg-indigo-100",
+  },
+  {
+    title: "Romance",
+    subtitle: "Heartwarming Reads",
+    icon: "💖",
+    bgColor: "bg-rose-100",
+  },
+  {
+    title: "Mystery & Thriller",
+    subtitle: "Suspense Stories",
+    icon: "🕵️‍♂️",
+    bgColor: "bg-gray-100",
+  },
+  {
+    title: "Business & Finance",
+    subtitle: "Grow Smarter",
+    icon: "💼",
+    bgColor: "bg-orange-100",
+  },
+  {
+    title: "Religion & Spirituality",
+    subtitle: "Mind & Soul",
+    icon: "🕊️",
+    bgColor: "bg-teal-100",
   },
 ];
 
+
 const CategoryCards = () => {
-  
 
   return (
-    <div className="mx-auto max-w-screen-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 p-6 mt-24">
+    <div className="mx-auto max-w-screen-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 p-6 my-24">
       {categories.map((category, index) => (
         <div
           key={index}

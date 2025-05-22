@@ -1,4 +1,5 @@
 export type TBook = {
+  _id: string;
   title: string;
   author: string;
   price: number;
@@ -7,4 +8,7 @@ export type TBook = {
   quantity: number;
   inStock: boolean;
   image: string;
+  rating?: number;
+  reviews?: number;
+  bestseller?: boolean;
 };
