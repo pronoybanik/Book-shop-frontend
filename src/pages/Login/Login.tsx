@@ -23,16 +23,21 @@ const Login = () => {
         email: data.email,
         password: data.password,
       };
+      
       const res = await login(loginData).unwrap();
+
+      
+
       if (!res?.success) {
         toast.error("Login failed", { id: toastId, duration: 4000 });
         return;
       }
-      const user = verifyToken(res.data.token) as TUser;
+      const user = verifyToken(res.data.accessToken) as TUser;
+
 
       // set data in local store..
-      dispatch(setUser({ user: user, token: res.data.token }));
-      localStorage.setItem("accessToken", res.data.token);
+      dispatch(setUser({ user: user, token: res.data.accessToken }));
+      localStorage.setItem("accessToken", res.data.accessToken);
       if (res?.success) {
         toast.success("Logged in success", { id: toastId, duration: 4000 });
         navigate(`/`);

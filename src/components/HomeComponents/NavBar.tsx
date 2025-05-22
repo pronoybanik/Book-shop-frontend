@@ -41,6 +41,7 @@ const NavBar = () => {
   const dispatch = useAppDispatch();
 
   const user = useAppSelector(selectCurrentUser);
+console.log(user);
 
  const cartBooks = useSelector((state: RootState) => state.addBooks.books);
 

@@ -62,7 +62,7 @@ const Registration = () => {
       <section className="bg-gradient-to-b from-gray-50 to-white">
         <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
           {/* Left Section - Image and Text */}
-          <section className="relative lg:col-span-5 xl:col-span-6">
+          <section className="relative lg:col-span-5 xl:col-span-6 ">
             <div className="hidden lg:block absolute inset-0 overflow-hidden rounded-r-3xl">
               <img
                 alt="Books Background"

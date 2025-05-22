@@ -1,4 +1,3 @@
-import React from 'react';
 import { Star, Heart, ShoppingCart, Eye } from "lucide-react";
 import { TBook } from '../../types/BookItem.Type';
 
