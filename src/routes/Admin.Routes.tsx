@@ -1,3 +1,4 @@
+import ProtectedRoute from "../components/LayOut/ProtectedRoute";
 import ManageAllBooks from "../pages/AdminDashboard/ManageAllBooks";
 import UserManagement from "../pages/AdminDashboard/UserManage";
 import UserOrderBooks from "../pages/AdminDashboard/UserOrderBooks";
@@ -10,12 +11,20 @@ export const AdminPaths = [
       {
         name: "Order Page",
         path: "user-order-books",
-        element: <UserOrderBooks />,
+        element: (
+          <ProtectedRoute roles={["admin"]}>
+            <UserOrderBooks />
+          </ProtectedRoute>
+        ),
       },
       {
         name: "User Manage",
         path: "user-manage",
-        element: <UserManagement />,
+        element: (
+          <ProtectedRoute roles={["admin"]}>
+            <UserManagement />{" "}
+          </ProtectedRoute>
+        ),
       },
     ],
   },
@@ -25,13 +34,21 @@ export const AdminPaths = [
       {
         name: "Create-Book",
         path: "create-product",
-        element: <CreateBook />,
+        element: (
+          <ProtectedRoute roles={["admin"]}>
+            <CreateBook />,
+          </ProtectedRoute>
+        ),
       },
 
       {
         name: "All Books",
         path: "all-books",
-        element: <ManageAllBooks />,
+        element: (
+          <ProtectedRoute roles={["admin"]}>
+            <ManageAllBooks />,
+          </ProtectedRoute>
+        ),
       },
     ],
   },

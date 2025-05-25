@@ -19,7 +19,7 @@ const MainRoutes = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      <ProtectedRoute role="admin">
+      <ProtectedRoute roles={["admin"]}>
         <AdminDashboard />,
       </ProtectedRoute>
     ),
@@ -28,7 +28,7 @@ const MainRoutes = createBrowserRouter([
   {
     path: "/userDashboard",
     element: (
-      <ProtectedRoute role="user">
+      <ProtectedRoute roles={["user"]}>
         <UserDashboard />,
       </ProtectedRoute>
     ),

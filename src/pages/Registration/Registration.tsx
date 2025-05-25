@@ -32,7 +32,6 @@ const Registration = () => {
 
     try {
       const res = await registration(registerData).unwrap();
-      console.log(res);
 
       if (res?.success === true) {
         toast.success("Registration successful!", {

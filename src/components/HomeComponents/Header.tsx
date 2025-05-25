@@ -13,7 +13,7 @@ const Header = () => {
       title: "Let's Make The Happy Place",
       subtitle: "INTERIOR DESIGN IN HOME",
       cta: "SHOP NOW",
-      accentColor: "text-orange-400",
+      accentColor: "text-[#f96d6d]",
       image: imageOne,
     },
     {
@@ -133,7 +133,7 @@ const Header = () => {
                 key={index}
                 onClick={() => setCurrentSlide(index)}
                 className={`w-2 h-2 rounded-full ${
-                  currentSlide === index ? "bg-orange-400 w-6" : "bg-gray-300"
+                  currentSlide === index ? "bg-[#f96d6d] w-6" : "bg-gray-300"
                 } transition-all duration-300`}
                 aria-label={`Go to slide ${index + 1}`}
               />

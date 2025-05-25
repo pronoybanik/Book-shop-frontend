@@ -9,33 +9,31 @@ import verifyToken from "../../utils/verifyToken";
 
 type TProtectedRoute = {
   children: ReactNode;
-  role: string | undefined;
+  roles?: string[] | undefined; // optional array of allowed roles
 };
 
 interface User {
   role: string;
 }
 
-const ProtectedRoute = ({ children, role }: TProtectedRoute) => {
+const ProtectedRoute = ({ children, roles }: TProtectedRoute) => {
   const token = useAppSelector(selectCurrentToken);
   const dispatch = useAppDispatch();
 
-  let user;
-
-  if (token) {
-    user = verifyToken(token);
-  }
-
-  if (role !== undefined && role !== (user as User)?.role) {
-    dispatch(logout());
-    return <Navigate to="/login" replace={true} />;
-  }
-
   if (!token) {
-    return <Navigate to="/login" replace={true} />;
+    return <Navigate to="/login" replace />;
+  }
+
+  const user = verifyToken(token) as User;
+
+
+  if (roles && !roles.includes(user?.role)) {
+    dispatch(logout());
+    return <Navigate to="/login" replace />;
   }
 
   return children;
 };
+
 
 export default ProtectedRoute;

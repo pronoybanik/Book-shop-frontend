@@ -66,7 +66,7 @@ const categories = [
 const CategoryCards = () => {
 
   return (
-    <div className="mx-auto max-w-screen-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 p-6 my-24">
+    <div className="mx-auto max-w-screen-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 py-12 my-24">
       {categories.map((category, index) => (
         <div
           key={index}

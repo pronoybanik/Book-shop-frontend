@@ -1,12 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Search,
-  User,
-  ShoppingBag,
-  Menu,
-  ChevronDown,
-  X,
-} from "lucide-react";
+import { Search, User, ShoppingBag, Menu, ChevronDown, X } from "lucide-react";
 import imageIcons from "../../images/logo_125x.png";
 import { Link } from "react-router-dom";
 import { NavBarItemsGenerator } from "../../utils/NavBarItemsGenerator";
@@ -16,27 +9,27 @@ import { logout, selectCurrentUser } from "../../redux/features/auth/authSlice";
 import SecondaryButton from "../../utils/SecondaryButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { useGetAllProductQuery } from "../../redux/features/product/productApi";
+import NaVBarSearchProduct from "./NaVBarSearchProdcut";
 
 interface User {
   role: string;
 }
 
-interface ShopCategory {
-  title: string;
-  subcategories: string[];
-  image?: string;
-}
-
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showShopSubmenu, setShowShopSubmenu] = useState(false);
   const [showMobileSubmenu, setShowMobileSubmenu] = useState<string | null>(
     null
   );
   const [searchTerm, setSearchTerm] = useState("");
- 
-
   const dispatch = useAppDispatch();
+  const { data } = useGetAllProductQuery({
+    searchTerm: searchTerm,
+  });
+
+  const bookData = data?.data || [];
+
+  const showResults = searchTerm.length > 0;
 
   const user = useAppSelector(selectCurrentUser);
   console.log(user);
@@ -85,38 +78,13 @@ const NavBar = () => {
         button &&
         !button.contains(event.target as Node)
       ) {
-      console.log("Clicked outside the dropdown");
-      
+        console.log("Clicked outside the dropdown");
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-
-  const shopCategories: ShopCategory[] = [
-    {
-      title: "Furniture",
-      subcategories: ["Living Room", "Bedroom", "Office", "Outdoor"],
-      image: "/images/category-furniture.jpg",
-    },
-    {
-      title: "Home Decor",
-      subcategories: ["Lighting", "Rugs", "Cushions", "Wall Art"],
-      image: "/images/category-decor.jpg",
-    },
-    {
-      title: "Kitchen",
-      subcategories: ["Appliances", "Cookware", "Tableware", "Storage"],
-      image: "/images/category-kitchen.jpg",
-    },
-    {
-      title: "Electronics",
-      subcategories: ["TVs", "Computers", "Audio", "Gadgets"],
-      image: "/images/category-electronics.jpg",
-    },
-  ];
 
   const toggleMobileSubmenu = (key: string) => {
     if (showMobileSubmenu === key) {
@@ -156,6 +124,15 @@ const NavBar = () => {
               </div>
             </div>
 
+            <div>
+              {showResults && (
+                <NaVBarSearchProduct
+                  bookData={bookData}
+                  searchTerm={searchTerm}
+                />
+              )}
+            </div>
+
             {/* Account and Cart */}
             <div className="flex items-center space-x-4">
               {!user ? (
@@ -172,7 +149,7 @@ const NavBar = () => {
                   </div>
                 </Link>
               ) : (
-                <button onClick={handleLogout}>
+                <button className="text-xs" onClick={handleLogout}>
                   <SecondaryButton>Logout</SecondaryButton>
                 </button>
               )}
@@ -211,88 +188,11 @@ const NavBar = () => {
                   // Check if this is the Shop item to add special submenu
                   if (item.key === "shop") {
                     return (
-                      <div
-                        key={item.key}
-                        className="relative"
-                        onMouseEnter={() => setShowShopSubmenu(true)}
-                        onMouseLeave={() => setShowShopSubmenu(false)}
-                      >
+                      <div key={item.key} className="relative">
                         <div className="flex items-center font-medium cursor-pointer hover:text-orange-500 transition-colors duration-200">
                           {item.label}
                           <ChevronDown size={16} className="ml-1" />
                         </div>
-
-                        {/* Shop Submenu - Desktop */}
-                        {showShopSubmenu && (
-                          <div className="absolute z-10 left-0 mt-2 w-[800px] bg-white shadow-lg border border-gray-100 rounded-md">
-                            <div className="p-6 grid grid-cols-4 gap-8">
-                              {shopCategories.map((category, idx) => (
-                                <div key={idx} className="col-span-1">
-                                  <h3 className="font-semibold text-gray-900 mb-3 border-b pb-2">
-                                    {category.title}
-                                  </h3>
-                                  <ul className="space-y-2">
-                                    {category.subcategories.map(
-                                      (sub, subIdx) => (
-                                        <li key={subIdx}>
-                                          <Link
-                                            to={`/shop/${category.title.toLowerCase()}/${sub
-                                              .toLowerCase()
-                                              .replace(/\s+/g, "-")}`}
-                                            className="block text-gray-600 hover:text-orange-500 transition-colors duration-200 text-sm"
-                                          >
-                                            {sub}
-                                          </Link>
-                                        </li>
-                                      )
-                                    )}
-                                  </ul>
-                                  <Link
-                                    to={`/shop/${category.title.toLowerCase()}`}
-                                    className="text-orange-500 mt-3 inline-block text-sm font-medium hover:underline"
-                                  >
-                                    View All
-                                  </Link>
-                                </div>
-                              ))}
-                            </div>
-                            <div className="bg-gray-50 p-4 flex justify-between items-center">
-                              <div>
-                                <span className="text-sm text-gray-500">
-                                  Featured Collections:
-                                </span>
-                                <div className="flex mt-1 space-x-4">
-                                  <Link
-                                    to="/shop/new-arrivals"
-                                    className="text-sm font-medium hover:text-orange-500"
-                                  >
-                                    New Arrivals
-                                  </Link>
-                                  <Link
-                                    to="/shop/best-sellers"
-                                    className="text-sm font-medium hover:text-orange-500"
-                                  >
-                                    Best Sellers
-                                  </Link>
-                                  <Link
-                                    to="/shop/sale"
-                                    className="text-sm font-medium hover:text-orange-500"
-                                  >
-                                    Sale Items
-                                  </Link>
-                                </div>
-                              </div>
-                              <div>
-                                <Link
-                                  to="/shop"
-                                  className="bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded text-sm font-medium transition-colors duration-200"
-                                >
-                                  Shop All
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
-                        )}
                       </div>
                     );
                   }
@@ -448,49 +348,6 @@ const NavBar = () => {
                             }`}
                           />
                         </button>
-
-                        {showMobileSubmenu === "shop" && (
-                          <div className="bg-gray-50 pl-4">
-                            {shopCategories.map((category, idx) => (
-                              <div key={idx} className="py-2">
-                                <h4 className="font-medium px-4 py-2">
-                                  {category.title}
-                                </h4>
-                                <ul>
-                                  {category.subcategories.map((sub, subIdx) => (
-                                    <li key={subIdx}>
-                                      <Link
-                                        to={`/shop/${category.title.toLowerCase()}/${sub
-                                          .toLowerCase()
-                                          .replace(/\s+/g, "-")}`}
-                                        className="block px-4 py-2 text-gray-600"
-                                        onClick={() => setIsOpen(false)}
-                                      >
-                                        {sub}
-                                      </Link>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <Link
-                                  to={`/shop/${category.title.toLowerCase()}`}
-                                  className="block px-4 py-2 text-orange-500 text-sm font-medium"
-                                  onClick={() => setIsOpen(false)}
-                                >
-                                  View All {category.title}
-                                </Link>
-                              </div>
-                            ))}
-                            <div className="px-4 py-3 border-t border-gray-200 mt-2">
-                              <Link
-                                to="/shop"
-                                className="block w-full bg-orange-500 text-white text-center py-2 rounded font-medium"
-                                onClick={() => setIsOpen(false)}
-                              >
-                                Shop All Products
-                              </Link>
-                            </div>
-                          </div>
-                        )}
                       </li>
                     );
                   }
@@ -547,3 +404,4 @@ const NavBar = () => {
 };
 
 export default NavBar;
+

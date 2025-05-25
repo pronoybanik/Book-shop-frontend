@@ -1,9 +1,10 @@
 import { Star, Heart, ShoppingCart, Eye } from "lucide-react";
-import { TBook } from '../../types/BookItem.Type';
+import { TBook } from "../../types/BookItem.Type";
+import { Link } from "react-router-dom";
 
 const BestProductCard = ({ book }: { book: TBook }) => {
-    return (
-         <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100">
+  return (
+    <Link to={`/productDetails/${book._id}`} className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100">
       {book.bestseller && (
         <div className="absolute top-4 left-4 z-10 bg-[#f96d6d] text-white px-3 py-1 rounded-full text-xs font-semibold">
           Bestseller
@@ -44,27 +45,15 @@ const BestProductCard = ({ book }: { book: TBook }) => {
           {book.title}
         </h3>
         <p className="text-sm text-gray-600 mb-3">by {book.author}</p>
+        <div className="flex items-center space-x-2">
+          <span className="text-xl font-bold text-gray-900">${book.price}</span>
+        </div>
         <p className="text-sm text-gray-700 mb-4 line-clamp-2">
           {book.description}
         </p>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="text-xl font-bold text-gray-900">
-              ${book.price}
-            </span>
-            {/* {book.originalPrice && (
-              <span className="text-sm text-gray-500 line-through">
-                ${book.originalPrice}
-              </span>
-            )} */}
-          </div>
-          <button className="px-4 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors duration-200 text-sm">
-            Add to Cart
-          </button>
-        </div>
       </div>
-    </div>
-    );
+    </Link>
+  );
 };
 
 export default BestProductCard;

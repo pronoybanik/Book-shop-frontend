@@ -9,7 +9,7 @@ const BestProduct = () => {
   const { data, error, isLoading } = useGetAllProductQuery({});
 
   return (
-    <section className="bg-gray-50 py-16">
+    <section className="py-12 my-24">
       <div className="mx-auto container px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:items-center lg:gap-12 mb-12">
           <div className="lg:col-span-1">
@@ -63,8 +63,8 @@ const BestProduct = () => {
           </div>
         )}
 
-        <div className="mt-16 text-center">
-          <div className="bg-white rounded-2xl shadow-lg p-8 lg:p-12">
+        <div className="mt-16 text-center bg-gray-50">
+          <div className=" rounded-2xl shadow-lg p-8 lg:p-12">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
               Can't find what you're looking for?
             </h3>

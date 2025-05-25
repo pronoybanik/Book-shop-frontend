@@ -6,7 +6,7 @@ import { useGetLimitProductQuery } from "../../redux/features/product/productApi
 
 // Define Product type
 interface Product {
-  _id: string
+  _id: string;
   title: string;
   description?: string;
   image?: string;
@@ -39,9 +39,9 @@ const Products = () => {
   ];
 
   return (
-    <section className="max-w-screen-2xl mx-auto px-4 lg:px-8 py-12 ">
+    <section className="bg-gray-50 p-24 my-24">
       {/* Grid Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 max-w-screen-2xl mx-auto">
         {/* Book List Section */}
         <div className="bg-[#f96d6d] p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-white mb-4">Book List</h2>
@@ -65,9 +65,18 @@ const Products = () => {
             {isLoading ? (
               <p className="text-gray-600">Loading books...</p>
             ) : bookData.length > 0 ? (
-              <Carousel autoPlay infinite autoPlaySpeed={3000} responsive={responsive}>
+              <Carousel
+                autoPlay
+                infinite
+                autoPlaySpeed={3000}
+                responsive={responsive}
+              >
                 {bookData.map((item: Product, index: number) => (
-                  <Link to={`/productDetails/${item._id}`} key={item._id || index} className="group block p-2">
+                  <Link
+                    to={`/productDetails/${item._id}`}
+                    key={item._id || index}
+                    className="group block p-2"
+                  >
                     <img
                       src={item.image || "https://via.placeholder.com/300"}
                       alt={item.title || "Book"}
@@ -79,9 +88,13 @@ const Products = () => {
                         {item.title || "Book Title"}
                       </h3>
                       <p className="text-sm text-gray-500 mt-1">
-                        {item.description?.substring(0, 60) || "No description available."}...
+                        {item.description?.substring(0, 60) ||
+                          "No description available."}
+                        ...
                       </p>
-                      <p className="text-[#e95b5b] mt-2 font-bold">TK:- {item.price || "N/A"}</p>
+                      <p className="text-[#e95b5b] mt-2 font-bold">
+                        TK:- {item.price || "N/A"}
+                      </p>
                     </div>
                   </Link>
                 ))}
@@ -92,9 +105,6 @@ const Products = () => {
           </div>
         </div>
       </div>
-
-  
-  
     </section>
   );
 };

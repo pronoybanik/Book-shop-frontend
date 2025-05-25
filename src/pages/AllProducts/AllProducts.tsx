@@ -11,6 +11,7 @@ import {
 import { useGetAllProductQuery } from "../../redux/features/product/productApi";
 import BookCard from "../../components/HomeComponents/BookCard";
 import { TBook } from "../../types/BookItem.Type";
+import Loading from "../../shared/Loading";
 
 const ProductSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -35,27 +36,24 @@ const ProductSection = () => {
     priceMax: priceRange.max,
   });
 
-  console.log("data:", priceRange);
-
   const products: TBook[] = data?.data || [];
   const totalPage = data?.meta?.totalPage || 1;
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
   if (error) return <p>Something went wrong</p>;
 
   const categories = [
-    { name: "Fiction", count: 15 },
-    { name: "Science", count: 8 },
-    { name: "SelfDevelopment", count: 12 },
-    { name: "Poetry", count: 6 },
-    { name: "Religious", count: 9 },
+    { name: "Fiction" },
+    { name: "Science" },
+    { name: "SelfDevelopment" },
+    { name: "Poetry" },
+    { name: "Religious" },
   ];
 
   const priceRanges = [
     { label: "$100.00 - $500.00", min: 100, max: 500 },
     { label: "$500.00 - $1000.00", min: 500, max: 1000 },
     { label: "$1000.00 - $5000.00", min: 1000, max: 5000 },
-    // { label: "$10000.00 - $20000.00", count: 10, min: 1000, max: 500 },
   ];
 
   const handleCategoryChange = (category: string) => {
@@ -113,7 +111,6 @@ const ProductSection = () => {
                   />
                   <span className="text-sm text-gray-700">{category.name}</span>
                 </div>
-                <span className="text-xs text-gray-500">{category.count}</span>
               </label>
             ))}
           </div>
