@@ -1,4 +1,8 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 import { useGetAllProductQuery } from "../../redux/features/product/productApi";
 import { TBook } from "../../types/BookItem.Type";
 import PrimaryButton from "../../utils/PrimaryButton";
@@ -8,12 +12,16 @@ import SecondaryButton from "../../utils/SecondaryButton";
 const BestProduct = () => {
   const { data, error, isLoading } = useGetAllProductQuery({});
 
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: true });
+  }, []);
+
   return (
     <section className="py-12 my-24">
       <div className="mx-auto container px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:items-center lg:gap-12 mb-12">
           <div className="lg:col-span-1">
-            <div className="max-w-lg lg:max-w-none">
+            <div data-aos="zoom-out-up" className="max-w-lg lg:max-w-none">
               <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">
                 Featured Books
               </h2>
@@ -24,10 +32,10 @@ const BestProduct = () => {
               </p>
             </div>
           </div>
-          <div className="lg:col-span-3">
+          <div data-aos="zoom-in-right" className="lg:col-span-3">
             <div className="relative">
               <img
-                src="https://images.pexels.com/photos/18885582/pexels-photo-18885582/free-photo-of-gmy-wear.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src="https://images.pexels.com/photos/18885582/pexels-photo-18885582/free-photo-of-gmy-wear.jpeg"
                 className="rounded-2xl shadow-xl w-full h-64 sm:h-80 lg:h-96 object-cover"
                 alt="Featured Books Collection"
               />
@@ -63,8 +71,8 @@ const BestProduct = () => {
           </div>
         )}
 
-        <div className="mt-16 text-center bg-gray-50">
-          <div className=" rounded-2xl shadow-lg p-8 lg:p-12">
+        <div data-aos="zoom-in-down" className="mt-16 text-center bg-gray-50">
+          <div className="rounded-2xl shadow-lg p-8 lg:p-12">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
               Can't find what you're looking for?
             </h3>

@@ -1,3 +1,6 @@
+import  { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const categories = [
   {
@@ -62,23 +65,32 @@ const categories = [
   },
 ];
 
-
-const CategoryCards = () => {
+const CategoryPage = () => {
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: true });
+  }, []);
 
   return (
-    <div className="mx-auto max-w-screen-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 py-12 my-24">
-      {categories.map((category, index) => (
-        <div
-          key={index}
-          className={`flex flex-col items-center justify-center p-6 rounded-2xl shadow-md ${category.bgColor}`}
-        >
-          <div className="text-5xl mb-4">{category.icon}</div>
-          <h2 className="text-xl font-bold mb-2">{category.title}</h2>
-          <p className="text-sm text-gray-600">{category.subtitle}</p>
-        </div>
-      ))}
+    <div className=" bg-white py-12 my-24">
+      <h1 className="text-3xl font-bold text-center mb-12 text-gray-800 uppercase">
+        Browse Book Categories
+      </h1>
+
+      <div className="mx-auto max-w-screen-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        {categories.map((category, index) => (
+          <div
+            key={index}
+            data-aos="fade-up"
+            className={`flex flex-col items-center justify-center p-6 rounded-2xl shadow-md ${category.bgColor}`}
+          >
+            <div className="text-5xl mb-4">{category.icon}</div>
+            <h2 className="text-lg font-bold mb-2 text-gray-800">{category.title}</h2>
+            <p className="text-sm text-gray-600">{category.subtitle}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default CategoryCards;
+export default CategoryPage;

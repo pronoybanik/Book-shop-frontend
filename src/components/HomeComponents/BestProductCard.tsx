@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const BestProductCard = ({ book }: { book: TBook }) => {
   return (
-    <Link to={`/productDetails/${book._id}`} className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100">
+    <Link data-aos="zoom-in-down" to={`/productDetails/${book._id}`} className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100">
       {book.bestseller && (
         <div className="absolute top-4 left-4 z-10 bg-[#f96d6d] text-white px-3 py-1 rounded-full text-xs font-semibold">
           Bestseller

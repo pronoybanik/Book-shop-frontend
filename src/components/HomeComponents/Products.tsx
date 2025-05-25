@@ -3,8 +3,11 @@ import "react-multi-carousel/lib/styles.css";
 
 import { Link } from "react-router-dom";
 import { useGetLimitProductQuery } from "../../redux/features/product/productApi";
+import { useEffect } from "react";
+import Aos from "aos";
+import "aos/dist/aos.css";
 
-// Define Product type
+
 interface Product {
   _id: string;
   title: string;
@@ -38,12 +41,16 @@ const Products = () => {
     { name: "Moby-Dick" },
   ];
 
+   useEffect(() => {
+      Aos.init({ duration: 1000, once: true });
+    }, []);
+
   return (
     <section className="bg-gray-50 p-24 my-24">
       {/* Grid Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 max-w-screen-2xl mx-auto">
         {/* Book List Section */}
-        <div className="bg-[#f96d6d] p-6 rounded-lg shadow-md">
+        <div data-aos="fade-up" className="bg-[#f96d6d] p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-white mb-4">Book List</h2>
           <ul className="space-y-2">
             {BookListName.map((data, index) => (
@@ -58,7 +65,7 @@ const Products = () => {
         </div>
 
         {/* Books Carousel Section */}
-        <div className="lg:col-span-3 z-0">
+        <div data-aos="fade-up" className="lg:col-span-3 z-0">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">Our Books</h2>
 
           <div className="mt-4">

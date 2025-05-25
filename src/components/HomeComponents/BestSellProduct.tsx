@@ -66,7 +66,7 @@ const ProductCard: React.FC<Product> = ({ title, price, oldPrice, img }) => (
 // Define BestSellProduct component and pass the typed products
 const BestSellProduct: React.FC = () => {
   return (
-    <section className="bg-gray-50 py-12 my-24">
+    <section data-aos="zoom-in-down" className="bg-gray-50 py-12 my-24">
       <div className=" grid grid-cols-1 lg:grid-cols-3 gap-6 my-24 container mx-auto">
         {/* Hot Sale and Best Sale Columns */}
         <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 ">

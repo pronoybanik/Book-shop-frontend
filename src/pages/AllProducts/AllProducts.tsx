@@ -12,6 +12,7 @@ import { useGetAllProductQuery } from "../../redux/features/product/productApi";
 import BookCard from "../../components/HomeComponents/BookCard";
 import { TBook } from "../../types/BookItem.Type";
 import Loading from "../../shared/Loading";
+import PrimaryButton from "../../utils/PrimaryButton";
 
 const ProductSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -195,35 +196,34 @@ const ProductSection = () => {
 
   return (
     <section>
-      <div className="flex flex-col items-center justify-center min-h-12 bg-white px-6 text-center">
+      <div className="flex flex-col items-center justify-center min-h-12 bg-white px-6 text-center py-12">
         {/* Explore Button */}
-        <button className="mt-4 px-6 py-2 bg-blue-100 text-blue-700 rounded-full text-sm sm:text-base">
-          Explore Customer Reviews
+        <button className="mt-4 px-6 py-2 bg-blue-100 text-[#f96d6d] rounded-full text-sm sm:text-base">
+          Explore eBooks
         </button>
 
         {/* Headline */}
         <h1 className="mt-8 text-3xl sm:text-4xl font-bold">
-          Discover Amazing{" "}
-          <span className="text-blue-500">Product Reviews</span>
+          Your Digital Library of <span className="text-[#f96d6d]">eBooks</span>
         </h1>
 
         {/* Subheading */}
         <p className="mt-4 text-gray-600 text-sm sm:text-base max-w-md">
-          Find your perfect products with authentic customer reviews and
-          detailed ratings.
+          Instantly access thousands of eBooks from top authors. Read anywhere,
+          anytime with seamless downloads and customer reviews.
         </p>
 
         {/* Search Bar */}
         <div className="mt-8 flex items-center w-full max-w-md border border-gray-300 rounded-full overflow-hidden shadow-sm">
           <input
             type="text"
-            placeholder="Search products, brands..."
+            placeholder="Search eBooks, genres, or authors"
             className="flex-grow px-4 py-3 text-gray-700 outline-none"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <button className="px-6 py-3 bg-purple-500 text-white">
-            Searching...
+          <button className="px-6 py-3 lg:text-sm text-xs text-white">
+            <PrimaryButton>Search</PrimaryButton>
           </button>
         </div>
       </div>

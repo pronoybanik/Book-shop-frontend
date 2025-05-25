@@ -52,7 +52,10 @@ const Header = () => {
   return (
     <div className="relative w-full h-96 md:h-[500px] bg-gray-100 overflow-hidden">
       {/* Background shape */}
-      <div className="absolute left-0 top-0 w-1/2 h-full">
+      <div
+        data-aos="zoom-out-down"
+        className="absolute left-0 top-0 w-1/2 h-full"
+      >
         <div className="absolute top-0 left-0 w-full h-full bg-blue-100 rounded-full transform scale-150 translate-x-1/4 opacity-60"></div>
       </div>
 
@@ -74,7 +77,10 @@ const Header = () => {
       </button>
 
       {/* Main content container */}
-      <div className="relative z-10 h-full max-w-7xl mx-auto px-4 flex items-center justify-between">
+      <div
+        data-aos="zoom-out-down"
+        className="relative z-10 h-full max-w-7xl mx-auto px-4 flex items-center justify-between"
+      >
         {/* Furniture image */}
         <div className="relative w-1/2 h-full flex items-center justify-center">
           <div className="w-full max-w-lg">
@@ -97,7 +103,10 @@ const Header = () => {
               </span>
               <div className="hidden md:flex gap-1 items-center">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="w-1 h-1 rounded-full bg-gray-300"></div>
+                  <div
+                    key={i}
+                    className="w-1 h-1 rounded-full bg-gray-300"
+                  ></div>
                 ))}
               </div>
             </div>
@@ -106,7 +115,6 @@ const Header = () => {
               {slides[currentSlide].title.split(" ").map((word, i) =>
                 word.toLowerCase() === "happy" ? (
                   <span key={i} className={slides[currentSlide].accentColor}>
-                    {" "}
                     {word}{" "}
                   </span>
                 ) : (
