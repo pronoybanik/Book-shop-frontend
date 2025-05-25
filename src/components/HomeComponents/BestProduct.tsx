@@ -3,6 +3,7 @@ import { useGetAllProductQuery } from "../../redux/features/product/productApi";
 import { TBook } from "../../types/BookItem.Type";
 import PrimaryButton from "../../utils/PrimaryButton";
 import BestProductCard from "./BestProductCard";
+import SecondaryButton from "../../utils/SecondaryButton";
 
 const BestProduct = () => {
   const { data, error, isLoading } = useGetAllProductQuery(undefined);
@@ -21,9 +22,6 @@ const BestProduct = () => {
                 various genres. From thrilling adventures to practical guides,
                 find your next great read.
               </p>
-              <Link to="/allProducts" className="mt-6 ">
-                <PrimaryButton>View All Books</PrimaryButton>
-              </Link>
             </div>
           </div>
           <div className="lg:col-span-3">
@@ -76,12 +74,13 @@ const BestProduct = () => {
               every reader.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-3 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors duration-200">
-                Browse All Categories
-              </button>
-              <button className="px-8 py-3 border-2 border-orange-500 text-orange-500 font-medium rounded-lg hover:bg-orange-50 transition-colors duration-200">
-                Request a Book
-              </button>
+              <Link to="/allProducts">
+                <PrimaryButton>Browse All Books</PrimaryButton>
+              </Link>
+
+              <Link to="/addCard">
+                <SecondaryButton>Request a Book</SecondaryButton>
+              </Link>
             </div>
           </div>
         </div>

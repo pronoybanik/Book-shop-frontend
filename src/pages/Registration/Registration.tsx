@@ -58,11 +58,11 @@ const Registration = () => {
   };
 
   return (
-    <div className="max-w-screen-2xl mx-auto">
+    <div className="max-w-screen-2xl mx-auto ">
       <section className="bg-gradient-to-b from-gray-50 to-white">
         <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
           {/* Left Section - Image and Text */}
-          <section className="relative lg:col-span-5 xl:col-span-6 ">
+          <section className=" relative lg:col-span-5 xl:col-span-6 lg:h-[70vh] lg:mt-40">
             <div className="hidden lg:block absolute inset-0 overflow-hidden rounded-r-3xl">
               <img
                 alt="Books Background"
@@ -164,7 +164,7 @@ const Registration = () => {
                     Already have an account?{" "}
                     <Link
                       to="/logIn"
-                      className="text-blue-600 hover:text-blue-800 font-medium"
+                      className="text-[#f96d6d]  font-medium"
                     >
                       Sign in
                     </Link>
@@ -356,7 +356,7 @@ const Registration = () => {
                         {...register("marketingAccept", {
                           required: "You must accept the terms",
                         })}
-                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        className="h-4 w-4 rounded border-gray-300 text-[#f96d6d] focus:ring-blue-500"
                       />
                     </div>
                     <div className="ml-3">

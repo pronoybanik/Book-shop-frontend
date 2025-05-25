@@ -5,7 +5,7 @@ const BestProductCard = ({ book }: { book: TBook }) => {
     return (
          <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100">
       {book.bestseller && (
-        <div className="absolute top-4 left-4 z-10 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+        <div className="absolute top-4 left-4 z-10 bg-[#f96d6d] text-white px-3 py-1 rounded-full text-xs font-semibold">
           Bestseller
         </div>
       )}

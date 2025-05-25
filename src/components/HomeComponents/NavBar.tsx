@@ -3,7 +3,6 @@ import {
   Search,
   User,
   ShoppingBag,
-  Heart,
   Menu,
   ChevronDown,
   X,
@@ -35,16 +34,14 @@ const NavBar = () => {
     null
   );
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
-  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+ 
 
   const dispatch = useAppDispatch();
 
   const user = useAppSelector(selectCurrentUser);
-console.log(user);
+  console.log(user);
 
- const cartBooks = useSelector((state: RootState) => state.addBooks.books);
-
+  const cartBooks = useSelector((state: RootState) => state.addBooks.books);
 
   const sidebarItems = NavBarItemsGenerator(NavbarPath, "");
 
@@ -88,7 +85,8 @@ console.log(user);
         button &&
         !button.contains(event.target as Node)
       ) {
-        setShowCategoryDropdown(false);
+      console.log("Clicked outside the dropdown");
+      
       }
     };
 
@@ -96,23 +94,6 @@ console.log(user);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const categories = [
-    "All Categories",
-    "Furniture",
-    "Electronics",
-    "Clothing",
-    "Home Decor",
-  ];
-
-  const popularSearches = [
-    "Cushion",
-    "Freedom",
-    "Armchair",
-    "Bedroom",
-    "Bathroom",
-    "Lights",
-    "Dining Room",
-  ];
 
   const shopCategories: ShopCategory[] = [
     {
@@ -162,50 +143,15 @@ console.log(user);
             {/* Search Bar */}
             <div className="hidden md:flex flex-1 mx-8 relative">
               <div className="relative flex w-full">
-                <div className="relative inline-block text-left w-40">
-                  <button
-                    id="category-button"
-                    className="flex items-center justify-between w-full border border-r-0 border-gray-300 rounded-l bg-gray-50 px-4 py-2 text-sm"
-                    onClick={() =>
-                      setShowCategoryDropdown(!showCategoryDropdown)
-                    }
-                  >
-                    <span>{selectedCategory}</span>
-                    <ChevronDown size={16} className="ml-2" />
-                  </button>
-                  {showCategoryDropdown && (
-                    <div
-                      id="category-dropdown"
-                      className="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md"
-                    >
-                      <div className="py-1">
-                        {categories.map((category) => (
-                          <a
-                            key={category}
-                            href="#"
-                            className="block px-4 py-2 text-sm hover:bg-gray-100"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setSelectedCategory(category);
-                              setShowCategoryDropdown(false);
-                            }}
-                          >
-                            {category}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
                 <input
                   type="text"
-                  className="flex-1 border border-gray-300 py-2 px-4 focus:outline-none"
-                  placeholder="Search in..."
+                  className="flex-1 border border-[#f96d6d] py-2 px-4 focus:outline-none"
+                  placeholder="Search the book you want..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button className="bg-white border border-l-0 border-gray-300 rounded-r p-2">
-                  <Search size={20} className="text-gray-500" />
+                <button className="bg-[#f96d6d] border border-l-0 border-gray-300 rounded-r p-3 ">
+                  <Search size={20} className="text-white" />
                 </button>
               </div>
             </div>
@@ -213,7 +159,10 @@ console.log(user);
             {/* Account and Cart */}
             <div className="flex items-center space-x-4">
               {!user ? (
-                <Link to="/login" className="hidden md:flex items-center cursor-pointer">
+                <Link
+                  to="/login"
+                  className="hidden md:flex items-center cursor-pointer"
+                >
                   <div className="p-2 rounded-full bg-gray-100">
                     <User size={20} />
                   </div>
@@ -227,15 +176,11 @@ console.log(user);
                   <SecondaryButton>Logout</SecondaryButton>
                 </button>
               )}
-              <div className="hidden md:block">
-                <div className="relative cursor-pointer">
-                  <Heart size={24} />
-                </div>
-              </div>
+              <div className="hidden md:block"></div>
               <Link to="/addCard" className="relative cursor-pointer">
                 <ShoppingBag size={24} />
-                <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                 {cartBooks.length}
+                <span className="absolute -top-2 -right-2 bg-[#f96d6d] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartBooks.length}
                 </span>
               </Link>
               <div
@@ -243,28 +188,6 @@ console.log(user);
                 onClick={() => setIsOpen(true)}
               >
                 <Menu size={24} />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Popular Searches */}
-        <div className="bg-white py-2 border-b text-sm hidden md:block">
-          <div className="max-w-7xl mx-auto px-4 md:px-8">
-            <div className="flex items-center space-x-2">
-              <span className="font-medium text-gray-600">
-                Popular Searches:
-              </span>
-              <div className="flex flex-wrap">
-                {popularSearches.map((term, index) => (
-                  <a
-                    key={index}
-                    href="#"
-                    className="mx-2 text-gray-500 hover:text-orange-500 transition-colors duration-200"
-                  >
-                    {term}
-                  </a>
-                ))}
               </div>
             </div>
           </div>
@@ -279,7 +202,6 @@ console.log(user);
                 <button className="flex items-center space-x-2 font-medium">
                   <Menu size={20} />
                   <span>Browse Categories</span>
-                  <ChevronDown size={16} />
                 </button>
               </div>
 
@@ -464,13 +386,13 @@ console.log(user);
           <div className="relative flex w-full">
             <input
               type="text"
-              className="w-full border border-gray-300 rounded-l py-2 px-4 focus:outline-none"
-              placeholder="Search in..."
+              className="w-full border border-[#f96d6d] rounded-l py-2 px-4 focus:outline-none"
+              placeholder="Search the book you want..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button className="bg-white border border-l-0 border-gray-300 rounded-r p-2">
-              <Search size={20} className="text-gray-500" />
+            <button className="bg-[#f96d6d] border border-l-0 border-[#f96d6d]  rounded-r p-3">
+              <Search size={20} className="text-white" />
             </button>
           </div>
         </div>
@@ -491,7 +413,7 @@ console.log(user);
           </div>
 
           {!user ? (
-            <Link to="/login" className="px-4 py-2 border-b">
+            <Link to="/login" className="my-4">
               <div className="flex items-center py-2">
                 <User size={20} className="mr-3" />
                 <div>
