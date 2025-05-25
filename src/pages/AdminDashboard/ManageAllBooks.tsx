@@ -17,7 +17,7 @@ type TBook = {
 };
 
 const ManageAllBooks = () => {
-  const { data } = useGetAllProductQuery(undefined);
+  const { data } = useGetAllProductQuery({});
   const [deleteProduct] = useDeleteProductMutation();
   const bookData = data?.data || [];
 

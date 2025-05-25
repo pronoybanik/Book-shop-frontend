@@ -6,7 +6,7 @@ import BestProductCard from "./BestProductCard";
 import SecondaryButton from "../../utils/SecondaryButton";
 
 const BestProduct = () => {
-  const { data, error, isLoading } = useGetAllProductQuery(undefined);
+  const { data, error, isLoading } = useGetAllProductQuery({});
 
   return (
     <section className="bg-gray-50 py-16">
