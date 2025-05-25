@@ -67,7 +67,7 @@ const Products = () => {
 
         {/* Carousel Product Section */}
         <div data-aos="fade-up" className="lg:col-span-3 order-1 lg:order-2">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6">Our Books</h2>
+          <h2 className="text-3xl font-bold text-gray-800 mb-6 uppercase">Our Books</h2>
 
           <div className="mt-4">
             {isLoading ? (
@@ -79,12 +79,13 @@ const Products = () => {
                 autoPlaySpeed={3000}
                 responsive={responsive}
                 itemClass="px-2"
+                className="p-4"
               >
                 {bookData.map((item: Product, index: number) => (
                   <Link
                     to={`/productDetails/${item._id}`}
                     key={item._id || index}
-                    className="group block bg-white rounded-xl shadow-md overflow-hidden transition hover:shadow-xl"
+                    className="group block bg-white  h-[100%] rounded-xl shadow-md overflow-hidden transition hover:shadow-xl"
                   >
                     <img
                       src={item.image || "https://via.placeholder.com/300"}
