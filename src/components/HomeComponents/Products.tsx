@@ -1,12 +1,11 @@
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-
-import { Link } from "react-router-dom";
-import { useGetLimitProductQuery } from "../../redux/features/product/productApi";
-import { useEffect } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
 
+import { useGetLimitProductQuery } from "../../redux/features/product/productApi";
 
 interface Product {
   _id: string;
@@ -23,8 +22,8 @@ const Products = () => {
   const responsive = {
     superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 4 },
     desktop: { breakpoint: { max: 3000, min: 1024 }, items: 3 },
-    tablet: { breakpoint: { max: 1024, min: 768 }, items: 2 },
-    mobile: { breakpoint: { max: 768, min: 0 }, items: 1 },
+    tablet: { breakpoint: { max: 1024, min: 640 }, items: 2 },
+    mobile: { breakpoint: { max: 640, min: 0 }, items: 1 },
   };
 
   const BookListName = [
@@ -41,16 +40,18 @@ const Products = () => {
     { name: "Moby-Dick" },
   ];
 
-   useEffect(() => {
-      Aos.init({ duration: 1000, once: true });
-    }, []);
+  useEffect(() => {
+    Aos.init({ duration: 1000, once: true });
+  }, []);
 
   return (
-    <section className="bg-gray-50 p-24 my-24">
-      {/* Grid Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 max-w-screen-2xl mx-auto">
-        {/* Book List Section */}
-        <div data-aos="fade-up" className="bg-[#f96d6d] p-6 rounded-lg shadow-md">
+    <section className="bg-gray-50 px-4 py-16 sm:px-6 lg:px-24 my-16">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 max-w-screen-2xl mx-auto">
+        {/* Sidebar Book List */}
+        <div
+          data-aos="fade-up"
+          className="bg-[#f96d6d] p-6 rounded-2xl shadow-md order-2 lg:order-1"
+        >
           <h2 className="text-2xl font-semibold text-white mb-4">Book List</h2>
           <ul className="space-y-2">
             {BookListName.map((data, index) => (
@@ -64,8 +65,8 @@ const Products = () => {
           </p>
         </div>
 
-        {/* Books Carousel Section */}
-        <div data-aos="fade-up" className="lg:col-span-3 z-0">
+        {/* Carousel Product Section */}
+        <div data-aos="fade-up" className="lg:col-span-3 order-1 lg:order-2">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">Our Books</h2>
 
           <div className="mt-4">
@@ -77,30 +78,31 @@ const Products = () => {
                 infinite
                 autoPlaySpeed={3000}
                 responsive={responsive}
+                itemClass="px-2"
               >
                 {bookData.map((item: Product, index: number) => (
                   <Link
                     to={`/productDetails/${item._id}`}
                     key={item._id || index}
-                    className="group block p-2"
+                    className="group block bg-white rounded-xl shadow-md overflow-hidden transition hover:shadow-xl"
                   >
                     <img
                       src={item.image || "https://via.placeholder.com/300"}
                       alt={item.title || "Book"}
-                      className="h-[250px] w-full object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
+                      className="h-[250px] w-full object-cover"
                     />
 
-                    <div className="mt-3 flex flex-col">
+                    <div className="p-4">
                       <h3 className="text-lg font-semibold text-gray-900 group-hover:underline">
                         {item.title || "Book Title"}
                       </h3>
-                      <p className="text-sm text-gray-500 mt-1">
+                      <p className="text-sm text-gray-600 mt-1">
                         {item.description?.substring(0, 60) ||
                           "No description available."}
                         ...
                       </p>
                       <p className="text-[#e95b5b] mt-2 font-bold">
-                        TK:- {item.price || "N/A"}
+                        TK: {item.price || "N/A"}
                       </p>
                     </div>
                   </Link>

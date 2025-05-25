@@ -71,7 +71,7 @@ const CategoryPage = () => {
   }, []);
 
   return (
-    <div className=" bg-white py-12 my-24">
+    <div className=" bg-white py-12 my-24 px-4">
       <h1 className="text-3xl font-bold text-center mb-12 text-gray-800 uppercase">
         Browse Book Categories
       </h1>
