@@ -23,17 +23,14 @@ const Login = () => {
         email: data.email,
         password: data.password,
       };
-      
-      const res = await login(loginData).unwrap();
 
-      
+      const res = await login(loginData).unwrap();
 
       if (!res?.success) {
         toast.error("Login failed", { id: toastId, duration: 4000 });
         return;
       }
       const user = verifyToken(res.data.accessToken) as TUser;
-
 
       // set data in local store..
       dispatch(setUser({ user: user, token: res.data.accessToken }));
@@ -49,7 +46,7 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8 ">
+    <div className="bg-gray-50 flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8 ">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           {/* Header */}
@@ -201,8 +198,6 @@ const Login = () => {
               </p>
             </div>
           </form>
-
-       
         </div>
       </div>
     </div>

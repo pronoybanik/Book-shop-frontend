@@ -21,6 +21,7 @@ import { RootState } from "../../redux/store";
 import NaVBarSearchProduct from "./NaVBarSearchProdcut";
 import imageIcons from "../../images/logo_125x.png";
 import SecondaryButton from "../../utils/SecondaryButton";
+import { clearCart } from "../../redux/features/product/productSlice";
 
 interface User {
   role: string;
@@ -62,6 +63,7 @@ const NavBar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(clearCart());
   };
 
   useEffect(() => {

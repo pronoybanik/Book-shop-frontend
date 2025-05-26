@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import siteLogo from "../../images/logo_125x.png";
 
+// data-aos="zoom-out-down"
+
 const Footer = () => {
   return (
     <div>
       <footer aria-label="Site Footer" className="bg-slate-900 text-white">
-        <div  data-aos="zoom-out-down" className=" px-4 py-16 mx-auto space-y-8 sm:px-6 lg:space-y-16 lg:px-8">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 max-w-7xl mx-auto">
+        <div   className=" px-4 py-16 mx-auto space-y-8 sm:px-6 lg:space-y-16 lg:px-8">
+          <div  className="grid grid-cols-1 gap-8 lg:grid-cols-3 max-w-7xl mx-auto">
             <div>
               <div className="text-teal-600">
                 <Link to="/">
