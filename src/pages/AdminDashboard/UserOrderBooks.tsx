@@ -43,7 +43,7 @@ const UserOrderBooks = () => {
 
       if (res.success) {
         toast.success(res.message);
-        refetch(); // Refresh orders after deletion
+        refetch(); 
       }
     } catch (error) {
       console.error("Error deleting order:", error);

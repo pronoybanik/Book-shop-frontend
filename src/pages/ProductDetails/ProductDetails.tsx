@@ -79,10 +79,10 @@ export default function BookProductPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Product Images Section */}
-          <div className="space-y-4 ">
-            <div className="relative aspect-[3/4]  bg-white rounded-lg shadow-lg overflow-hidden">
+          <div className="space-y-4">
+            <div className="relative aspect-[3/4]  h-[60%] bg-white rounded-lg shadow-lg overflow-hidden">
               <img
                 src={data?.data?.image}
                 alt="The Midnight Library"
@@ -137,7 +137,7 @@ export default function BookProductPage() {
           </div>
 
           {/* Product Details Section */}
-          <div className="space-y-6">
+          <div className="space-y-6 lg:-ml-32">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
                 {data?.data?.title || "The Midnight Library"}
@@ -247,7 +247,7 @@ export default function BookProductPage() {
         </div>
 
         {/* Product Details Tabs */}
-        <div className="mt-16">
+        <div className="mt-8">
           <div className="border-b border-gray-200">
             <nav className="-mb-px flex space-x-8">
               {["details", "reviews", "shipping"].map((tab) => (

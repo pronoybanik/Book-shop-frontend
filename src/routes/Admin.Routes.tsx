@@ -1,4 +1,6 @@
 import ProtectedRoute from "../components/LayOut/ProtectedRoute";
+import BlogTable from "../pages/AdminDashboard/BlogTable";
+import CreateBlog from "../pages/AdminDashboard/CreateBlog";
 import ManageAllBooks from "../pages/AdminDashboard/ManageAllBooks";
 import UserManagement from "../pages/AdminDashboard/UserManage";
 import UserOrderBooks from "../pages/AdminDashboard/UserOrderBooks";
@@ -47,6 +49,24 @@ export const AdminPaths = [
         element: (
           <ProtectedRoute roles={["admin"]}>
             <ManageAllBooks />,
+          </ProtectedRoute>
+        ),
+      },
+      {
+        name: "create-blog",
+        path: "create-blog",
+        element: (
+          <ProtectedRoute roles={["admin"]}>
+            <CreateBlog />,
+          </ProtectedRoute>
+        ),
+      },
+      {
+        name: "All Blogs",
+        path: "all-blogs",
+        element: (
+          <ProtectedRoute roles={["admin"]}>
+            <BlogTable />,
           </ProtectedRoute>
         ),
       },

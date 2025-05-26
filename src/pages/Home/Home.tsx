@@ -3,6 +3,7 @@ import Products from "../../components/HomeComponents/Products";
 import CategoryCards from "../../components/HomeComponents/CategoryCards";
 import BestSellProduct from "../../components/HomeComponents/BestSellProduct";
 import BestProduct from "../../components/HomeComponents/BestProduct";
+import BlogSection from "../../components/HomeComponents/BlogSection";
 
 const Home = () => {
   return (
@@ -11,6 +12,7 @@ const Home = () => {
       <CategoryCards />
       <Products />
       <BestProduct />
+      <BlogSection />
       <BestSellProduct />
     </div>
   );

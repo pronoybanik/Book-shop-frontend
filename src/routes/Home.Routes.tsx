@@ -2,6 +2,8 @@ import ProtectedRoute from "../components/LayOut/ProtectedRoute";
 import About from "../pages/About/About";
 import AddToCard from "../pages/AddToCard/AddToCard";
 import AllProducts from "../pages/AllProducts/AllProducts";
+import Blog from "../pages/Blog/Blog";
+import BlogDetails from "../pages/Blog/BlogDetails";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
@@ -26,10 +28,19 @@ export const NavbarPath = [
   {
     path: "/productDetails/:id",
     element: (
-      <ProtectedRoute  roles={["user", "admin"]}>
+      <ProtectedRoute roles={["user", "admin"]}>
         <ProductDetails />
       </ProtectedRoute>
     ),
+  },
+  {
+    name: "Blog",
+    path: "/blog",
+    element: <Blog />,
+  },
+  {
+    path: "/blog/:id",
+    element: <BlogDetails />,
   },
   {
     name: "Add-Card",

@@ -10,7 +10,7 @@ const NaVBarSearchProduct = ({
   searchTerm: string;
 }) => {
   return (
-    <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-2xl z-50 mt-1 max-h-96 overflow-y-auto w-full max-w-screen-xl mx-auto">
+    <div className="absolute top-full px-4 left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-2xl z-50 mt-1 max-h-96 overflow-y-auto w-full max-w-screen-xl mx-auto">
       {bookData.length > 0 ? (
         <>
           {/* Results Header */}

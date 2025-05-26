@@ -3,6 +3,7 @@ import {
   useGetAllUserQuery,
   useUpdateUserMutation,
 } from "../../redux/features/auth/authApi";
+import Loading from "../../shared/Loading";
 
 interface User {
   _id: string;
@@ -14,8 +15,12 @@ interface User {
 }
 
 const UserManagement = () => {
-  const { data } = useGetAllUserQuery(undefined);
+  const { data , isLoading} = useGetAllUserQuery(undefined);
   const [updateUser] = useUpdateUserMutation();
+
+    if (isLoading) {
+    return <Loading />;
+  }
 
   const handleStatusChange = async (
     event: React.ChangeEvent<HTMLSelectElement>,
