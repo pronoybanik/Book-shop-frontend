@@ -1,6 +1,7 @@
 // components/ChangePasswordForm.tsx
 import { useState } from "react";
 import { useChangePasswordMutation } from "../../redux/features/auth/authApi";
+import PrimaryButton from "../../utils/PrimaryButton";
 
 const ChangePasswordForm = () => {
   const [oldPassword, setOldPassword] = useState("");
@@ -51,13 +52,9 @@ const ChangePasswordForm = () => {
           />
         </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
-          disabled={isLoading}
-        >
+        <PrimaryButton>
           {isLoading ? "Changing..." : "Change Password"}
-        </button>
+        </PrimaryButton>
 
         {isSuccess && (
           <p className="text-green-600 text-sm">

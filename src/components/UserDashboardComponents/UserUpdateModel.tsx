@@ -42,7 +42,7 @@ const UserUpdateModal = ({ user, isOpen, onClose, onSubmit }: Props) => {
       onClose={onClose}
       className="fixed z-50 inset-0 overflow-y-auto"
     >
-      <div className="flex items-center justify-center min-h-screen bg-black bg-opacity-30">
+      <div className="flex items-center justify-center min-h-screen bg-black  bg-opacity-30">
         <Dialog.Panel className="bg-white rounded-2xl p-6 shadow-md w-full max-w-md">
           <Dialog.Title className="text-lg font-bold mb-4">
             Update User

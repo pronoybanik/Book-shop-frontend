@@ -24,7 +24,7 @@ const NaVBarSearchProduct = ({
           {/* Results List */}
           <div className="divide-y divide-gray-100">
             {bookData.map((book) => (
-              <div
+              <Link to={`/productDetails/${book._id}`}
                 key={book._id}
                 className="p-4 hover:bg-gray-50 cursor-pointer transition-colors duration-150 group"
               >
@@ -82,7 +82,7 @@ const NaVBarSearchProduct = ({
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 

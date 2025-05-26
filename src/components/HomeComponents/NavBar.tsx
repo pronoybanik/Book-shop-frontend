@@ -31,21 +31,14 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showMobileSubmenu, setShowMobileSubmenu] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-
   const dispatch = useAppDispatch();
   const { data } = useGetAllProductQuery({
     searchTerm: searchTerm,
   });
-
   const bookData = data?.data || [];
-
   const showResults = searchTerm.length > 0;
-
   const user = useAppSelector(selectCurrentUser);
-  console.log(user);
-
   const cartBooks = useSelector((state: RootState) => state.addBooks.books);
-
   const sidebarItems = NavBarItemsGenerator(NavbarPath, "");
 
   if ((user as User)?.role === "admin") {
@@ -273,7 +266,7 @@ const NavBar = () => {
             <nav className="hidden md:flex items-center space-x-2">
               {sidebarItems.map((item: any) => (
                 <div key={item.key} className="relative group">
-                  <div className="flex items-center space-x-2 px-6 py-3 font-bold text-slate-700 hover:text-[#f96d6d] transition-all duration-300 cursor-pointer rounded-2xl  hover:shadow-md">
+                  <div className="flex items-center space-x-2 px-6 py-3 font-bold text-slate-700 hover:text-[#f96d6d] transition-all duration-300 cursor-pointer rounded-2xl  ">
                     {item.label}
                     {item.key === "shop" && (
                       <ChevronDown
@@ -290,20 +283,20 @@ const NavBar = () => {
 
             {/* Right Navigation Links */}
             <div className="hidden md:flex items-center space-x-4">
-              <a
-                href="/track-order"
-                className="flex items-center space-x-2 px-4 py-2 text-sm font-bold text-slate-600 hover:text-[#f96d6d] transition-all duration-300 rounded-xl hover:bg-white hover:shadow-md"
+              <Link
+                to="/"
+                className="flex items-center space-x-2 px-4 py-2 text-sm font-bold text-slate-600 hover:text-[#f96d6d]  rounded-xl "
               >
                 <MapPin size={18} />
                 <span>Track Order</span>
-              </a>
-              <a
-                href="/deals"
-                className="flex items-center space-x-2 px-4 py-2 text-sm font-bold text-slate-600 hover:text-[#f96d6d] transition-all duration-300 rounded-xl hover:bg-white hover:shadow-md"
+              </Link>
+              <Link
+                to="/"
+                className="flex items-center space-x-2 px-4 py-2 text-sm font-bold text-slate-600 hover:text-[#f96d6d]  rounded-xl "
               >
                 <Tag size={18} />
                 <span>Daily Deals</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

@@ -1,7 +1,8 @@
 import {
   useDeleteProductMutation,
-  useGetAllProductQuery,
+  useGetAllProductForDashboardQuery,
 } from "../../redux/features/product/productApi";
+import Loading from "../../shared/Loading";
 import SecondaryButton from "../../utils/SecondaryButton";
 import { toast } from "sonner";
 
@@ -17,9 +18,13 @@ type TBook = {
 };
 
 const ManageAllBooks = () => {
-  const { data } = useGetAllProductQuery({});
+  const { data, isLoading } = useGetAllProductForDashboardQuery({});
   const [deleteProduct] = useDeleteProductMutation();
   const bookData = data?.data || [];
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const handleDelete = async (bookId: string) => {
     const confirmDelete = window.confirm(

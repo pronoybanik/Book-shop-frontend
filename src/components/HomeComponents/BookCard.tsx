@@ -1,9 +1,31 @@
-
 import { TBook } from "../../types/BookItem.Type";
 import { Heart, Scale, Star } from "lucide-react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import Loading from "../../shared/Loading";
+import { addBookToCart } from "../../redux/features/product/productSlice";
+import { toast } from "sonner";
+import { useGetSingleUserQuery } from "../../redux/features/product/productApi";
+import SecondaryButton from "../../utils/SecondaryButton";
 
 const BookCard = ({ product }: { product: TBook }) => {
+  const dispatch = useDispatch();
+  const { data, isLoading } = useGetSingleUserQuery(product._id);
+
+  if (!data) return <Loading />;
+
+  if (isLoading) return <Loading />;
+
+  const handleAddToCart = () => {
+    const bookingData = {
+      ...data.data,
+      quantity: 1,
+    };
+
+    dispatch(addBookToCart(bookingData));
+    toast.success("Book add to card");
+  };
+
   const renderStars = (rating = 3) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
@@ -78,9 +100,12 @@ const BookCard = ({ product }: { product: TBook }) => {
               ${product?.price.toFixed(2)}
             </span>
           </div>
-          <button className="bg-[#f96d6d] hover:bg-orange-500 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
-            ADD TO CART
-          </button>
+          <div
+            onClick={handleAddToCart}
+            className="text-xs"
+          >
+           <SecondaryButton>Add ot cart</SecondaryButton>
+          </div>
         </div>
       </div>
     </div>

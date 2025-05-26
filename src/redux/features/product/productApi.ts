@@ -37,6 +37,13 @@ const authApi = baseApi.injectEndpoints({
             }),
             providesTags: ["books"]
         }),
+        getAllProductForDashboard: builder.query({
+            query: () => ({
+                url: '/products',
+                method: "GET"
+            }),
+            providesTags: ["books"]
+        }),
         getBooksCategory: builder.query({
             query: (category) => ({
                 url: `/products/category/${category}`,
@@ -75,4 +82,6 @@ export const {
     useDeleteProductMutation,
     useGetSingleUserQuery,
     useGetLimitProductQuery,
-    useGetBooksCategoryQuery, } = authApi;
+    useGetBooksCategoryQuery,
+    useGetAllProductForDashboardQuery
+} = authApi;

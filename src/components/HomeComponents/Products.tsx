@@ -90,7 +90,7 @@ const Products = () => {
                     <img
                       src={item.image || "https://via.placeholder.com/300"}
                       alt={item.title || "Book"}
-                      className="h-[250px] w-full object-cover"
+                      className="h-[350px] w-full object-cover"
                     />
 
                     <div className="p-4">

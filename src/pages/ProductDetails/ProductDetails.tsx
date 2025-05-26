@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Heart,
   ShoppingCart,
@@ -6,7 +6,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Share2,
-  BookOpen,
   Truck,
   Shield,
   RotateCcw,
@@ -22,6 +21,7 @@ import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { TBook } from "../../types/BookItem.Type";
 
+
 export default function BookProductPage() {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -32,14 +32,18 @@ export default function BookProductPage() {
   const dispatch = useDispatch();
   const { data, isLoading } = useGetSingleUserQuery(id);
   const { data: bookData } = useGetBooksCategoryQuery(data?.data?.category);
-  console.log(bookData);
 
   if (!data) return <Loading />;
 
   if (isLoading) return <Loading />;
 
   const handleAddToCart = () => {
-    dispatch(addBookToCart(data.data));
+    const bookingData = {
+      ...data.data,
+      quantity,
+    };
+
+    dispatch(addBookToCart(bookingData));
     toast.success("Book add to card");
   };
 
@@ -49,7 +53,6 @@ export default function BookProductPage() {
     "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500&h=600&fit=crop",
   ];
 
-  
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
@@ -216,7 +219,10 @@ export default function BookProductPage() {
               </div>
 
               <div className="flex space-x-4">
-                <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center space-x-2">
+                <button
+                  onClick={handleAddToCart}
+                  className="flex-1 bg-[#f96d6d] w-full hover:bg-[#fc8686] text-white py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center space-x-2"
+                >
                   <ShoppingCart className="w-5 h-5" />
                   <span>Add to Cart</span>
                 </button>
@@ -486,7 +492,7 @@ export default function BookProductPage() {
             You Might Also Like
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {bookData?.data?.slice(1, 3).map((book: TBook) => (
+            {bookData?.data?.map((book: TBook) => (
               <Link
                 to={`/productDetails/${book._id}`}
                 key={book._id}

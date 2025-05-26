@@ -32,55 +32,56 @@ const UserProfileCard = ({ userData }: { userData: User }) => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white shadow-md rounded-2xl p-6 mt-10 border border-gray-200">
-      <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-        User Profile
-      </h2>
+    <div className="max-w-lg mx-auto mt-10 rounded-2xl shadow-lg bg-white border border-gray-200 p-8">
+      <div className="mb-6 border-b pb-4">
+        <h2 className="text-3xl font-bold text-gray-800">👤 User Profile</h2>
+        <p className="text-sm text-gray-500 mt-1">
+          Basic user information and status overview
+        </p>
+      </div>
 
-      <div className="space-y-3">
-        <div className="flex justify-between">
-          <span className="text-gray-600 font-medium">Name:</span>
-          <span className="text-gray-900">{name}</span>
+      <div className="space-y-5">
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-500 font-medium">Name</span>
+          <span className="text-gray-900 font-semibold">{name}</span>
         </div>
-        <div className="flex justify-between">
-          <span className="text-gray-600 font-medium">Email:</span>
-          <span className="text-gray-900">{email}</span>
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-500 font-medium">Email</span>
+          <span className="text-gray-900 font-medium">{email}</span>
         </div>
-        <div className="flex justify-between">
-          <span className="text-gray-600 font-medium">Role:</span>
-          <span className="capitalize text-gray-900">{role}</span>
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-500 font-medium">Role</span>
+          <span className="capitalize text-indigo-600 font-semibold">{role}</span>
         </div>
-        <div className="flex justify-between">
-          <span className="text-gray-600 font-medium">Status:</span>
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-500 font-medium">Status</span>
           <span
-            className={`text-sm font-bold ${
-              status === "active" ? "text-green-600" : "text-red-600"
+            className={`font-semibold ${
+              status === "active" ? "text-green-600" : "text-red-500"
             }`}
           >
             {status}
           </span>
         </div>
-        <div className="flex justify-between">
-          <span className="text-gray-600 font-medium">
-            Needs Password Change:
-          </span>
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-500 font-medium">Password Change Needed</span>
           <span
             className={`font-semibold ${
-              needsPasswordChange ? "text-red-500" : "text-green-500"
+              needsPasswordChange ? "text-red-600" : "text-green-600"
             }`}
           >
             {needsPasswordChange ? "Yes" : "No"}
           </span>
         </div>
-        <div className="flex justify-between text-sm text-gray-500 pt-2">
-          <span>Created:</span>
+        <div className="flex justify-between text-sm text-gray-400 border-t pt-3">
+          <span>Created At</span>
           <span>{new Date(createdAt).toLocaleString()}</span>
         </div>
       </div>
 
       <button
         onClick={() => setIsModalOpen(true)}
-        className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl font-semibold transition"
+        className="mt-6 w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-2 rounded-lg"
       >
         {isLoading ? "Updating..." : "Update Profile"}
       </button>

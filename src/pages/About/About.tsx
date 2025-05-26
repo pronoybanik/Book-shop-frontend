@@ -1,7 +1,7 @@
 const About = () => {
   return (
     <section>
-      <div className="relative lg:h-[300px] md:h-[400px] h-80 bg-[url(https://cdn.pixabay.com/photo/2019/05/14/21/50/storytelling-4203628_1280.jpg)] bg-cover bg-center bg-no-repeat">
+      <div className="relative lg:h-[300px] md:h-[400px] h-80 bg-[url(https://images.unsplash.com/photo-1694232823592-20507733009c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGJvb2slMjBpbWFnZXxlbnwwfHwwfHx8MA%3D%3D)] bg-cover bg-center bg-no-repeat">
         <div className="absolute inset-0 bg-black/20 sm:from-black/50 sm:to-white/25 ltr:sm:bg-gradient-to-r rtl:sm:bg-gradient-to-l"></div>
 
         <div className="flex items-center justify-center h-full">
