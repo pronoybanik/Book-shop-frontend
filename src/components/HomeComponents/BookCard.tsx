@@ -2,19 +2,22 @@ import { TBook } from "../../types/BookItem.Type";
 import { Heart, Scale, Star } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import Loading from "../../shared/Loading";
 import { addBookToCart } from "../../redux/features/product/productSlice";
 import { toast } from "sonner";
 import { useGetSingleUserQuery } from "../../redux/features/product/productApi";
 import SecondaryButton from "../../utils/SecondaryButton";
+import Loading from "../../shared/Loading";
 
 const BookCard = ({ product }: { product: TBook }) => {
   const dispatch = useDispatch();
   const { data, isLoading } = useGetSingleUserQuery(product._id);
 
-  if (!data) return <Loading />;
-
-  if (isLoading) return <Loading />;
+  if (isLoading)
+    return (
+      <p>
+        <Loading></Loading>
+      </p>
+    );
 
   const handleAddToCart = () => {
     const bookingData = {
@@ -100,11 +103,8 @@ const BookCard = ({ product }: { product: TBook }) => {
               ${product?.price.toFixed(2)}
             </span>
           </div>
-          <div
-            onClick={handleAddToCart}
-            className="text-xs"
-          >
-           <SecondaryButton>Add ot cart</SecondaryButton>
+          <div onClick={handleAddToCart} className="text-xs">
+            <SecondaryButton>Add ot cart</SecondaryButton>
           </div>
         </div>
       </div>
