@@ -20,12 +20,14 @@ import { NavBarItemsGenerator } from "../../utils/NavBarItemsGenerator";
 import { AdminPaths } from "../../routes/Admin.Routes";
 import { Link, Outlet } from "react-router-dom";
 import imageIcons from "../../images/logo_125x.png";
+import { useGetAllProductForDashboardQuery } from "../../redux/features/product/productApi";
 
 const DashboardSiteBar = () => {
   const userData = useAppSelector<RootState, TUser | null>(selectCurrentUser);
   const id = userData?.userId;
   const { data } = useSingleUserQuery(id);
   const { data: userDataLength } = useGetAllUserQuery(undefined);
+  const { data: AllBooksLength } = useGetAllProductForDashboardQuery(undefined);
 
   const sidebarItems = NavBarItemsGenerator(AdminPaths, "dashboard");
 
@@ -116,7 +118,7 @@ const DashboardSiteBar = () => {
                           onClick={() => handleNavClick(child)}
                           className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                             activeItem === child.key
-                              ? "bg-blue-50 text-blue-700 border-r-2 border-blue-500 shadow-sm"
+                              ? "bg-[#f4ebeb] text-black border-r-2 border-[#f96d6d] shadow-sm"
                               : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                           }`}
                         >
@@ -277,9 +279,11 @@ const DashboardSiteBar = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-gray-600">
-                      Analytics
+                      Total Books
                     </p>
-                    <p className="text-2xl font-bold text-gray-900">18,329</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {AllBooksLength?.data?.length}
+                    </p>
                   </div>
                   <div className="p-3 bg-green-50 rounded-lg">
                     <BarChart3 className="w-6 h-6 text-green-600" />
