@@ -3,6 +3,7 @@ import { useState } from "react";
 import UserUpdateModal from "./UserUpdateModel";
 import { useUpdateUserMutation } from "../../redux/features/auth/authApi";
 import { toast } from "sonner";
+import SecondaryButton from "../../utils/SecondaryButton";
 
 interface User {
   _id: string;
@@ -51,7 +52,9 @@ const UserProfileCard = ({ userData }: { userData: User }) => {
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-gray-500 font-medium">Role</span>
-          <span className="capitalize text-indigo-600 font-semibold">{role}</span>
+          <span className="capitalize text-indigo-600 font-semibold">
+            {role}
+          </span>
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-gray-500 font-medium">Status</span>
@@ -64,7 +67,9 @@ const UserProfileCard = ({ userData }: { userData: User }) => {
           </span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-gray-500 font-medium">Password Change Needed</span>
+          <span className="text-gray-500 font-medium">
+            Password Change Needed
+          </span>
           <span
             className={`font-semibold ${
               needsPasswordChange ? "text-red-600" : "text-green-600"
@@ -81,9 +86,11 @@ const UserProfileCard = ({ userData }: { userData: User }) => {
 
       <button
         onClick={() => setIsModalOpen(true)}
-        className="mt-6 w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-2 rounded-lg"
+        className="mt-6 w-full  transition text-white font-semibold py-2 rounded-lg"
       >
-        {isLoading ? "Updating..." : "Update Profile"}
+        <SecondaryButton>
+          {isLoading ? "Updating..." : "Update Profile"}
+        </SecondaryButton>
       </button>
 
       <UserUpdateModal
