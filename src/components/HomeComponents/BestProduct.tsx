@@ -8,6 +8,7 @@ import { TBook } from "../../types/BookItem.Type";
 import PrimaryButton from "../../utils/PrimaryButton";
 import BestProductCard from "./BestProductCard";
 import SecondaryButton from "../../utils/SecondaryButton";
+import ProductLoaderKeleton from "../../shared/ProductLoader";
 
 const BestProduct = () => {
   const { data, error, isLoading } = useGetAllProductQuery({});
@@ -55,7 +56,9 @@ const BestProduct = () => {
         </div>
 
         {isLoading ? (
-          <div className="text-center py-10">Loading...</div>
+          <>
+            <ProductLoaderKeleton />
+          </>
         ) : error ? (
           <div className="text-center py-10 text-red-500">
             Failed to load books.
@@ -71,7 +74,7 @@ const BestProduct = () => {
           </div>
         )}
 
-        <div data-aos="zoom-in-down" className="mt-16 text-center bg-gray-50">
+        <div data-aos="zoom-in-down" className="mt-32 text-center bg-gray-50">
           <div className="rounded-2xl shadow-lg p-8 lg:p-12">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
               Can't find what you're looking for?

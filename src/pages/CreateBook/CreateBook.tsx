@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
-import PrimaryButton from "../../utils/PrimaryButton";
 import { useCreateProductMutation } from "../../redux/features/product/productApi";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import PrimaryButton from "../../utils/PrimaryButton";
 
 // Define form data type
 interface BookFormData {
@@ -16,19 +16,6 @@ interface BookFormData {
   image: FileList;
 }
 
-// // Default values
-// const defaultValue: BookFormData = {
-//   title: "Atomic Habits2",
-//   author: "James Clear",
-//   price: 19.99,
-//   category: "SelfDevelopment",
-//   description:
-//     "An easy and proven way to build good habits and break bad ones.",
-//   quantity: 100,
-//   inStock: true,
-//   image: [],
-// };
-
 const CreateBook = () => {
   const navigate = useNavigate();
   const {
@@ -40,7 +27,7 @@ const CreateBook = () => {
   const [createProduct, { isLoading }] = useCreateProductMutation();
 
   const onSubmit = async (data: BookFormData) => {
-    const toastId = toast.loading("Submitting...");
+    const toastId = toast.loading("Uploading and submitting...");
 
     const imageValue = data.image[0];
     if (!imageValue) {
@@ -54,7 +41,6 @@ const CreateBook = () => {
     formData.append("cloud_name", "dvcbclqid");
 
     try {
-      // Upload image to Cloudinary
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/dvcbclqid/image/upload`,
         {
@@ -64,13 +50,13 @@ const CreateBook = () => {
       );
 
       if (!response.ok) {
-        toast.error("Image upload failed");
+        toast.error("Image upload failed", { id: toastId });
+        return;
       }
 
       const imgData = await response.json();
       const bookImageUrl = imgData.secure_url;
 
-      // Prepare your book data
       const bookData = {
         title: data.title,
         author: data.author,
@@ -85,77 +71,61 @@ const CreateBook = () => {
       const res = await createProduct(bookData);
 
       if (res?.data?.success) {
-        toast.success(res.data.message, { id: toastId, duration: 4000 });
-        setTimeout(() => {
-          navigate("/dashboard/all-books");
-        }, 2000);
+        toast.success(res.data.message, { id: toastId });
+        setTimeout(() => navigate("/dashboard/all-books"), 2000);
       } else {
-        toast.error("Submission failed", { id: toastId, duration: 4000 });
+        toast.error("Submission failed", { id: toastId });
       }
     } catch (err) {
-      console.error("Upload Error:", err);
+      console.log("Error uploading image:", err);
       toast.error("Something went wrong. Try again later.", { id: toastId });
     }
   };
 
-  // const validationError =
-  //   bookError?.data?.errorSources?.[0]?.message || bookError?.data?.message;
-
   return (
-    <div className="mx-auto max-w-screen-xl lg:my-4 my-2">
-      <div className="text-center text-lg font-semibold py-2">
-        <p className="text-2xl uppercase  text-black inline-block border-b-2 border-[#e95b5b]">
-          Create Books
-        </p>
-      </div>
-      <div className="mx-auto max-w-lg">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
-        >
-          <p className="text-center text-lg font-medium">Add a New Book</p>
+    <div className="min-h-screen bg-gray-50 py-10 px-4">
+      <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-8">
+        <h2 className="text-3xl font-bold text-center text-[#e95b5b] mb-8">
+          Create New Book
+        </h2>
 
-          {/* Error Display */}
-          {/* {validationError && <Error>{validationError}</Error>} */}
-
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Title */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
               Title
             </label>
             <input
               type="text"
               {...register("title", { required: "Title is required" })}
-              className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
+              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#e95b5b]"
+              placeholder="Enter book title"
             />
             {errors.title && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.title.message}
-              </p>
+              <p className="text-red-500 text-sm">{errors.title.message}</p>
             )}
           </div>
 
           {/* Author */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
               Author
             </label>
             <input
               type="text"
               {...register("author", { required: "Author is required" })}
-              className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
+              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#e95b5b]"
+              placeholder="Enter author name"
             />
             {errors.author && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.author.message}
-              </p>
+              <p className="text-red-500 text-sm">{errors.author.message}</p>
             )}
           </div>
 
           {/* Price */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Price
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Price ($)
             </label>
             <input
               type="number"
@@ -164,25 +134,24 @@ const CreateBook = () => {
                 required: "Price is required",
                 valueAsNumber: true,
               })}
-              className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
+              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#e95b5b]"
+              placeholder="Enter price"
             />
             {errors.price && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.price.message}
-              </p>
+              <p className="text-red-500 text-sm">{errors.price.message}</p>
             )}
           </div>
 
           {/* Category */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
               Category
             </label>
             <select
               {...register("category", { required: "Category is required" })}
-              className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
+              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#e95b5b]"
             >
-              <option value="">Select a category</option>
+              <option value="">-- Select Category --</option>
               <option value="Fiction">Fiction</option>
               <option value="Science">Science</option>
               <option value="SelfDevelopment">Self-Development</option>
@@ -190,25 +159,25 @@ const CreateBook = () => {
               <option value="Religious">Religious</option>
             </select>
             {errors.category && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.category.message}
-              </p>
+              <p className="text-red-500 text-sm">{errors.category.message}</p>
             )}
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
               Description
             </label>
             <textarea
               {...register("description", {
                 required: "Description is required",
               })}
-              className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
+              rows={4}
+              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#e95b5b]"
+              placeholder="Enter book description"
             />
             {errors.description && (
-              <p className="text-red-500 text-xs mt-1">
+              <p className="text-red-500 text-sm">
                 {errors.description.message}
               </p>
             )}
@@ -216,7 +185,7 @@ const CreateBook = () => {
 
           {/* Quantity */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
               Quantity
             </label>
             <input
@@ -225,47 +194,42 @@ const CreateBook = () => {
                 required: "Quantity is required",
                 valueAsNumber: true,
               })}
-              className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
+              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#e95b5b]"
+              placeholder="Enter stock quantity"
             />
             {errors.quantity && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.quantity.message}
-              </p>
+              <p className="text-red-500 text-sm">{errors.quantity.message}</p>
             )}
           </div>
 
           {/* In Stock */}
-          <div>
-            <label className="inline-flex items-center">
-              <input
-                type="checkbox"
-                {...register("inStock")}
-                className="rounded border-gray-300 text-[#e95b5b] shadow-sm focus:ring-[#e95b5b]"
-              />
-              <span className="ml-2 text-sm text-gray-600">In Stock</span>
-            </label>
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              {...register("inStock")}
+              className="accent-[#e95b5b] w-4 h-4"
+            />
+            <label className="text-sm text-gray-600">Available in stock</label>
           </div>
 
-          {/* Image URL */}
+          {/* Image */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Image
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Book Cover Image
             </label>
             <input
               type="file"
               {...register("image", { required: "Image is required" })}
-              className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-4 focus:border-[#e95b5b] focus:ring-[#b84d69] focus:outline-none focus:ring focus:ring-opacity-40"
+              className="w-full border rounded-lg px-4 py-2"
             />
             {errors.image && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.image.message}
-              </p>
+              <p className="text-red-500 text-sm">{errors.image.message}</p>
             )}
           </div>
 
-          {/* Submit Button */}
-          <div className="flex justify-center h-full">
-            <PrimaryButton>
+          {/* Submit */}
+          <div className="pt-4">
+              <PrimaryButton>
               {isLoading ? "Submitting..." : "Submit"}
             </PrimaryButton>
           </div>

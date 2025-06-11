@@ -6,6 +6,7 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 
 import { useGetLimitProductQuery } from "../../redux/features/product/productApi";
+import ProductLoaderKeleton from "../../shared/ProductLoader";
 
 interface Product {
   _id: string;
@@ -67,11 +68,13 @@ const Products = () => {
 
         {/* Carousel Product Section */}
         <div data-aos="fade-up" className="lg:col-span-3 order-1 lg:order-2">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6 uppercase">Our Books</h2>
+          <h2 className="text-3xl font-bold text-gray-800 mb-6 uppercase">
+            Our Books
+          </h2>
 
           <div className="mt-4">
             {isLoading ? (
-              <p className="text-gray-600">Loading books...</p>
+              <ProductLoaderKeleton />
             ) : bookData.length > 0 ? (
               <Carousel
                 autoPlay

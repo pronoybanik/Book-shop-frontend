@@ -1,142 +1,342 @@
-import { Link, NavLink, Outlet } from "react-router-dom";
-import { AdminPaths } from "../../routes/Admin.Routes";
-import { NavBarItemsGenerator } from "../../utils/NavBarItemsGenerator";
-import logo from "../../images/logo_125x.png";
-import { ReactNode, ReactElement } from "react";
-import { selectCurrentUser } from "../../redux/features/auth/authSlice";
+import React, { useState } from "react";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  ChevronUp,
+  Home,
+  Settings,
+  Users,
+  BarChart3,
+  FileText,
+  Bell,
+} from "lucide-react";
 import { useAppSelector } from "../../redux/hooks";
-import { useSingleUserQuery } from "../../redux/features/auth/authApi";
 import { RootState } from "../../redux/store";
+import { selectCurrentUser, TUser } from "../../redux/features/auth/authSlice";
+import { useGetAllUserQuery, useSingleUserQuery } from "../../redux/features/auth/authApi";
+import { NavBarItemsGenerator } from "../../utils/NavBarItemsGenerator";
+import { AdminPaths } from "../../routes/Admin.Routes";
+import { Link, Outlet } from "react-router-dom";
 
-// Type Guard to check if a value is a React Element
-const isReactElement = (node: ReactNode): node is ReactElement => {
-  return (node as ReactElement).props !== undefined;
+// Mock navigation function for demonstration
+const navigate = (path) => {
+  console.log(`Navigating to: ${path}`);
 };
 
-interface TUser {
-  userId: string;
-}
+// Mock data - replace with your actual data
 
 const DashboardSiteBar = () => {
   const userData = useAppSelector<RootState, TUser | null>(selectCurrentUser);
   const id = userData?.userId;
   const { data } = useSingleUserQuery(id);
+   const { data: userDataLength } = useGetAllUserQuery(undefined);
+   console.log(userDataLength);
 
   const sidebarItems = NavBarItemsGenerator(AdminPaths, "dashboard");
 
-  return (
-    <div>
-      <div className="flex flex-col h-screen md:flex-row bg-white">
-        {/* Sidebar */}
-        <div className="w-full md:w-64 h-full flex-shrink-0 border-r bg-white">
-          <div className="px-4 py-6">
-            {/* Logo */}
-            <div className="md:flex md:items-center md:gap-12">
-              <Link to="/" className="block">
-                <span className="sr-only">Home</span>
-                <div className="flex gap-1 font-serif">
-                  <img
-                    src={logo}
-                    alt="Logo"
-                    style={{ height: "24px", marginRight: "8px" }}
-                  />
-                </div>
-              </Link>
-            </div>
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [expandedItems, setExpandedItems] = useState({});
+  const [activeItem, setActiveItem] = useState("dashboard");
 
-            <nav className="mt-6 space-y-2">
-              {sidebarItems.map((item) => (
-                <div key={item?.key}>
-                  {item?.children ? (
-                    <details className="group">
-                      <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-700 hover:bg-gray-100">
-                        <span className="text-sm font-medium">
-                          {item.label}
-                        </span>
-                        <span className="shrink-0 transition group-open:-rotate-180">
-                          ▼
-                        </span>
-                      </summary>
-                      <ul className="mt-2 space-y-1 px-4">
-                        {item.children.map((child) => (
-                          <li key={child?.key}>
-                            <NavLink
-                              to={
-                                isReactElement(child?.label)
-                                  ? child?.label.props?.to // access to safely when it's a React element
-                                  : child?.label
-                              }
-                              className={({ isActive }) =>
-                                `block px-4 py-2 text-sm font-medium rounded-lg ${
-                                  isActive
-                                    ? "bg-gray-200 text-gray-900"
-                                    : "text-gray-700 hover:bg-gray-100"
-                                }`
-                              }
-                            >
-                              {isReactElement(child?.label)
-                                ? child?.label.props?.children
-                                : child?.label}
-                            </NavLink>
-                          </li>
-                        ))}
-                      </ul>
-                    </details>
-                  ) : (
-                    <NavLink
-                      to={
-                        isReactElement(item?.label)
-                          ? item?.label.props?.to // access to safely when it's a React element
-                          : item?.label
-                      }
-                      className={({ isActive }) =>
-                        `block px-4 py-2 text-sm font-medium rounded-lg ${
-                          isActive
-                            ? "bg-gray-200 text-gray-900"
-                            : "text-gray-700 hover:bg-gray-100"
-                        }`
-                      }
-                    >
-                      {isReactElement(item?.label)
-                        ? item?.label.props?.children
-                        : item?.label}
-                    </NavLink>
-                  )}
-                </div>
-              ))}
-            </nav>
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const toggleExpanded = (key) => {
+    setExpandedItems((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
+  const handleNavClick = (item: any) => {
+    setActiveItem(item.key);
+    navigate(item.path);
+    closeSidebar();
+  };
+
+  const SidebarContent = () => (
+    <>
+      {/* Logo Section */}
+      <div className="flex items-center justify-between p-4 border-b border-gray-200">
+        <div
+          onClick={() => navigate("/")}
+          className="flex items-center space-x-2 cursor-pointer"
+        >
+          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-sm">L</span>
           </div>
-
-          <div className="sticky inset-x-0 bottom-0 border-t border-gray-100">
-            <a
-              href="#"
-              className="flex items-center gap-2 bg-white p-4 hover:bg-gray-50"
-            >
-              <img
-                alt="User Avatar"
-                src="data:image/png;base64,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"
-                className="h-10 w-10 rounded-full object-cover"
-              />
-
-              <div>
-                <p className="text-xs">
-                  <strong className="block font-medium">
-                    {data?.data?.name}
-                  </strong>
-
-                  <span> {data?.data?.email} </span>
-                </p>
-              </div>
-            </a>
-          </div>
+          <Link to="/" className="text-xl font-bold text-gray-800 hidden lg:block">
+            AdminPanel
+          </Link>
         </div>
 
-        {/* Main Content */}
-        <main className="flex-1 p-6 overflow-y-auto">
-          <h1 className="text-xl text-center font-bold">Admin Dashboard</h1>
-          <p className="mt-2 text-sm text-gray-600">
-            <Outlet />
-          </p>
+        {/* Close button for mobile */}
+        <button
+          onClick={closeSidebar}
+          className="lg:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto p-4">
+        <div className="space-y-2">
+          {sidebarItems.map((item) => (
+            <div key={item.key}>
+              {item.children ? (
+                <div className="space-y-1">
+                  <button
+                    onClick={() => toggleExpanded(item.key)}
+                    className="w-full flex items-center justify-between px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 transition-all duration-200 group"
+                  >
+                    <div className="flex items-center space-x-3">
+                      {item.icon && (
+                        <item.icon className="w-5 h-5 group-hover:text-blue-600" />
+                      )}
+                      <span className="group-hover:text-gray-900">
+                        {item.label}
+                      </span>
+                    </div>
+                    <div className="transform transition-transform duration-200">
+                      {expandedItems[item.key] ? (
+                        <ChevronUp className="w-4 h-4" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4" />
+                      )}
+                    </div>
+                  </button>
+
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ${
+                      expandedItems[item.key]
+                        ? "max-h-96 opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="ml-8 space-y-1 pt-1">
+                      {item.children.map((child) => (
+                        <button
+                          key={child.key}
+                          onClick={() => handleNavClick(child)}
+                          className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                            activeItem === child.key
+                              ? "bg-blue-50 text-blue-700 border-r-2 border-blue-500 shadow-sm"
+                              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                          }`}
+                        >
+                          {child.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => handleNavClick(item)}
+                  className={`w-full flex items-center space-x-3 px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 group ${
+                    activeItem === item.key
+                      ? "bg-blue-50 text-blue-700 border-r-2 border-blue-500 shadow-sm"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  {item.icon && (
+                    <item.icon
+                      className={`w-5 h-5 ${
+                        activeItem === item.key
+                          ? "text-blue-600"
+                          : "group-hover:text-blue-600"
+                      }`}
+                    />
+                  )}
+                  <span
+                    className={
+                      activeItem === item.key ? "" : "group-hover:text-gray-900"
+                    }
+                  >
+                    {item.label}
+                  </span>
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      </nav>
+
+      {/* User Profile Section */}
+      <div className="border-t border-gray-200 p-4">
+        <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+          <img
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+            alt="User Avatar"
+            className="w-10 h-10 rounded-full object-cover ring-2 ring-gray-200"
+          />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-gray-900 truncate">
+              {data?.data?.name}
+            </p>
+            <p className="text-xs text-gray-500 truncate">
+              {data?.data?.email}
+            </p>
+          </div>
+          <button className="p-1 rounded-full hover:bg-gray-200 transition-colors">
+            <Bell className="w-4 h-4 text-gray-500" />
+          </button>
+        </div>
+      </div>
+    </>
+  );
+
+  return (
+    <div className="flex h-screen bg-gray-50">
+      {/* Mobile Overlay */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden transition-opacity duration-300"
+          onClick={closeSidebar}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`
+          fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform transition-transform duration-300 ease-in-out
+          lg:translate-x-0 lg:static lg:inset-0 lg:shadow-lg
+          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+        `}
+      >
+        <div className="flex flex-col h-full">
+          <SidebarContent />
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Mobile Header */}
+        <header className="bg-white shadow-sm border-b border-gray-200 lg:hidden">
+          <div className="flex items-center justify-between px-4 py-3">
+            <button
+              onClick={toggleSidebar}
+              className="p-2 rounded-md hover:bg-gray-100 transition-colors"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+            <h1 className="text-lg font-semibold text-gray-900">Dashboard</h1>
+            <div className="w-10" />
+          </div>
+        </header>
+
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-y-auto bg-gray-50">
+          <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+            {/* Desktop Header */}
+            <div className="hidden lg:block mb-8">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h1 className="text-3xl font-bold text-gray-900">
+                    Admin Dashboard
+                  </h1>
+                  <p className="mt-2 text-gray-600">
+                    Welcome back! Here's what's happening with your dashboard
+                    today.
+                  </p>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <button className="p-2 rounded-full hover:bg-gray-200 transition-colors">
+                    <Bell className="w-5 h-5 text-gray-600" />
+                  </button>
+                  <img
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+                    alt="User Avatar"
+                    className="w-8 h-8 rounded-full object-cover ring-2 ring-gray-200"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Dashboard Content */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {/* Stats Cards */}
+              <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">
+                      Total Users
+                    </p>
+                    <p className="text-2xl font-bold text-gray-900">{userDataLength?.data?.length}</p>
+                  </div>
+                  <div className="p-3 bg-blue-50 rounded-lg">
+                    <Users className="w-6 h-6 text-blue-600" />
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <span className="text-sm text-green-600 font-medium">
+                    +12% from last month
+                  </span>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">
+                      Analytics
+                    </p>
+                    <p className="text-2xl font-bold text-gray-900">18,329</p>
+                  </div>
+                  <div className="p-3 bg-green-50 rounded-lg">
+                    <BarChart3 className="w-6 h-6 text-green-600" />
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <span className="text-sm text-green-600 font-medium">
+                    +8% from last month
+                  </span>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Reports</p>
+                    <p className="text-2xl font-bold text-gray-900">127</p>
+                  </div>
+                  <div className="p-3 bg-purple-50 rounded-lg">
+                    <FileText className="w-6 h-6 text-purple-600" />
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <span className="text-sm text-red-600 font-medium">
+                    -3% from last month
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Main Content Area - This is where your Outlet content would go */}
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                Content Area
+              </h2>
+              <p className="text-gray-600">
+                This is where your main dashboard content will be displayed. In
+                your actual implementation, replace this with your Outlet
+                component.
+              </p>
+              <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                <p className="text-sm text-gray-500">
+                  {/* Current active section: <span className="font-medium">{activeItem}</span> */}
+                  <Outlet />
+                </p>
+              </div>
+            </div>
+          </div>
         </main>
       </div>
     </div>

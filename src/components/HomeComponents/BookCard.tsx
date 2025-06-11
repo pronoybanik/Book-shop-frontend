@@ -6,18 +6,13 @@ import { addBookToCart } from "../../redux/features/product/productSlice";
 import { toast } from "sonner";
 import { useGetSingleUserQuery } from "../../redux/features/product/productApi";
 import SecondaryButton from "../../utils/SecondaryButton";
-import Loading from "../../shared/Loading";
+import ProductLoaderKeleton from "../../shared/ProductLoader";
 
 const BookCard = ({ product }: { product: TBook }) => {
   const dispatch = useDispatch();
   const { data, isLoading } = useGetSingleUserQuery(product._id);
 
-  if (isLoading)
-    return (
-      <p>
-        <Loading></Loading>
-      </p>
-    );
+  if (isLoading) return <ProductLoaderKeleton />;
 
   const handleAddToCart = () => {
     const bookingData = {

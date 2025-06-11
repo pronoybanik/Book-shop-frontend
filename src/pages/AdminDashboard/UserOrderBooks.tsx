@@ -1,36 +1,29 @@
-import { toast } from "sonner";
-import Error from "../../utils/Error";
-import PrimaryButton from "../../utils/PrimaryButton";
+import { useState } from "react";
+import {
+  Trash2,
+  Package,
+  User,
+  CreditCard,
+  MapPin,
+  Eye,
+  EyeOff,
+  ShoppingBag,
+  Calendar,
+  DollarSign,
+} from "lucide-react";
 import {
   useDeleteOrderMutation,
   useGetAllOrderQuery,
 } from "../../redux/features/order/orderApi";
-
-interface Product {
-  _id: string;
-  productId: {
-    title: string;
-    category: string;
-    price: number;
-  };
-  quantity: number;
-}
-
-interface User {
-  email: string;
-  name: string;
-}
-
-interface Order {
-  _id: string;
-  userId: User;
-  totalPrice: number;
-  products: Product[];
-}
+import { toast } from "sonner";
+import Loading from "../../shared/Loading";
 
 const UserOrderBooks = () => {
+  const [expandedOrders, setExpandedOrders] = useState(new Set());
   const { data, isLoading, refetch } = useGetAllOrderQuery(undefined);
   const [deleteOrder] = useDeleteOrderMutation();
+  const orders = data?.data || [];
+  console.log(orders);
 
   const handleDelete = async (id: string) => {
     const confirmDelete = window.confirm(
@@ -43,7 +36,7 @@ const UserOrderBooks = () => {
 
       if (res.success) {
         toast.success(res.message);
-        refetch(); 
+        refetch();
       }
     } catch (error) {
       console.error("Error deleting order:", error);
@@ -51,89 +44,300 @@ const UserOrderBooks = () => {
     }
   };
 
-  if (isLoading) return <p className="text-center font-bold">Loading...</p>;
+  const toggleOrderExpansion = (orderId: string) => {
+    const newExpanded = new Set(expandedOrders);
+    if (newExpanded.has(orderId)) {
+      newExpanded.delete(orderId);
+    } else {
+      newExpanded.add(orderId);
+    }
+    setExpandedOrders(newExpanded);
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
-    <section>
-      <div className="text-center text-lg py-2">
-        <p className="text-2xl uppercase mb-4 text-black inline-block border-b-2 border-[#e95b5b]">
-          Order Page
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="text-center mb-8 sm:mb-12">
+          <div className="inline-flex items-center gap-3 mb-4">
+            <div className="w-12 h-12 bg-gradient-to-r from-[#f96d6d] to-[#fc8686] rounded-full flex items-center justify-center shadow-lg">
+              <ShoppingBag className="w-6 h-6 text-white" />
+            </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+              Order Management
+            </h1>
+          </div>
+          <p className="text-gray-600 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto">
+            Manage and track all customer orders with detailed information and
+            easy controls
+          </p>
+        </div>
 
-      {data?.data?.length ? (
-        <div
-          className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 "
-          aria-modal="true"
-          role="dialog"
-        >
-          {data?.data?.map((order: Order) => (
-            <div
-              key={order._id}
-              className="mb-6 p-4 border rounded-lg bg-white shadow"
-            >
-              <div className="px-2">
-                <p className="font-medium text-center border-b-2 border-gray-600 w-32 mx-auto mb-2 uppercase">
-                  Buyer Info:
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+          <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">
+                  Total Orders
                 </p>
-                <p className="font-medium">Email: {order.userId?.email}</p>
-                <p className="font-medium">Name: {order.userId?.name}</p>
-                <p className="font-medium flex gap-2">
-                  Payment Status: <span className="text-red-600">Paid</span>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-900">
+                  {orders.length}
                 </p>
-                <p className="font-medium flex gap-2">
-                  Total Price: <span>{order.totalPrice} TK</span>
-                </p>
-                <p className="font-medium">Present Address: Not Provided</p>
-                <p className="font-medium">Shipping Address: Not Provided</p>
               </div>
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                <Package className="w-6 h-6 text-blue-600" />
+              </div>
+            </div>
+          </div>
 
-              {/* Order Products */}
-              <div className="mt-4 space-y-6">
-                <p className="font-medium text-center border-b-2 border-gray-600 w-40 mx-auto mb-2 uppercase">
-                  Order Products
+          <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">
+                  Total Revenue
                 </p>
-                {order.products.map((product: Product) => (
-                  <div
-                    key={product._id}
-                    className="flex items-center gap-4 p-2 border rounded-lg"
-                  >
-                    <img
-                      src="https://via.placeholder.com/80"
-                      alt={product.productId?.title}
-                      className="h-20 w-20 rounded object-cover"
-                    />
-                    <div>
-                      <h3 className="text-sm text-gray-900">
-                        {product.productId?.title}
-                      </h3>
-                      <p className="text-xs text-gray-600">
-                        <span className="">Category:</span>{" "}
-                        {product.productId?.category}
+                <p className="text-2xl sm:text-3xl font-bold text-gray-900">
+                  {orders.reduce(
+                    (sum: any, order: any) => sum + order.totalPrice,
+                    0
+                  )}{" "}
+                  TK
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                <DollarSign className="w-6 h-6 text-green-600" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">
+                  Avg Order Value
+                </p>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-900">
+                  {orders.length > 0
+                    ? Math.round(
+                        orders.reduce(
+                          (sum: any, order: any) => sum + order.totalPrice,
+                          0
+                        ) / orders.length
+                      )
+                    : 0}{" "}
+                  TK
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                <Calendar className="w-6 h-6 text-purple-600" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">
+                  Active Orders
+                </p>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-900">
+                  {orders.length}
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                <CreditCard className="w-6 h-6 text-orange-600" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Orders Grid */}
+        {orders.length > 0 ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            {orders.map((order: any) => (
+              <div
+                key={order._id}
+                className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+              >
+                {/* Order Header */}
+                <div className="bg-gradient-to-r from-[#f96d6d] to-[#fc8686] p-4 sm:p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                        <Package className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-white font-semibold text-sm sm:text-base">
+                          Order #{order._id.slice(-8).toUpperCase()}
+                        </h3>
+                        <p className="text-white/80 text-xs sm:text-sm">
+                          {formatDate(order.createdAt)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-white font-bold text-lg sm:text-xl">
+                        {order.totalPrice} TK
                       </p>
-                      <p className="text-xs text-gray-600">
-                        <span className="">Price:</span>{" "}
-                        {product.productId?.price} TK
+                      <div className="flex items-center gap-1 justify-end">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span className="text-white/80 text-xs">Paid</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Customer Info */}
+                <div className="p-4 sm:p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                      <User className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-gray-900 text-sm sm:text-base">
+                        {order.userId?.name}
+                      </p>
+                      <p className="text-gray-600 text-xs sm:text-sm">
+                        {order.userId?.email}
                       </p>
                     </div>
                   </div>
-                ))}
-              </div>
 
-              {/* Delete Order Button (Placed at Order Level) */}
-              <div
-                onClick={() => handleDelete(order._id)}
-                className="flex justify-center mt-4"
-              >
-                <PrimaryButton>Delete Order</PrimaryButton>
+                  {/* Address Info */}
+                  <div className="flex items-start gap-3 mb-4">
+                    <MapPin className="w-5 h-5 text-gray-400 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-gray-600 text-xs sm:text-sm">
+                        <span className="font-medium">Present:</span> Not
+                        Provided
+                      </p>
+                      <p className="text-gray-600 text-xs sm:text-sm">
+                        <span className="font-medium">Shipping:</span> Not
+                        Provided
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Products Section */}
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-semibold text-gray-900 text-sm sm:text-base flex items-center gap-2">
+                        <Package className="w-4 h-4" />
+                        Products ({order.products.length})
+                      </h4>
+                      <button
+                        onClick={() => toggleOrderExpansion(order._id)}
+                        className="text-gray-500 hover:text-gray-700 transition-colors"
+                      >
+                        {expandedOrders.has(order._id) ? (
+                          <EyeOff className="w-4 h-4" />
+                        ) : (
+                          <Eye className="w-4 h-4" />
+                        )}
+                      </button>
+                    </div>
+
+                    {expandedOrders.has(order._id) ? (
+                      <div className="space-y-3">
+                        {order.products.map((product: any) => (
+                          <div
+                            key={product._id}
+                            className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100"
+                          >
+                            <img
+                              src={
+                                product.productId?.image ||
+                                "https://via.placeholder.com/50x50/f96d6d/white?text=Book"
+                              }
+                              alt={product.productId?.title}
+                              className="w-12 h-12 sm:w-15 sm:h-15 rounded-lg object-cover shadow-sm"
+                            />
+                            <div className="flex-1">
+                              <h5 className="font-medium text-gray-900 text-xs sm:text-sm line-clamp-1">
+                                {product.productId?.title}
+                              </h5>
+                              <p className="text-gray-600 text-xs">
+                                {product.productId?.category}
+                              </p>
+                              <div className="flex items-center justify-between mt-1">
+                                <span className="text-xs text-gray-500">
+                                  Qty: {product.quantity}
+                                </span>
+                                <span className="font-semibold text-[#f96d6d] text-xs sm:text-sm">
+                                  {product.productId?.price} TK
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="flex -space-x-2">
+                        {order.products.slice(0, 3).map((product: any) => (
+                          <img
+                            key={product._id}
+                            src={
+                              product.productId?.image ||
+                              "https://via.placeholder.com/50x50/f96d6d/white?text=Book"
+                            }
+                            alt={product.productId?.title}
+                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white shadow-sm"
+                          />
+                        ))}
+                        {order.products.length > 3 && (
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center">
+                            <span className="text-xs font-medium text-gray-600">
+                              +{order.products.length - 3}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Action Button */}
+                  <button
+                    onClick={() => handleDelete(order._id)}
+                    className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-2.5 sm:py-3 px-4 rounded-lg hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200 font-medium text-sm sm:text-base flex items-center justify-center gap-2 group"
+                  >
+                    <Trash2 className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                    Delete Order
+                  </button>
+                </div>
               </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12 sm:py-16">
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Package className="w-12 h-12 text-gray-400" />
             </div>
-          ))}
-        </div>
-      ) : (
-        <Error>There are no order new</Error>
-      )}
-    </section>
+            <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">
+              No Orders Found
+            </h3>
+            <p className="text-gray-600 text-sm sm:text-base max-w-md mx-auto">
+              There are no orders to display at the moment. New orders will
+              appear here once customers start placing them.
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

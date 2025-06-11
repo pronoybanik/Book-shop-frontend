@@ -60,7 +60,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
+    <div className="lg:min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex flex-col lg:flex-row items-center gap-10 w-full max-w-6xl">
         {/* 🟠 Demo login options */}
         <div className="w-full max-w-md bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-100 shadow-lg">

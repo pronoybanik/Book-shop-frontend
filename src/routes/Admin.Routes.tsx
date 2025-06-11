@@ -5,8 +5,14 @@ import ManageAllBooks from "../pages/AdminDashboard/ManageAllBooks";
 import UserManagement from "../pages/AdminDashboard/UserManage";
 import UserOrderBooks from "../pages/AdminDashboard/UserOrderBooks";
 import CreateBook from "../pages/CreateBook/CreateBook";
+import Dashboard from "../pages/Dashboard/Dashboard";
 
 export const AdminPaths = [
+    {
+    name: "Dashboard",
+    path: "/dashboard",
+    element: <Dashboard/>
+  },
   {
     name: "User Management",
     children: [
