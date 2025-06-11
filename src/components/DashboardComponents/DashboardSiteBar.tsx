@@ -122,6 +122,7 @@ const DashboardSiteBar = () => {
                               : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                           }`}
                         >
+                          
                           {child.label}
                         </button>
                       ))}
@@ -133,7 +134,7 @@ const DashboardSiteBar = () => {
                   onClick={() => handleNavClick(item)}
                   className={`w-full flex items-center space-x-3 px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 group ${
                     activeItem === item.key
-                      ? "bg-blue-50 text-blue-700 border-r-2 border-blue-500 shadow-sm"
+                      ? "bg-[#f4ebeb] text-black border-r-2 border-[#f96d6d] shadow-sm"
                       : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >

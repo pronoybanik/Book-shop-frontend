@@ -11,7 +11,8 @@ export const AdminPaths = [
     {
     name: "Dashboard",
     path: "/dashboard",
-    element: <Dashboard/>
+    element: <Dashboard/>,
+    
   },
   {
     name: "User Management",
