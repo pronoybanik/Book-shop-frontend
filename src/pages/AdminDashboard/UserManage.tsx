@@ -4,6 +4,7 @@ import {
   useUpdateUserMutation,
 } from "../../redux/features/auth/authApi";
 import Loading from "../../shared/Loading";
+import HeaderTitle from "../../utils/HeaderTitle";
 
 interface User {
   _id: string;
@@ -15,10 +16,10 @@ interface User {
 }
 
 const UserManagement = () => {
-  const { data , isLoading} = useGetAllUserQuery(undefined);
+  const { data, isLoading } = useGetAllUserQuery(undefined);
   const [updateUser] = useUpdateUserMutation();
 
-    if (isLoading) {
+  if (isLoading) {
     return <Loading />;
   }
 
@@ -37,12 +38,10 @@ const UserManagement = () => {
   return (
     <div className="overflow-x-auto px-4 py-6">
       <div className="text-center text-lg py-4">
-        <p className="text-2xl uppercase mb-6 font-bold inline text-black border-b-1 border-[#e95b5b]">
-          User Management
-        </p>
+        <HeaderTitle title="User Management" />
       </div>
 
-      <div className="overflow-hidden rounded-lg shadow-lg bg-white">
+      <div className="overflow-hidden rounded-lg shadow-lg bg-white mt-4">
         <table className="min-w-full table-auto divide-y divide-gray-200 text-sm">
           <thead className="bg-[#f5f5f5]">
             <tr>

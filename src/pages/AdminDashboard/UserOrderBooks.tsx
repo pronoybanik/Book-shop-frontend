@@ -17,6 +17,7 @@ import {
 } from "../../redux/features/order/orderApi";
 import { toast } from "sonner";
 import Loading from "../../shared/Loading";
+import HeaderTitle from "../../utils/HeaderTitle";
 
 const UserOrderBooks = () => {
   const [expandedOrders, setExpandedOrders] = useState(new Set());
@@ -77,9 +78,10 @@ const UserOrderBooks = () => {
             <div className="w-12 h-12 bg-gradient-to-r from-[#f96d6d] to-[#fc8686] rounded-full flex items-center justify-center shadow-lg">
               <ShoppingBag className="w-6 h-6 text-white" />
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-              Order Management
-            </h1>
+
+            <p >
+              <HeaderTitle title="Order Management" />
+            </p>
           </div>
           <p className="text-gray-600 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto">
             Manage and track all customer orders with detailed information and

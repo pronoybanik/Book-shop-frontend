@@ -3,6 +3,7 @@ import {
   useGetAllProductForDashboardQuery,
 } from "../../redux/features/product/productApi";
 import Loading from "../../shared/Loading";
+import HeaderTitle from "../../utils/HeaderTitle";
 import SecondaryButton from "../../utils/SecondaryButton";
 import { toast } from "sonner";
 
@@ -48,12 +49,12 @@ const ManageAllBooks = () => {
   return (
     <section>
       <div className="text-center text-lg py-2">
-        <p className="text-2xl uppercase mb-4 text-black inline-block border-b-2 border-[#e95b5b]">
-          All Books list
+        <p>
+          <HeaderTitle title="All Books list" />
         </p>
       </div>
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto mt-4">
         <table className="min-w-full table-auto border-collapse border border-gray-200">
           <thead>
             <tr className="bg-[#e95b5b] text-white">

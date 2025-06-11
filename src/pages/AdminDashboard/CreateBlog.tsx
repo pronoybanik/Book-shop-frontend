@@ -3,6 +3,7 @@ import { useCreateBlogMutation } from "../../redux/features/blogs/blogsApi";
 import { toast } from "sonner";
 import PrimaryButton from "../../utils/PrimaryButton";
 import { useNavigate } from "react-router-dom";
+import HeaderTitle from "../../utils/HeaderTitle";
 
 const BlogCreate = () => {
   const [formData, setFormData] = useState({
@@ -81,8 +82,10 @@ const BlogCreate = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded-2xl mt-10 border border-gray-200">
-      <h2 className="text-2xl font-semibold mb-6 text-center">Create a Blog</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <h2 className="font-semibold mb-6 text-center">
+        <HeaderTitle title="Create a Blog" />
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-4 mt-4">
         <input
           type="text"
           name="title"

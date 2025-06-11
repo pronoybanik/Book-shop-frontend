@@ -19,13 +19,13 @@ import {
 import { NavBarItemsGenerator } from "../../utils/NavBarItemsGenerator";
 import { AdminPaths } from "../../routes/Admin.Routes";
 import { Link, Outlet } from "react-router-dom";
+import imageIcons from "../../images/logo_125x.png";
 
 const DashboardSiteBar = () => {
   const userData = useAppSelector<RootState, TUser | null>(selectCurrentUser);
   const id = userData?.userId;
   const { data } = useSingleUserQuery(id);
   const { data: userDataLength } = useGetAllUserQuery(undefined);
-  console.log(userDataLength);
 
   const sidebarItems = NavBarItemsGenerator(AdminPaths, "dashboard");
 
@@ -60,14 +60,8 @@ const DashboardSiteBar = () => {
       {/* Logo Section */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
         <div className="flex items-center space-x-2 cursor-pointer">
-          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">L</span>
-          </div>
-          <Link
-            to="/"
-            className="text-xl font-bold text-gray-800 hidden lg:block"
-          >
-            AdminPanel
+          <Link to="/" className="ml-2">
+            <img src={imageIcons} alt="Logo" className="h-6 mr-2" />
           </Link>
         </div>
 
@@ -318,17 +312,8 @@ const DashboardSiteBar = () => {
 
             {/* Main Content Area - This is where your Outlet content would go */}
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                Content Area
-              </h2>
-              <p className="text-gray-600">
-                This is where your main dashboard content will be displayed. In
-                your actual implementation, replace this with your Outlet
-                component.
-              </p>
               <div className="mt-6 p-4 bg-gray-50 rounded-lg">
                 <p className="text-sm text-gray-500">
-                  {/* Current active section: <span className="font-medium">{activeItem}</span> */}
                   <Outlet />
                 </p>
               </div>

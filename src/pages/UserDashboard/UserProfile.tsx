@@ -18,9 +18,8 @@ const UserProfile = () => {
 
   const data = profileData?.data;
 
-
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 flex items-center justify-center">
+    <div className=" bg-gray-50 py-8 px-4 flex items-center justify-center">
       {isLoading && (
         <p className="text-gray-600 text-lg font-medium">Loading profile...</p>
       )}
@@ -35,9 +34,7 @@ const UserProfile = () => {
         <p className="text-gray-500 text-lg">No profile data found.</p>
       )}
 
-      {!isLoading && !isError && data && (
-        <UserProfileCard userData={data} />
-      )}
+      {!isLoading && !isError && data && <UserProfileCard userData={data} />}
     </div>
   );
 };

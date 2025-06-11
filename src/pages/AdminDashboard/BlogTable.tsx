@@ -3,7 +3,7 @@ import {
   useGetAllBlogsQuery,
 } from "../../redux/features/blogs/blogsApi";
 import { toast } from "sonner";
-
+import HeaderTitle from "../../utils/HeaderTitle";
 
 const BlogTable = () => {
   const { data, isLoading, isError } = useGetAllBlogsQuery({});
@@ -28,8 +28,8 @@ const BlogTable = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">
-        All Blogs
+      <h1 className=" font-bold text-center text-gray-800 mb-10">
+        <HeaderTitle title="All Blogs" />
       </h1>
 
       <div className="overflow-x-auto rounded-2xl shadow border border-gray-200">

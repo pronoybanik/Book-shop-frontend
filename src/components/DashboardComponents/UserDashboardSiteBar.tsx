@@ -1,14 +1,5 @@
 import { useState } from "react";
-import {
-  Menu,
-  X,
-  ChevronDown,
-  ChevronUp,
-  Users,
-  BarChart3,
-  FileText,
-  Bell,
-} from "lucide-react";
+import { Menu, X, ChevronDown, ChevronUp, Bell } from "lucide-react";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import { selectCurrentUser, TUser } from "../../redux/features/auth/authSlice";
@@ -16,6 +7,7 @@ import { useSingleUserQuery } from "../../redux/features/auth/authApi";
 import { NavBarItemsGenerator } from "../../utils/NavBarItemsGenerator";
 import { Link, Outlet } from "react-router-dom";
 import { UserPaths } from "../../routes/UserRoutes";
+import imageIcons from "../../images/logo_125x.png";
 
 // Mock navigation function
 const navigate = (path: string) => {
@@ -58,14 +50,8 @@ const UserDashboardSiteBar = () => {
           onClick={() => navigate("/")}
           className="flex items-center space-x-2 cursor-pointer"
         >
-          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">L</span>
-          </div>
-          <Link
-            to="/"
-            className="text-xl font-bold text-gray-800 hidden lg:block"
-          >
-            UserPanel
+          <Link to="/" className="ml-2">
+            <img src={imageIcons} alt="Logo" className="h-6 mr-2" />
           </Link>
         </div>
         <button
@@ -240,70 +226,7 @@ const UserDashboardSiteBar = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">
-                      Total Users
-                    </p>
-                    <p className="text-2xl font-bold text-gray-900">2,543</p>
-                  </div>
-                  <div className="p-3 bg-blue-50 rounded-lg">
-                    <Users className="w-6 h-6 text-blue-600" />
-                  </div>
-                </div>
-                <div className="mt-4">
-                  <span className="text-sm text-green-600 font-medium">
-                    +12% from last month
-                  </span>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">
-                      Analytics
-                    </p>
-                    <p className="text-2xl font-bold text-gray-900">18,329</p>
-                  </div>
-                  <div className="p-3 bg-green-50 rounded-lg">
-                    <BarChart3 className="w-6 h-6 text-green-600" />
-                  </div>
-                </div>
-                <div className="mt-4">
-                  <span className="text-sm text-green-600 font-medium">
-                    +8% from last month
-                  </span>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Reports</p>
-                    <p className="text-2xl font-bold text-gray-900">127</p>
-                  </div>
-                  <div className="p-3 bg-purple-50 rounded-lg">
-                    <FileText className="w-6 h-6 text-purple-600" />
-                  </div>
-                </div>
-                <div className="mt-4">
-                  <span className="text-sm text-red-600 font-medium">
-                    -3% from last month
-                  </span>
-                </div>
-              </div>
-            </div>
-
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                Content Area
-              </h2>
-              <p className="text-gray-600">
-                This is where your main dashboard content will be displayed.
-              </p>
               <div className="mt-6 p-4 bg-gray-50 rounded-lg">
                 <Outlet />
               </div>

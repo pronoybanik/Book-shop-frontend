@@ -3,6 +3,7 @@ import { useCreateProductMutation } from "../../redux/features/product/productAp
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import PrimaryButton from "../../utils/PrimaryButton";
+import HeaderTitle from "../../utils/HeaderTitle";
 
 // Define form data type
 interface BookFormData {
@@ -86,7 +87,7 @@ const CreateBook = () => {
     <div className="min-h-screen bg-gray-50 py-10 px-4">
       <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-8">
         <h2 className="text-3xl font-bold text-center text-[#e95b5b] mb-8">
-          Create New Book
+          <HeaderTitle title="Create New Book" />
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -229,7 +230,7 @@ const CreateBook = () => {
 
           {/* Submit */}
           <div className="pt-4">
-              <PrimaryButton>
+            <PrimaryButton>
               {isLoading ? "Submitting..." : "Submit"}
             </PrimaryButton>
           </div>
