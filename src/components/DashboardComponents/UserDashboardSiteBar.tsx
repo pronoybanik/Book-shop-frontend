@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Menu,
   X,
   ChevronDown,
   ChevronUp,
-  Home,
-  Settings,
   Users,
   BarChart3,
   FileText,
@@ -14,49 +12,40 @@ import {
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import { selectCurrentUser, TUser } from "../../redux/features/auth/authSlice";
-import {
-  useGetAllUserQuery,
-  useSingleUserQuery,
-} from "../../redux/features/auth/authApi";
+import { useSingleUserQuery } from "../../redux/features/auth/authApi";
 import { NavBarItemsGenerator } from "../../utils/NavBarItemsGenerator";
 import { Link, Outlet } from "react-router-dom";
 import { UserPaths } from "../../routes/UserRoutes";
 
-// Mock navigation function for demonstration
-const navigate = (path) => {
+// Mock navigation function
+const navigate = (path: string) => {
   console.log(`Navigating to: ${path}`);
 };
-
-// Mock data - replace with your actual data
 
 const UserDashboardSiteBar = () => {
   const userData = useAppSelector<RootState, TUser | null>(selectCurrentUser);
   const id = userData?.userId;
   const { data } = useSingleUserQuery(id);
 
-
   const UserSidebarItems = NavBarItemsGenerator(UserPaths, "UserDashboard");
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [expandedItems, setExpandedItems] = useState({});
+  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>(
+    {}
+  );
   const [activeItem, setActiveItem] = useState("dashboard");
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const closeSidebar = () => setIsSidebarOpen(false);
 
-  const toggleExpanded = (key) => {
+  const toggleExpanded = (key: string) => {
     setExpandedItems((prev) => ({
       ...prev,
       [key]: !prev[key],
     }));
   };
 
-  const closeSidebar = () => {
-    setIsSidebarOpen(false);
-  };
-
-  const handleNavClick = (item: any) => {
+  const handleNavClick = (item: { key: string; path: string }) => {
     setActiveItem(item.key);
     navigate(item.path);
     closeSidebar();
@@ -64,7 +53,6 @@ const UserDashboardSiteBar = () => {
 
   const SidebarContent = () => (
     <>
-      {/* Logo Section */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
         <div
           onClick={() => navigate("/")}
@@ -80,8 +68,6 @@ const UserDashboardSiteBar = () => {
             UserPanel
           </Link>
         </div>
-
-        {/* Close button for mobile */}
         <button
           onClick={closeSidebar}
           className="lg:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
@@ -90,10 +76,9 @@ const UserDashboardSiteBar = () => {
         </button>
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 overflow-y-auto p-4">
         <div className="space-y-2">
-          {UserSidebarItems.map((item) => (
+          {UserSidebarItems.map((item: any) => (
             <div key={item.key}>
               {item.children ? (
                 <div className="space-y-1">
@@ -117,7 +102,6 @@ const UserDashboardSiteBar = () => {
                       )}
                     </div>
                   </button>
-
                   <div
                     className={`overflow-hidden transition-all duration-300 ${
                       expandedItems[item.key]
@@ -126,7 +110,7 @@ const UserDashboardSiteBar = () => {
                     }`}
                   >
                     <div className="ml-8 space-y-1 pt-1">
-                      {item.children.map((child) => (
+                      {item.children.map((child: any) => (
                         <button
                           key={child.key}
                           onClick={() => handleNavClick(child)}
@@ -174,7 +158,6 @@ const UserDashboardSiteBar = () => {
         </div>
       </nav>
 
-      {/* User Profile Section */}
       <div className="border-t border-gray-200 p-4">
         <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
           <img
@@ -200,7 +183,6 @@ const UserDashboardSiteBar = () => {
 
   return (
     <div className="flex h-screen bg-gray-50">
-      {/* Mobile Overlay */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden transition-opacity duration-300"
@@ -208,7 +190,6 @@ const UserDashboardSiteBar = () => {
         />
       )}
 
-      {/* Sidebar */}
       <aside
         className={`
           fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform transition-transform duration-300 ease-in-out
@@ -216,14 +197,10 @@ const UserDashboardSiteBar = () => {
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
-        <div className="flex flex-col h-full">
-          <SidebarContent />
-        </div>
+        <div className="flex flex-col h-full">{SidebarContent()}</div>
       </aside>
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Mobile Header */}
         <header className="bg-white shadow-sm border-b border-gray-200 lg:hidden">
           <div className="flex items-center justify-between px-4 py-3">
             <button
@@ -237,10 +214,8 @@ const UserDashboardSiteBar = () => {
           </div>
         </header>
 
-        {/* Main Content Area */}
         <main className="flex-1 overflow-y-auto bg-gray-50">
           <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
-            {/* Desktop Header */}
             <div className="hidden lg:block mb-8">
               <div className="flex items-center justify-between">
                 <div>
@@ -265,9 +240,7 @@ const UserDashboardSiteBar = () => {
               </div>
             </div>
 
-            {/* Dashboard Content */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {/* Stats Cards */}
               <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                 <div className="flex items-center justify-between">
                   <div>
@@ -324,21 +297,15 @@ const UserDashboardSiteBar = () => {
               </div>
             </div>
 
-            {/* Main Content Area - This is where your Outlet content would go */}
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">
                 Content Area
               </h2>
               <p className="text-gray-600">
-                This is where your main dashboard content will be displayed. In
-                your actual implementation, replace this with your Outlet
-                component.
+                This is where your main dashboard content will be displayed.
               </p>
               <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-500">
-                  {/* Current active section: <span className="font-medium">{activeItem}</span> */}
-                  <Outlet />
-                </p>
+                <Outlet />
               </div>
             </div>
           </div>

@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Menu,
   X,
   ChevronDown,
   ChevronUp,
-  Home,
-  Settings,
   Users,
   BarChart3,
   FileText,
@@ -14,36 +12,34 @@ import {
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import { selectCurrentUser, TUser } from "../../redux/features/auth/authSlice";
-import { useGetAllUserQuery, useSingleUserQuery } from "../../redux/features/auth/authApi";
+import {
+  useGetAllUserQuery,
+  useSingleUserQuery,
+} from "../../redux/features/auth/authApi";
 import { NavBarItemsGenerator } from "../../utils/NavBarItemsGenerator";
 import { AdminPaths } from "../../routes/Admin.Routes";
 import { Link, Outlet } from "react-router-dom";
-
-// Mock navigation function for demonstration
-const navigate = (path) => {
-  console.log(`Navigating to: ${path}`);
-};
-
-// Mock data - replace with your actual data
 
 const DashboardSiteBar = () => {
   const userData = useAppSelector<RootState, TUser | null>(selectCurrentUser);
   const id = userData?.userId;
   const { data } = useSingleUserQuery(id);
-   const { data: userDataLength } = useGetAllUserQuery(undefined);
-   console.log(userDataLength);
+  const { data: userDataLength } = useGetAllUserQuery(undefined);
+  console.log(userDataLength);
 
   const sidebarItems = NavBarItemsGenerator(AdminPaths, "dashboard");
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [expandedItems, setExpandedItems] = useState({});
+  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>(
+    {}
+  );
   const [activeItem, setActiveItem] = useState("dashboard");
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const toggleExpanded = (key) => {
+  const toggleExpanded = (key: string) => {
     setExpandedItems((prev) => ({
       ...prev,
       [key]: !prev[key],
@@ -56,7 +52,6 @@ const DashboardSiteBar = () => {
 
   const handleNavClick = (item: any) => {
     setActiveItem(item.key);
-    navigate(item.path);
     closeSidebar();
   };
 
@@ -64,14 +59,14 @@ const DashboardSiteBar = () => {
     <>
       {/* Logo Section */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
-        <div
-          onClick={() => navigate("/")}
-          className="flex items-center space-x-2 cursor-pointer"
-        >
+        <div className="flex items-center space-x-2 cursor-pointer">
           <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-sm">L</span>
           </div>
-          <Link to="/" className="text-xl font-bold text-gray-800 hidden lg:block">
+          <Link
+            to="/"
+            className="text-xl font-bold text-gray-800 hidden lg:block"
+          >
             AdminPanel
           </Link>
         </div>
@@ -88,7 +83,7 @@ const DashboardSiteBar = () => {
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto p-4">
         <div className="space-y-2">
-          {sidebarItems.map((item) => (
+          {sidebarItems.map((item: any) => (
             <div key={item.key}>
               {item.children ? (
                 <div className="space-y-1">
@@ -121,7 +116,7 @@ const DashboardSiteBar = () => {
                     }`}
                   >
                     <div className="ml-8 space-y-1 pt-1">
-                      {item.children.map((child) => (
+                      {item.children.map((child: any) => (
                         <button
                           key={child.key}
                           onClick={() => handleNavClick(child)}
@@ -269,7 +264,9 @@ const DashboardSiteBar = () => {
                     <p className="text-sm font-medium text-gray-600">
                       Total Users
                     </p>
-                    <p className="text-2xl font-bold text-gray-900">{userDataLength?.data?.length}</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {userDataLength?.data?.length}
+                    </p>
                   </div>
                   <div className="p-3 bg-blue-50 rounded-lg">
                     <Users className="w-6 h-6 text-blue-600" />
