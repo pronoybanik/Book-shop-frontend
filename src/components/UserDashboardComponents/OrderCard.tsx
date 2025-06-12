@@ -46,13 +46,13 @@ const UserOrderCard = ({ order }: { order: any }) => {
   return (
     <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden mt-6">
       {/* Header */}
-      <div className="bg-green-500 text-white px-6 py-3 flex justify-between items-center">
+      <div className="bg-[#e95b5b] text-white px-6 py-3 flex justify-between items-center">
         <div className="flex items-center">
           <Package size={20} className="mr-2" />
           <span className="font-medium">Order #{order._id.slice(-8)}</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="bg-green-600 text-xs font-medium px-3 py-1 rounded-full">
+          <span className="bg-[#e68080] text-xs font-medium px-3 py-1 rounded-full">
             Confirmed
           </span>
           <button
