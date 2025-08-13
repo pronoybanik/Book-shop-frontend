@@ -1,6 +1,6 @@
 import React from "react";
 
-// Define types for product
+
 type Product = {
   title: string;
   price: string;
@@ -51,7 +51,7 @@ const products = {
   ],
 };
 
-// Define ProductCard Component with proper typings
+
 const ProductCard: React.FC<Product> = ({ title, price, oldPrice, img }) => (
   <div className="flex items-start gap-4 p-4 border rounded-lg hover:shadow-md">
     <div className="text-4xl">{img}</div>
@@ -63,7 +63,7 @@ const ProductCard: React.FC<Product> = ({ title, price, oldPrice, img }) => (
   </div>
 );
 
-// Define BestSellProduct component and pass the typed products
+
 const BestSellProduct: React.FC = () => {
   return (
     <section data-aos="zoom-in-down" className="bg-gray-50 py-12 my-24 px-4">

@@ -9,13 +9,13 @@ export type TUser = {
     exp: number;
 };
 
-// Define the state type
+
 type TAuthState = {
     user: TUser | null; 
     token: string | null;
 };
 
-// Initial state
+
 const initialState: TAuthState = {
     user: null,
     token: null,
