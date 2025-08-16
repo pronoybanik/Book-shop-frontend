@@ -7,8 +7,14 @@ import { toast } from "sonner";
 import { useGetSingleUserQuery } from "../../redux/features/product/productApi";
 import SecondaryButton from "../../utils/SecondaryButton";
 import ProductLoaderKeleton from "../../shared/ProductLoader";
+import { selectCurrentUser } from "../../redux/features/auth/authSlice";
+import { useAppSelector } from "../../redux/hooks";
 
 const BookCard = ({ product }: { product: TBook }) => {
+  const user = useAppSelector(selectCurrentUser);
+
+  console.log("user", user);
+
   const dispatch = useDispatch();
   const { data, isLoading } = useGetSingleUserQuery(product._id);
 
@@ -99,7 +105,7 @@ const BookCard = ({ product }: { product: TBook }) => {
             </span>
           </div>
           <div onClick={handleAddToCart} className="text-xs">
-            <SecondaryButton>Add ot cart</SecondaryButton>
+            {user && <SecondaryButton>Add ot cart</SecondaryButton>}
           </div>
         </div>
       </div>
