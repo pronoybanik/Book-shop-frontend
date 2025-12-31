@@ -1,13 +1,21 @@
 const About = () => {
   return (
-    <section>
-      <div className="relative lg:h-[300px] md:h-[400px] h-80 bg-[url(https://images.unsplash.com/photo-1694232823592-20507733009c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGJvb2slMjBpbWFnZXxlbnwwfHwwfHx8MA%3D%3D)] bg-cover bg-center bg-no-repeat">
-        <div className="absolute inset-0 bg-black/20 sm:from-black/50 sm:to-white/25 ltr:sm:bg-gradient-to-r rtl:sm:bg-gradient-to-l"></div>
+    <section className="overflow-hidden">
+      {/* Hero Section */}
+      <div className="relative lg:h-[300px] md:h-[400px] h-80 bg-[url(https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1200&auto=format&fit=crop&q=80)] bg-cover bg-center bg-no-repeat">
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-800/70 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
 
         <div className="flex items-center justify-center h-full">
-          <div className="relative px-4">
-            <p className="text-white max-w-screen-sm text-center lg:text-4xl md:text-3xl text-2xl sm:text-xl">
-              About US
+          <div className="relative px-4 text-center">
+            <span className="inline-block px-4 py-1 mb-4 text-sm font-medium text-[#f96d6d] bg-[#f96d6d]/10 rounded-full border border-[#f96d6d]/20">
+              Discover Our Story
+            </span>
+            <h1 className="text-white max-w-screen-sm lg:text-5xl md:text-4xl text-3xl font-bold tracking-tight">
+              About <span className="text-[#f96d6d]">Us</span>
+            </h1>
+            <p className="mt-4 text-gray-300 text-sm md:text-base max-w-md mx-auto">
+              Passionate about books, dedicated to readers
             </p>
           </div>
         </div>
