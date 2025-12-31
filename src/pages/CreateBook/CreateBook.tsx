@@ -70,7 +70,7 @@ const CreateBook = () => {
       };
 
       const res = await createProduct(bookData);
-
+      
       if (res?.data?.success) {
         toast.success(res.data.message, { id: toastId });
         setTimeout(() => navigate("/dashboard/all-books"), 2000);

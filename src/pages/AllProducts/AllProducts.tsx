@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import {
   Search,
   ChevronDown,
@@ -14,6 +14,35 @@ import { TBook } from "../../types/BookItem.Type";
 import Loading from "../../shared/Loading";
 import PrimaryButton from "../../utils/PrimaryButton";
 
+const categories = [
+  { name: "Fiction" },
+  { name: "Science" },
+  { name: "SelfDevelopment" },
+  { name: "Poetry" },
+  { name: "Religious" },
+  { name: "Horror" },
+  { name: "Comedy" },
+  { name: "Thriller" },
+  { name: "Mystery" },
+  { name: "Fantasy" },
+  { name: "Romance" },
+  { name: "Adventure" },
+  { name: "Biography" },
+  { name: "History" },
+  { name: "Philosophy" },
+  { name: "Psychology" },
+  { name: "Children" },
+  { name: "YoungAdult" },
+  { name: "Crime" },
+  { name: "Drama" },
+];
+
+const priceRanges = [
+  { label: "$100.00 - $500.00", min: 100, max: 500 },
+  { label: "$500.00 - $1000.00", min: 500, max: 1000 },
+  { label: "$1000.00 - $5000.00", min: 1000, max: 5000 },
+];
+
 const ProductSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("latest");
@@ -25,6 +54,8 @@ const ProductSection = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [priceRange, setPriceRange] = useState({ min: "", max: "" });
   const [selectedPriceLabel, setSelectedPriceLabel] = useState("");
+  const [isCategoryOpen, setIsCategoryOpen] = useState(true);
+  const [isPriceOpen, setIsPriceOpen] = useState(true);
   const categoryParam = selectedCategories.join(",");
 
   const { data, isLoading, error } = useGetAllProductQuery({
@@ -40,64 +71,53 @@ const ProductSection = () => {
   const products: TBook[] = data?.data || [];
   const totalPage = data?.meta?.totalPage || 1;
 
-  if (isLoading) return <Loading />;
-  if (error) return <p>Something went wrong</p>;
-
-  const categories = [
-    { name: "Fiction" },
-    { name: "Science" },
-    { name: "SelfDevelopment" },
-    { name: "Poetry" },
-    { name: "Religious" },
-  ];
-
-  const priceRanges = [
-    { label: "$100.00 - $500.00", min: 100, max: 500 },
-    { label: "$500.00 - $1000.00", min: 500, max: 1000 },
-    { label: "$1000.00 - $5000.00", min: 1000, max: 5000 },
-  ];
-
-  const handleCategoryChange = (category: string) => {
+  const handleCategoryChange = useCallback((category: string) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((c) => c !== category)
         : [...prev, category]
     );
-  };
+  }, []);
 
-  const clearAllFilters = () => {
+  const clearAllFilters = useCallback(() => {
     setSelectedCategories([]);
     setPriceRange({ min: "", max: "" });
     setSearchQuery("");
     setSelectedPriceLabel("");
     setIsMobileMenuOpen(false);
-  };
+  }, []);
 
-  const FilterSidebar = ({ isMobile = false }) => (
-    <div className="space-y-6 sticky top-40">
-      {/* Filter Header */}
-      <div className="bg-white rounded-lg p-4 shadow-sm">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-gray-800 flex items-center gap-2">
-            <Filter size={18} />
-            Filter:
-          </h3>
-          <button
-            onClick={clearAllFilters}
-            className="text-orange-500 hover:text-orange-600 text-sm font-medium"
-          >
-            Clean All
-          </button>
-        </div>
+  const filterContent = useMemo(() => (
+    <div className="bg-white rounded-lg p-4 shadow-sm">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-semibold text-gray-800 flex items-center gap-2">
+          <Filter size={18} />
+          Filter:
+        </h3>
+        <button
+          onClick={clearAllFilters}
+          className="text-orange-500 hover:text-orange-600 text-sm font-medium"
+        >
+          Clean All
+        </button>
+      </div>
 
-        {/* Product Categories */}
-        <div className="mb-6">
-          <h4 className="font-medium text-gray-800 mb-3 flex items-center justify-between">
-            Product Categories
-            <ChevronDown size={16} />
-          </h4>
+      {/* Product Categories */}
+      <div className="mb-6">
+        <button
+          onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+          className="w-full font-medium text-gray-800 mb-3 flex items-center justify-between"
+        >
+          Product Categories
+          <ChevronDown
+            size={16}
+            className={`transition-transform duration-200 ${isCategoryOpen ? "rotate-180" : ""
+              }`}
+          />
+        </button>
 
-          <div className="space-y-2 max-h-[250px] overflow-y-auto pr-1 sm:max-h-none sm:overflow-visible">
+        {isCategoryOpen && (
+          <div className="space-y-2 max-h-[250px] overflow-y-auto pr-1">
             {categories.map((category) => (
               <label
                 key={category.name}
@@ -115,84 +135,86 @@ const ProductSection = () => {
               </label>
             ))}
           </div>
-        </div>
-
-        {/* Price Section  */}
-        <div className="mb-6 w-full max-w-lg mx-auto">
-          <h4 className="font-medium text-gray-800 mb-3 flex items-center justify-between text-lg sm:text-xl">
-            Price
-            <ChevronDown size={16} />
-          </h4>
-
-          {/* Price Range Options */}
-          <div className="space-y-2 mb-4">
-            {priceRanges.map((range) => (
-              <label
-                key={range.label}
-                className="flex items-center justify-between cursor-pointer hover:bg-gray-100 p-2 sm:p-3 rounded-md transition duration-200 ease-in-out"
-              >
-                <div className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="priceRange"
-                    checked={selectedPriceLabel === range.label}
-                    onChange={() => {
-                      setSelectedPriceLabel(range.label);
-                      setPriceRange({
-                        min: String(range.min),
-                        max: String(range.max),
-                      });
-                    }}
-                    className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 focus:ring-orange-400"
-                  />
-                  <span className="text-sm sm:text-base text-gray-700">
-                    {range.label}
-                  </span>
-                </div>
-              </label>
-            ))}
-          </div>
-
-          {/* Custom Price Range Input */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-            <input
-              type="number"
-              placeholder="$min"
-              value={priceRange.min}
-              onChange={(e) => {
-                setSelectedPriceLabel(""); // Clear radio
-                setPriceRange((prev) => ({ ...prev, min: e.target.value }));
-              }}
-              className="w-full sm:w-1/2 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
-            />
-            <span className="py-2 text-gray-500 text-center sm:py-0">-</span>
-            <input
-              type="number"
-              placeholder="$max"
-              value={priceRange.max}
-              onChange={(e) => {
-                setSelectedPriceLabel(""); // Clear radio
-                setPriceRange((prev) => ({ ...prev, max: e.target.value }));
-              }}
-              className="w-full sm:w-1/2 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
-            />
-          </div>
-        </div>
+        )}
       </div>
 
-      {/* Apply Filters Button for Mobile */}
-      {isMobile && (
-        <div className="p-4">
-          <button
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="w-full bg-[#f96d6d] hover:bg-orange-500 text-white py-3 rounded-lg font-medium transition-colors"
-          >
-            Apply Filters
-          </button>
-        </div>
-      )}
+      {/* Price Section  */}
+      <div className="mb-6 w-full max-w-lg mx-auto">
+        <button
+          onClick={() => setIsPriceOpen(!isPriceOpen)}
+          className="w-full font-medium text-gray-800 mb-3 flex items-center justify-between text-lg sm:text-xl"
+        >
+          Price
+          <ChevronDown
+            size={16}
+            className={`transition-transform duration-200 ${isPriceOpen ? "rotate-180" : ""
+              }`}
+          />
+        </button>
+
+        {isPriceOpen && (
+          <>
+            {/* Price Range Options */}
+            <div className="space-y-2 mb-4">
+              {priceRanges.map((range) => (
+                <label
+                  key={range.label}
+                  className="flex items-center justify-between cursor-pointer hover:bg-gray-100 p-2 sm:p-3 rounded-md transition duration-200 ease-in-out"
+                >
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="priceRange"
+                      checked={selectedPriceLabel === range.label}
+                      onChange={() => {
+                        setSelectedPriceLabel(range.label);
+                        setPriceRange({
+                          min: String(range.min),
+                          max: String(range.max),
+                        });
+                      }}
+                      className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 focus:ring-orange-400"
+                    />
+                    <span className="text-sm sm:text-base text-gray-700">
+                      {range.label}
+                    </span>
+                  </div>
+                </label>
+              ))}
+            </div>
+
+            {/* Custom Price Range Input */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+              <input
+                type="number"
+                placeholder="$min"
+                value={priceRange.min}
+                onChange={(e) => {
+                  setSelectedPriceLabel(""); // Clear radio
+                  setPriceRange((prev) => ({ ...prev, min: e.target.value }));
+                }}
+                className="w-full sm:w-1/2 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+              />
+              <span className="py-2 text-gray-500 text-center sm:py-0">-</span>
+              <input
+                type="number"
+                placeholder="$max"
+                value={priceRange.max}
+                onChange={(e) => {
+                  setSelectedPriceLabel(""); // Clear radio
+                  setPriceRange((prev) => ({ ...prev, max: e.target.value }));
+                }}
+                className="w-full sm:w-1/2 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+              />
+            </div>
+          </>
+        )}
+      </div>
     </div>
-  );
+  ), [selectedCategories, isCategoryOpen, isPriceOpen, selectedPriceLabel, priceRange, clearAllFilters, handleCategoryChange]);
+
+  if (isLoading) return <Loading />;
+  if (error) return <p>Something went wrong</p>;
 
   return (
     <section>
@@ -240,7 +262,9 @@ const ProductSection = () => {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Desktop Sidebar Filters */}
             <div className="hidden lg:block lg:w-80">
-              <FilterSidebar />
+              <div className="space-y-6 sticky top-40">
+                {filterContent}
+              </div>
             </div>
 
             {/* Mobile Filter Overlay */}
@@ -269,7 +293,17 @@ const ProductSection = () => {
 
                   {/* Filter Content */}
                   <div className="p-4">
-                    <FilterSidebar isMobile={true} />
+                    <div className="space-y-6">
+                      {filterContent}
+                      <div className="p-4">
+                        <button
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="w-full bg-[#f96d6d] hover:bg-orange-500 text-white py-3 rounded-lg font-medium transition-colors"
+                        >
+                          Apply Filters
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -326,21 +360,19 @@ const ProductSection = () => {
                     <div className="flex items-center border border-gray-300 rounded">
                       <button
                         onClick={() => setViewMode("grid")}
-                        className={`p-2 ${
-                          viewMode === "grid"
+                        className={`p-2 ${viewMode === "grid"
                             ? "bg-[#f96d6d] text-white"
                             : "text-gray-600 hover:bg-gray-50"
-                        }`}
+                          }`}
                       >
                         <Grid3X3 size={16} />
                       </button>
                       <button
                         onClick={() => setViewMode("list")}
-                        className={`p-2 ${
-                          viewMode === "list"
+                        className={`p-2 ${viewMode === "list"
                             ? "bg-[#f96d6d] text-white"
                             : "text-gray-600 hover:bg-gray-50"
-                        }`}
+                          }`}
                       >
                         <List size={16} />
                       </button>
@@ -351,11 +383,10 @@ const ProductSection = () => {
 
               {/* Products Grid */}
               <div
-                className={`grid gap-6 ${
-                  viewMode === "grid"
+                className={`grid gap-6 ${viewMode === "grid"
                     ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 "
                     : "grid-cols-1"
-                }`}
+                  }`}
               >
                 {products?.map((product) => (
                   <BookCard key={product._id} product={product} />
@@ -413,11 +444,10 @@ const ProductSection = () => {
                     <li key={pageNum}>
                       <button
                         onClick={() => setCurrentPage(pageNum)}
-                        className={`block size-8 rounded border text-center text-sm/8 font-medium transition-colors ${
-                          isActive
+                        className={`block size-8 rounded border text-center text-sm/8 font-medium transition-colors ${isActive
                             ? "bg-[#f96d6d] text-white"
                             : "border-gray-200 hover:bg-gray-50"
-                        }`}
+                          }`}
                       >
                         {pageNum}
                       </button>
