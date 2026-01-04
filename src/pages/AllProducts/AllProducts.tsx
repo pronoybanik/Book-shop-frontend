@@ -74,8 +74,8 @@ const ProductSection = () => {
   const handleCategoryChange = useCallback((category: string) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
+        ? [] // if clicking the already-selected category, deselect all
+        : [category] // select only this one category (exclusive)
     );
   }, []);
 
@@ -221,7 +221,7 @@ const ProductSection = () => {
       <div className="flex flex-col items-center justify-center min-h-12 bg-white px-6 text-center py-12">
         {/* Explore Button */}
         <button className="mt-4 px-6 py-2 bg-blue-100 text-[#f96d6d] rounded-full text-sm sm:text-base">
-          Explore eBooks
+          Explore eBooks 
         </button>
 
         {/* Headline */}
