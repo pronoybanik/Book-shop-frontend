@@ -13,6 +13,7 @@ import BookCard from "../../components/HomeComponents/BookCard";
 import { TBook } from "../../types/BookItem.Type";
 import Loading from "../../shared/Loading";
 import PrimaryButton from "../../utils/PrimaryButton";
+import heroBg from "../../images/banner-bg-image/pexels-photo-1034008.png";
 
 const categories = [
   { name: "Fiction" },
@@ -218,25 +219,30 @@ const ProductSection = () => {
 
   return (
     <section>
-      <div className="flex flex-col items-center justify-center min-h-12 bg-white px-6 text-center py-12">
+      <div
+        className="relative flex flex-col items-center justify-center min-h-12 bg-cover bg-center px-6 text-center py-12"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      >
+        <div className="absolute inset-0 bg-black/40" />
         {/* Explore Button */}
-        <button className="mt-4 px-6 py-2 bg-blue-100 text-[#f96d6d] rounded-full text-sm sm:text-base">
-          Explore eBooks 
-        </button>
+        <div className="relative z-10">
+          <button className="mt-4 px-6 py-2 bg-blue-100 text-[#f96d6d] rounded-full text-sm sm:text-base">
+            Explore eBooks
+          </button>
 
         {/* Headline */}
-        <h1 className="mt-8 text-3xl sm:text-4xl font-bold">
-          Your Digital Library of <span className="text-[#f96d6d]">eBooks</span>
-        </h1>
+          <h1 className="mt-8 text-3xl sm:text-4xl font-bold text-white">
+            Your Digital Library of <span className="text-[#f96d6d]">eBooks</span>
+          </h1>
 
         {/* Subheading */}
-        <p className="mt-4 text-gray-600 text-sm sm:text-base max-w-md">
+          <p className="mt-4 text-gray-200 text-sm sm:text-base max-w-md">
           Instantly access thousands of eBooks from top authors. Read anywhere,
           anytime with seamless downloads and customer reviews.
         </p>
 
         {/* Search Bar */}
-        <div className="mt-8 flex items-center w-full max-w-md border border-gray-300 rounded-full overflow-hidden shadow-sm">
+          <div className="mt-8 flex items-center w-full max-w-md border border-gray-300 rounded-full overflow-hidden shadow-sm bg-white">
           <input
             type="text"
             placeholder="Search eBooks, genres, or authors"
@@ -247,6 +253,7 @@ const ProductSection = () => {
           <button className="px-6 py-3 lg:text-sm text-xs text-white">
             <PrimaryButton>Search</PrimaryButton>
           </button>
+          </div>
         </div>
       </div>
 
